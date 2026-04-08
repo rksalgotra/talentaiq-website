@@ -1,978 +1,1012 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>T-ext-ractor — Intelligent Document Intelligence</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Univers:wght@300;400;700&family=UniversCN&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TalentAIQ — AI Talent Intelligence for Financial Services</title>
+<meta name="description" content="The only AI-powered talent intelligence platform purpose-built for BFSI. Explainable AI scoring, RBI-compliant DEI reporting, and a careers site live in a day."/>
+<meta property="og:title" content="TalentAIQ — AI Talent Intelligence for Financial Services"/>
+<meta property="og:description" content="Explainable AI. BFSI skills ontology. DEI compliance built in. Replace Greenhouse with an ATS that speaks your industry's language."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://talentaiq.in"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
-  :root {
-    --hsbc-red: #DB0011;
-    --hsbc-dark-red: #A50008;
-    --hsbc-black: #1A1A1A;
-    --hsbc-charcoal: #333333;
-    --hsbc-mid: #666666;
-    --hsbc-light: #F5F5F5;
-    --hsbc-white: #FFFFFF;
-    --hsbc-border: #E0E0E0;
-    --hsbc-success: #008A1E;
-    --hsbc-warning: #F5A623;
-    --sidebar-w: 340px;
-    --header-h: 64px;
-    --radius: 4px;
-    --shadow: 0 2px 12px rgba(0,0,0,0.08);
-    --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
-    --transition: all 0.2s ease;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Source Serif 4', Georgia, serif;
-    background: var(--hsbc-light);
-    color: var(--hsbc-black);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* ── HEADER ── */
-  header {
-    height: var(--header-h);
-    background: var(--hsbc-black);
-    display: flex;
-    align-items: center;
-    padding: 0 2rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  }
-
-  .header-logo {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    text-decoration: none;
-  }
-
-  .hsbc-hexagons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px;
-    width: 36px;
-    height: 36px;
-  }
-
-  .hex {
-    background: var(--hsbc-red);
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-  }
-
-  .hex:nth-child(2), .hex:nth-child(3) { background: var(--hsbc-white); }
-
-  .header-brand {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-  }
-
-  .header-brand-name {
-    font-family: 'Source Serif 4', serif;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--hsbc-white);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-
-  .header-brand-sub {
-    font-size: 0.65rem;
-    color: rgba(255,255,255,0.5);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    font-family: 'DM Mono', monospace;
-    font-weight: 300;
-  }
-
-  .header-divider {
-    width: 1px;
-    height: 32px;
-    background: rgba(255,255,255,0.15);
-    margin: 0 1.5rem;
-  }
-
-  .header-title {
-    font-size: 0.8rem;
-    color: rgba(255,255,255,0.6);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-family: 'DM Mono', monospace;
-  }
-
-  .header-spacer { flex: 1; }
-
-  .header-badge {
-    background: var(--hsbc-red);
-    color: white;
-    font-size: 0.65rem;
-    padding: 3px 10px;
-    border-radius: 2px;
-    font-family: 'DM Mono', monospace;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-weight: 500;
-  }
-
-  /* ── LAYOUT ── */
-  .app-body {
-    display: flex;
-    flex: 1;
-    overflow: hidden;
-    height: calc(100vh - var(--header-h));
-  }
-
-  /* ── SIDEBAR ── */
-  .sidebar {
-    width: var(--sidebar-w);
-    background: var(--hsbc-white);
-    border-right: 1px solid var(--hsbc-border);
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    flex-shrink: 0;
-  }
-
-  .sidebar-section {
-    padding: 1.5rem;
-    border-bottom: 1px solid var(--hsbc-border);
-  }
-
-  .sidebar-section:last-child { border-bottom: none; }
-
-  .section-label {
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--hsbc-red);
-    font-family: 'DM Mono', monospace;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--hsbc-border);
-  }
-
-  /* Drop zone */
-  .drop-zone {
-    border: 2px dashed var(--hsbc-border);
-    border-radius: var(--radius);
-    padding: 2rem 1rem;
-    text-align: center;
-    cursor: pointer;
-    transition: var(--transition);
-    position: relative;
-    background: var(--hsbc-light);
-  }
-
-  .drop-zone:hover, .drop-zone.dragover {
-    border-color: var(--hsbc-red);
-    background: rgba(219,0,17,0.03);
-  }
-
-  .drop-zone input[type="file"] {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-  }
-
-  .drop-icon {
-    width: 40px;
-    height: 40px;
-    margin: 0 auto 0.75rem;
-    background: var(--hsbc-red);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .drop-icon svg { fill: white; width: 20px; height: 20px; }
-
-  .drop-title {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--hsbc-charcoal);
-    margin-bottom: 0.3rem;
-  }
-
-  .drop-hint {
-    font-size: 0.72rem;
-    color: var(--hsbc-mid);
-    font-family: 'DM Mono', monospace;
-  }
-
-  .file-preview {
-    display: none;
-    margin-top: 1rem;
-    border-radius: var(--radius);
-    overflow: hidden;
-    border: 1px solid var(--hsbc-border);
-  }
-
-  .file-preview img {
-    width: 100%;
-    max-height: 200px;
-    object-fit: contain;
-    background: var(--hsbc-light);
-  }
-
-  .file-preview-name {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.7rem;
-    color: var(--hsbc-mid);
-    font-family: 'DM Mono', monospace;
-    background: var(--hsbc-light);
-    border-top: 1px solid var(--hsbc-border);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  /* Form elements */
-  .field-group { margin-bottom: 1rem; }
-
-  .field-label {
-    display: block;
-    font-size: 0.72rem;
-    font-weight: 600;
-    color: var(--hsbc-charcoal);
-    margin-bottom: 0.4rem;
-    font-family: 'DM Mono', monospace;
-    letter-spacing: 0.03em;
-  }
-
-  .field-input {
-    width: 100%;
-    padding: 0.6rem 0.75rem;
-    border: 1px solid var(--hsbc-border);
-    border-radius: var(--radius);
-    font-size: 0.82rem;
-    font-family: 'DM Mono', monospace;
-    color: var(--hsbc-black);
-    background: var(--hsbc-white);
-    transition: var(--transition);
-    outline: none;
-    resize: none;
-  }
-
-  .field-input:focus {
-    border-color: var(--hsbc-red);
-    box-shadow: 0 0 0 3px rgba(219,0,17,0.08);
-  }
-
-  .field-hint {
-    font-size: 0.68rem;
-    color: var(--hsbc-mid);
-    margin-top: 0.3rem;
-    font-family: 'DM Mono', monospace;
-  }
-
-  /* Tags display */
-  .tags-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem;
-    min-height: 28px;
-  }
-
-  .tag {
-    background: rgba(219,0,17,0.08);
-    color: var(--hsbc-red);
-    border: 1px solid rgba(219,0,17,0.2);
-    border-radius: 2px;
-    padding: 2px 8px;
-    font-size: 0.68rem;
-    font-family: 'DM Mono', monospace;
-    font-weight: 500;
-  }
-
-  /* Submit button */
-  .btn-extract {
-    width: 100%;
-    background: var(--hsbc-red);
-    color: white;
-    border: none;
-    padding: 0.85rem 1.5rem;
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    border-radius: var(--radius);
-    cursor: pointer;
-    transition: var(--transition);
-    font-family: 'Source Serif 4', serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-  }
-
-  .btn-extract:hover { background: var(--hsbc-dark-red); transform: translateY(-1px); box-shadow: var(--shadow); }
-  .btn-extract:active { transform: translateY(0); }
-  .btn-extract:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-  .btn-extract .spinner {
-    display: none;
-    width: 16px; height: 16px;
-    border: 2px solid rgba(255,255,255,0.3);
-    border-top-color: white;
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* Uploaded image preview in sidebar */
-  .result-image-preview {
-    border-radius: var(--radius);
-    overflow: hidden;
-    border: 1px solid var(--hsbc-border);
-  }
-
-  .result-image-preview img {
-    width: 100%;
-    max-height: 220px;
-    object-fit: contain;
-    background: var(--hsbc-light);
-    display: block;
-  }
-
-  .metric-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.4rem 0;
-    border-bottom: 1px solid var(--hsbc-border);
-  }
-  .metric-row:last-child { border-bottom: none; }
-
-  .metric-key {
-    font-size: 0.7rem;
-    color: var(--hsbc-mid);
-    font-family: 'DM Mono', monospace;
-  }
-
-  .metric-val {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--hsbc-charcoal);
-    font-family: 'DM Mono', monospace;
-  }
-
-  /* ── MAIN CONTENT ── */
-  .main-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    padding: 1.5rem;
-    gap: 1.5rem;
-  }
-
-  .results-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    flex: 1;
-    overflow: hidden;
-    min-height: 0;
-  }
-
-  .result-panel {
-    background: var(--hsbc-white);
-    border-radius: var(--radius);
-    border: 1px solid var(--hsbc-border);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-  }
-
-  .panel-header {
-    padding: 0.85rem 1.25rem;
-    border-bottom: 2px solid var(--hsbc-border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--hsbc-white);
-    flex-shrink: 0;
-  }
-
-  .panel-title {
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    font-family: 'DM Mono', monospace;
-    color: var(--hsbc-charcoal);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .panel-title-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--hsbc-red);
-    flex-shrink: 0;
-  }
-
-  .panel-title-dot.green { background: var(--hsbc-success); }
-
-  .panel-actions {
-    display: flex;
-    gap: 0.5rem;
-  }
-
-  .btn-copy {
-    background: none;
-    border: 1px solid var(--hsbc-border);
-    color: var(--hsbc-mid);
-    padding: 3px 10px;
-    font-size: 0.65rem;
-    font-family: 'DM Mono', monospace;
-    border-radius: 2px;
-    cursor: pointer;
-    transition: var(--transition);
-    letter-spacing: 0.05em;
-  }
-
-  .btn-copy:hover { border-color: var(--hsbc-red); color: var(--hsbc-red); }
-
-  .panel-body {
-    flex: 1;
-    overflow-y: auto;
-    padding: 1rem 1.25rem;
-  }
-
-  .code-output {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
-    line-height: 1.7;
-    white-space: pre-wrap;
-    word-break: break-word;
-    color: var(--hsbc-charcoal);
-  }
-
-  .code-output.json-colored { white-space: pre; }
-
-  /* JSON syntax highlight */
-  .json-key { color: #A50008; font-weight: 500; }
-  .json-string { color: #008A1E; }
-  .json-number { color: #0057B8; }
-  .json-null { color: var(--hsbc-mid); font-style: italic; }
-  .json-bool { color: #7B00D4; font-weight: 600; }
-
-  /* Empty state */
-  .empty-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    gap: 1rem;
-    color: var(--hsbc-mid);
-    padding: 2rem;
-    text-align: center;
-  }
-
-  .empty-state-icon {
-    width: 56px; height: 56px;
-    background: var(--hsbc-light);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px dashed var(--hsbc-border);
-  }
-
-  .empty-state-icon svg { width: 24px; height: 24px; fill: var(--hsbc-border); }
-
-  .empty-title {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--hsbc-charcoal);
-  }
-
-  .empty-sub {
-    font-size: 0.72rem;
-    font-family: 'DM Mono', monospace;
-    color: var(--hsbc-mid);
-  }
-
-  /* Alert */
-  .alert {
-    padding: 0.85rem 1rem;
-    border-radius: var(--radius);
-    font-size: 0.8rem;
-    border-left: 3px solid;
-    display: flex;
-    align-items: flex-start;
-    gap: 0.5rem;
-    font-family: 'DM Mono', monospace;
-  }
-
-  .alert-error { background: rgba(219,0,17,0.06); border-color: var(--hsbc-red); color: var(--hsbc-dark-red); }
-
-  /* Status bar */
-  .status-bar {
-    background: var(--hsbc-white);
-    border: 1px solid var(--hsbc-border);
-    border-radius: var(--radius);
-    padding: 0.75rem 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    box-shadow: var(--shadow);
-    flex-shrink: 0;
-  }
-
-  .status-indicator {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.7rem;
-    font-family: 'DM Mono', monospace;
-    color: var(--hsbc-mid);
-  }
-
-  .status-dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: var(--hsbc-border);
-  }
-
-  .status-dot.active { background: var(--hsbc-success); animation: pulse 2s infinite; }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
-  .status-sep {
-    width: 1px; height: 16px;
-    background: var(--hsbc-border);
-  }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 1100px) {
-    .results-grid { grid-template-columns: 1fr; }
-    .result-panel:last-child { min-height: 300px; }
-  }
-
-  @media (max-width: 768px) {
-    :root { --sidebar-w: 100%; }
-    .app-body { flex-direction: column; height: auto; overflow: visible; }
-    .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--hsbc-border); }
-    .main-content { height: auto; }
-    .results-grid { height: auto; }
-    .result-panel { min-height: 300px; }
-  }
-
-  /* Loading overlay */
-  .loading-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(26,26,26,0.5);
-    z-index: 200;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .loading-overlay.visible { display: flex; }
-
-  .loading-card {
-    background: white;
-    border-radius: var(--radius);
-    padding: 2rem 2.5rem;
-    text-align: center;
-    box-shadow: var(--shadow-lg);
-    min-width: 260px;
-  }
-
-  .loading-logo {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3px;
-    width: 48px;
-    height: 48px;
-    margin: 0 auto 1.25rem;
-  }
-
-  .loading-logo .hex { animation: hexPulse 1.2s ease-in-out infinite; }
-  .loading-logo .hex:nth-child(2) { animation-delay: 0.15s; }
-  .loading-logo .hex:nth-child(3) { animation-delay: 0.3s; }
-  .loading-logo .hex:nth-child(4) { animation-delay: 0.45s; }
-
-  @keyframes hexPulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
-
-  .loading-title {
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: var(--hsbc-black);
-    margin-bottom: 0.3rem;
-  }
-
-  .loading-sub {
-    font-size: 0.72rem;
-    color: var(--hsbc-mid);
-    font-family: 'DM Mono', monospace;
-  }
-
-  .loading-progress {
-    margin-top: 1.25rem;
-    height: 3px;
-    background: var(--hsbc-light);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .loading-progress-bar {
-    height: 100%;
-    background: var(--hsbc-red);
-    border-radius: 2px;
-    animation: progressSlide 1.8s ease-in-out infinite;
-  }
-
-  @keyframes progressSlide {
-    0% { width: 0%; margin-left: 0; }
-    50% { width: 60%; }
-    100% { width: 0%; margin-left: 100%; }
-  }
-
-  /* Scrollbar styling */
-  ::-webkit-scrollbar { width: 5px; height: 5px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--hsbc-border); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--hsbc-mid); }
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy-950:#040d1a;--navy-900:#071428;--navy-800:#0d2040;--navy-700:#133058;--navy-600:#1a4070;
+  --gold-300:#f5d98b;--gold-400:#e8c050;--gold-500:#d4a017;--gold-600:#b8880f;
+  --white:#ffffff;--off-white:#f8f9fa;--gray-50:#f9fafb;--gray-100:#f3f4f6;--gray-200:#e5e7eb;
+  --gray-400:#9ca3af;--gray-500:#6b7280;--gray-600:#4b5563;--gray-800:#1f2937;--gray-900:#111827;
+  --green:#059669;--red:#dc2626;--blue:#2563eb;
+  --font-display:'Playfair Display',Georgia,serif;
+  --font-body:'DM Sans',system-ui,sans-serif;
+  --font-mono:'DM Mono',monospace;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--font-body);background:var(--white);color:var(--gray-900);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* ── UTILITIES ── */
+.container{max-width:1200px;margin:0 auto;padding:0 2rem}
+.section-label{font-family:var(--font-mono);font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-600);margin-bottom:1rem}
+.section-title{font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);font-weight:600;line-height:1.2;color:var(--navy-950);margin-bottom:1.25rem}
+.section-sub{font-size:1.125rem;color:var(--gray-500);line-height:1.7;max-width:640px}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--gold-600),var(--gold-400));color:var(--navy-950);border:none;padding:14px 28px;border-radius:8px;font-size:15px;font-weight:600;font-family:var(--font-body);cursor:pointer;text-decoration:none;transition:all .2s}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(212,160,23,.3)}
+.btn-secondary{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--navy-900);border:1.5px solid var(--gray-200);padding:13px 27px;border-radius:8px;font-size:15px;font-weight:500;font-family:var(--font-body);cursor:pointer;text-decoration:none;transition:all .2s}
+.btn-secondary:hover{border-color:var(--navy-700);background:var(--gray-50)}
+.btn-ghost{display:inline-flex;align-items:center;gap:6px;background:transparent;color:var(--navy-700);border:none;padding:10px 0;font-size:14px;font-weight:500;font-family:var(--font-body);cursor:pointer;text-decoration:none;transition:color .2s}
+.btn-ghost:hover{color:var(--gold-600)}
+.btn-ghost .arrow{transition:transform .2s}
+.btn-ghost:hover .arrow{transform:translateX(4px)}
+.tag{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(212,160,23,.1);border:1px solid rgba(212,160,23,.25);border-radius:100px;font-size:12px;font-weight:500;color:var(--gold-600);font-family:var(--font-mono)}
+.tag-blue{background:rgba(37,99,235,.08);border-color:rgba(37,99,235,.2);color:#1d4ed8}
+.tag-green{background:rgba(5,150,105,.08);border-color:rgba(5,150,105,.2);color:#065f46}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--gray-100)}
+::-webkit-scrollbar-thumb{background:var(--navy-700);border-radius:3px}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;transition:all .3s}
+nav.scrolled{background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--gray-200);box-shadow:0 1px 20px rgba(0,0,0,.06)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 2rem;height:72px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.nav-logo-mark{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--navy-900),var(--navy-700));display:flex;align-items:center;justify-content:center;position:relative}
+.nav-logo-mark::after{content:'T';font-family:var(--font-display);font-weight:700;color:var(--gold-400);font-size:18px}
+.nav-logo-name{font-family:var(--font-display);font-weight:700;font-size:20px;color:var(--navy-950)}
+.nav-logo-name span{color:var(--gold-500)}
+.nav-links{display:flex;align-items:center;gap:2.5rem}
+.nav-links a{color:var(--gray-600);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--navy-900)}
+.nav-actions{display:flex;align-items:center;gap:1rem}
+.btn-nav-login{color:var(--navy-800);text-decoration:none;font-size:14px;font-weight:500;padding:8px 16px;border-radius:6px;transition:all .2s}
+.btn-nav-login:hover{background:var(--gray-100)}
+.btn-nav-demo{background:var(--navy-900);color:var(--white);border:none;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;transition:all .2s;font-family:var(--font-body)}
+.btn-nav-demo:hover{background:var(--navy-800);transform:translateY(-1px)}
+.nav-mobile{display:none;background:none;border:1px solid var(--gray-200);color:var(--gray-700);padding:8px 12px;border-radius:6px;cursor:pointer;font-size:18px}
+
+/* ── HERO ── */
+.hero{min-height:100vh;background:var(--navy-950);display:flex;align-items:center;position:relative;overflow:hidden;padding:120px 0 80px}
+.hero::before{content:'';position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:900px;height:700px;background:radial-gradient(ellipse,rgba(212,160,23,.12) 0%,transparent 65%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(212,160,23,.3),transparent)}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.hero-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:1.5rem}
+.hero-eyebrow-dot{width:8px;height:8px;border-radius:50%;background:var(--gold-400);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.2)}}
+.hero-eyebrow-text{font-family:var(--font-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-400)}
+.hero-title{font-family:var(--font-display);font-size:clamp(2.5rem,5vw,3.75rem);font-weight:700;line-height:1.1;color:var(--white);margin-bottom:1.5rem}
+.hero-title em{font-style:italic;color:var(--gold-400)}
+.hero-sub{font-size:1.125rem;color:rgba(255,255,255,.55);line-height:1.75;margin-bottom:2.5rem;max-width:520px}
+.hero-actions{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.hero-btn-primary{background:linear-gradient(135deg,var(--gold-600),var(--gold-400));color:var(--navy-950);border:none;padding:16px 32px;border-radius:8px;font-size:16px;font-weight:700;font-family:var(--font-body);cursor:pointer;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+.hero-btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(212,160,23,.35)}
+.hero-btn-ghost{color:rgba(255,255,255,.7);text-decoration:none;font-size:15px;font-weight:500;display:inline-flex;align-items:center;gap:6px;transition:color .2s}
+.hero-btn-ghost:hover{color:var(--white)}
+.hero-trust{margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.08)}
+.hero-trust-label{font-size:12px;color:rgba(255,255,255,.3);font-family:var(--font-mono);letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem}
+.hero-trust-items{display:flex;flex-wrap:wrap;gap:1.5rem}
+.hero-trust-item{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.5);font-size:13px}
+.hero-trust-item svg{color:var(--gold-500)}
+.hero-visual{position:relative}
+.hero-card{background:rgba(7,20,40,.9);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:1.5rem;backdrop-filter:blur(20px)}
+.hero-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:1px solid rgba(255,255,255,.06)}
+.hero-card-title{font-size:13px;color:rgba(255,255,255,.5);font-family:var(--font-mono)}
+.hero-card-badge{background:rgba(212,160,23,.15);color:var(--gold-400);font-size:11px;padding:3px 10px;border-radius:100px;font-family:var(--font-mono)}
+.score-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.score-item:last-child{border-bottom:none}
+.score-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.score-info{flex:1;min-width:0}
+.score-name{font-size:13px;font-weight:600;color:var(--white);margin-bottom:2px}
+.score-meta{font-size:11px;color:rgba(255,255,255,.35);font-family:var(--font-mono)}
+.score-badge{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.score-pct{font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--gold-400)}
+.score-tier{font-size:10px;padding:2px 8px;border-radius:4px;font-family:var(--font-mono);font-weight:600}
+.tier-best{background:rgba(5,150,105,.2);color:#10b981}
+.tier-good{background:rgba(212,160,23,.15);color:var(--gold-400)}
+.tier-fair{background:rgba(37,99,235,.15);color:#60a5fa}
+.score-bar-wrap{margin-top:8px}
+.score-bar{height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
+.score-bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--gold-600),var(--gold-400))}
+.hero-explain{background:rgba(212,160,23,.06);border:1px solid rgba(212,160,23,.15);border-radius:10px;padding:12px 14px;margin-top:1rem}
+.hero-explain-label{font-size:10px;color:var(--gold-500);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.hero-explain-text{font-size:12px;color:rgba(255,255,255,.55);line-height:1.6}
+
+/* ── LOGOS ── */
+.logos{padding:4rem 0;background:var(--gray-50);border-top:1px solid var(--gray-200);border-bottom:1px solid var(--gray-200)}
+.logos-label{text-align:center;font-size:12px;color:var(--gray-400);font-family:var(--font-mono);letter-spacing:.1em;text-transform:uppercase;margin-bottom:2rem}
+.logos-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:3rem}
+.logo-item{font-family:var(--font-display);font-size:16px;font-weight:600;color:var(--gray-300);transition:color .2s;white-space:nowrap}
+.logo-item:hover{color:var(--gray-500)}
+
+/* ── SOLUTIONS ── */
+.solutions{padding:8rem 0;background:var(--white)}
+.solutions-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+.solution-card{background:var(--white);border:1px solid var(--gray-200);border-radius:16px;padding:2rem;transition:all .3s;cursor:pointer;text-decoration:none;display:block}
+.solution-card:hover{border-color:var(--navy-700);box-shadow:0 8px 32px rgba(7,20,64,.1);transform:translateY(-2px)}
+.solution-card-icon{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;font-size:22px}
+.solution-card-icon.navy{background:linear-gradient(135deg,var(--navy-900),var(--navy-700))}
+.solution-card-icon.gold{background:linear-gradient(135deg,var(--gold-600),var(--gold-400))}
+.solution-card-icon.teal{background:linear-gradient(135deg,#0f766e,#14b8a6)}
+.solution-card h3{font-family:var(--font-display);font-size:1.25rem;font-weight:600;color:var(--navy-950);margin-bottom:.5rem}
+.solution-card p{font-size:14px;color:var(--gray-500);line-height:1.65;margin-bottom:1.25rem}
+.solution-card-link{font-size:13px;font-weight:600;color:var(--navy-700);display:flex;align-items:center;gap:6px;transition:gap .2s}
+.solution-card:hover .solution-card-link{gap:10px;color:var(--gold-600)}
+
+/* ── PLATFORM ── */
+.platform{padding:8rem 0;background:var(--navy-950);position:relative;overflow:hidden}
+.platform::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 80% 50%,rgba(212,160,23,.06) 0%,transparent 60%);pointer-events:none}
+.platform-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.platform-features{margin-top:2rem;display:flex;flex-direction:column;gap:1.5rem}
+.platform-feature{display:flex;gap:1rem;padding:1.25rem;border-radius:12px;transition:background .2s;cursor:pointer}
+.platform-feature:hover,.platform-feature.active{background:rgba(255,255,255,.04)}
+.platform-feature-icon{width:40px;height:40px;border-radius:10px;background:rgba(212,160,23,.12);border:1px solid rgba(212,160,23,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+.platform-feature-icon.active-icon{background:rgba(212,160,23,.2);border-color:rgba(212,160,23,.4)}
+.platform-feature-text h4{font-size:15px;font-weight:600;color:var(--white);margin-bottom:4px}
+.platform-feature-text p{font-size:13px;color:rgba(255,255,255,.45);line-height:1.6}
+.platform-visual{background:rgba(7,20,40,.8);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:2rem;min-height:420px;display:flex;flex-direction:column;gap:1rem}
+.platform-visual-tab{display:flex;gap:8px;margin-bottom:1rem}
+.pvt{padding:6px 14px;border-radius:6px;font-size:12px;font-family:var(--font-mono);cursor:pointer;transition:all .2s}
+.pvt.active{background:var(--gold-500);color:var(--navy-950);font-weight:700}
+.pvt:not(.active){color:rgba(255,255,255,.35);background:rgba(255,255,255,.04)}
+.pvt:not(.active):hover{color:rgba(255,255,255,.6)}
+.pv-content{flex:1}
+.pv-stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:1rem}
+.pv-stat{background:rgba(255,255,255,.04);border-radius:10px;padding:1rem}
+.pv-stat-val{font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--white);margin-bottom:2px}
+.pv-stat-label{font-size:11px;color:rgba(255,255,255,.35);font-family:var(--font-mono)}
+.pv-bar-item{margin-bottom:10px}
+.pv-bar-label{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.5);margin-bottom:4px}
+.pv-bar{height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden}
+.pv-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--gold-600),var(--gold-400))}
+.pv-bar-fill.green{background:linear-gradient(90deg,#059669,#10b981)}
+.pv-bar-fill.blue{background:linear-gradient(90deg,#1d4ed8,#60a5fa)}
+
+/* ── COMPLIANCE ── */
+.compliance{padding:8rem 0;background:var(--gray-50)}
+.compliance-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+.compliance-card{background:var(--white);border:1px solid var(--gray-200);border-radius:16px;padding:2rem}
+.compliance-icon{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--navy-800),var(--navy-600));display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;font-size:20px}
+.compliance-card h3{font-size:1.1rem;font-weight:600;color:var(--navy-950);margin-bottom:.5rem}
+.compliance-card p{font-size:14px;color:var(--gray-500);line-height:1.65}
+
+/* ── USE CASES ── */
+.usecases{padding:8rem 0;background:var(--white)}
+.usecases-tabs{display:flex;gap:8px;margin-bottom:3rem;border-bottom:1px solid var(--gray-200);padding-bottom:0}
+.uc-tab{padding:12px 24px;border-radius:8px 8px 0 0;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;border:none;background:none;color:var(--gray-500);border-bottom:2px solid transparent;margin-bottom:-1px}
+.uc-tab.active{color:var(--navy-900);border-bottom-color:var(--gold-500);background:var(--white)}
+.uc-tab:hover:not(.active){color:var(--gray-700)}
+.uc-content{display:none}
+.uc-content.active{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.uc-features{margin-top:1.5rem;display:flex;flex-direction:column;gap:1rem}
+.uc-feature{display:flex;gap:12px;align-items:flex-start}
+.uc-feature-check{width:20px;height:20px;border-radius:50%;background:rgba(212,160,23,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.uc-feature-check::after{content:'✓';font-size:10px;color:var(--gold-600);font-weight:700}
+.uc-feature p{font-size:14px;color:var(--gray-600);line-height:1.65}
+.uc-feature p strong{color:var(--gray-900);font-weight:600}
+.uc-visual{background:var(--navy-950);border-radius:20px;padding:2rem;min-height:360px}
+.uc-metric-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:1rem}
+.uc-metric{background:rgba(255,255,255,.04);border-radius:10px;padding:1rem;text-align:center}
+.uc-metric-val{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--gold-400)}
+.uc-metric-label{font-size:11px;color:rgba(255,255,255,.4);font-family:var(--font-mono);margin-top:4px}
+.uc-pipeline{display:flex;flex-direction:column;gap:8px}
+.uc-stage{display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,255,255,.04);border-radius:8px}
+.uc-stage-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.uc-stage-label{font-size:12px;color:rgba(255,255,255,.6);flex:1}
+.uc-stage-count{font-family:var(--font-mono);font-size:12px;color:rgba(255,255,255,.35)}
+
+/* ── COMPARISON ── */
+.comparison{padding:8rem 0;background:var(--navy-950)}
+.comparison-wrap{margin-top:3rem;background:rgba(7,20,40,.8);border:1px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden}
+.comp-header{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;padding:1rem 1.5rem;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.06)}
+.comp-header span{font-size:12px;font-weight:600;color:rgba(255,255,255,.4);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.06em}
+.comp-header .ours{color:var(--gold-400)}
+.comp-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;padding:1rem 1.5rem;border-bottom:1px solid rgba(255,255,255,.04);transition:background .2s}
+.comp-row:last-child{border-bottom:none}
+.comp-row:hover{background:rgba(255,255,255,.02)}
+.comp-row span{font-size:14px;color:rgba(255,255,255,.6);display:flex;align-items:center}
+.comp-row .cap{color:rgba(255,255,255,.7);font-weight:500}
+.yes{color:#10b981;font-size:18px;font-weight:700}
+.no{color:rgba(255,255,255,.2);font-size:18px}
+.partial{color:var(--gray-400);font-size:16px}
+.talentaiq-col{color:var(--gold-400) !important;font-weight:700 !important}
+.comp-disclaimer{padding:1rem 1.5rem;background:rgba(255,255,255,.02);border-top:1px solid rgba(255,255,255,.04)}
+.comp-disclaimer p{font-size:11px;color:rgba(255,255,255,.2);line-height:1.6;font-family:var(--font-mono)}
+
+/* ── PRICING ── */
+.pricing{padding:8rem 0;background:var(--white)}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+.pricing-card{background:var(--white);border:1.5px solid var(--gray-200);border-radius:20px;padding:2rem;position:relative;transition:all .3s}
+.pricing-card.featured{border-color:var(--navy-800);box-shadow:0 0 0 1px var(--navy-800),0 20px 48px rgba(7,20,64,.12)}
+.pricing-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--navy-900);color:var(--gold-400);font-size:11px;font-weight:700;padding:5px 16px;border-radius:100px;font-family:var(--font-mono);white-space:nowrap}
+.pricing-name{font-family:var(--font-display);font-size:1.25rem;font-weight:600;color:var(--navy-950);margin-bottom:.5rem}
+.pricing-desc{font-size:13px;color:var(--gray-500);margin-bottom:1.5rem;line-height:1.5}
+.pricing-price{margin-bottom:1.5rem}
+.pricing-amount{font-family:var(--font-display);font-size:2.5rem;font-weight:700;color:var(--navy-950)}
+.pricing-period{font-size:14px;color:var(--gray-400);margin-left:4px}
+.pricing-features{list-style:none;display:flex;flex-direction:column;gap:.75rem;margin-bottom:2rem}
+.pricing-features li{display:flex;align-items:flex-start;gap:8px;font-size:14px;color:var(--gray-600);line-height:1.5}
+.pricing-features li::before{content:'✓';color:var(--gold-600);font-weight:700;flex-shrink:0;margin-top:1px}
+.pricing-cta{width:100%;padding:14px;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--font-body);text-align:center;text-decoration:none;display:block}
+.pricing-cta.primary{background:var(--navy-900);color:var(--white);border:none}
+.pricing-cta.primary:hover{background:var(--navy-800)}
+.pricing-cta.outline{background:transparent;color:var(--navy-900);border:1.5px solid var(--gray-200)}
+.pricing-cta.outline:hover{border-color:var(--navy-700);background:var(--gray-50)}
+
+/* ── TESTIMONIALS ── */
+.testimonials{padding:8rem 0;background:var(--gray-50)}
+.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+.testimonial-card{background:var(--white);border:1px solid var(--gray-200);border-radius:16px;padding:2rem}
+.testimonial-stars{color:var(--gold-500);font-size:14px;letter-spacing:2px;margin-bottom:1rem}
+.testimonial-quote{font-family:var(--font-display);font-size:1rem;font-style:italic;color:var(--gray-700);line-height:1.7;margin-bottom:1.5rem}
+.testimonial-author{display:flex;align-items:center;gap:12px;padding-top:1rem;border-top:1px solid var(--gray-100)}
+.testimonial-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--navy-800),var(--navy-600));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:14px;font-weight:700;color:var(--gold-400);flex-shrink:0}
+.testimonial-name{font-size:14px;font-weight:600;color:var(--gray-900)}
+.testimonial-role{font-size:12px;color:var(--gray-400);margin-top:2px}
+.testimonial-disclaimer{text-align:center;margin-top:2rem;font-size:11px;color:var(--gray-300);font-family:var(--font-mono)}
+
+/* ── CTA ── */
+.cta-section{padding:8rem 0;background:var(--navy-950);position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:500px;background:radial-gradient(ellipse,rgba(212,160,23,.1) 0%,transparent 65%);pointer-events:none}
+.cta-inner{text-align:center;position:relative}
+.cta-inner .section-title{color:var(--white);max-width:640px;margin:0 auto 1.25rem}
+.cta-sub{font-size:1.1rem;color:rgba(255,255,255,.5);margin-bottom:2.5rem;line-height:1.7}
+.cta-actions{display:flex;align-items:center;justify-content:center;gap:1rem;flex-wrap:wrap}
+.cta-btn-white{background:var(--white);color:var(--navy-950);border:none;padding:16px 32px;border-radius:8px;font-size:16px;font-weight:700;cursor:pointer;text-decoration:none;transition:all .2s;font-family:var(--font-body);display:inline-flex;align-items:center;gap:8px}
+.cta-btn-white:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,255,255,.15)}
+.cta-btn-outline{color:rgba(255,255,255,.7);text-decoration:none;font-size:15px;font-weight:500;display:inline-flex;align-items:center;gap:6px;padding:16px 24px;border:1px solid rgba(255,255,255,.2);border-radius:8px;transition:all .2s}
+.cta-btn-outline:hover{color:var(--white);border-color:rgba(255,255,255,.4)}
+.cta-stats{display:flex;align-items:center;justify-content:center;gap:3rem;margin-top:3rem;padding-top:3rem;border-top:1px solid rgba(255,255,255,.08);flex-wrap:wrap}
+.cta-stat-val{font-family:var(--font-display);font-size:2.25rem;font-weight:700;color:var(--gold-400);display:block}
+.cta-stat-label{font-size:13px;color:rgba(255,255,255,.4);margin-top:4px}
+
+/* ── FOOTER ── */
+footer{background:var(--navy-950);border-top:1px solid rgba(255,255,255,.06);padding:4rem 0 2rem}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.footer-brand-name{font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--white);margin-bottom:.75rem}
+.footer-brand-name span{color:var(--gold-400)}
+.footer-tagline{font-size:13px;color:rgba(255,255,255,.35);line-height:1.65;margin-bottom:1.5rem;max-width:280px}
+.footer-social{display:flex;gap:12px}
+.footer-social a{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);text-decoration:none;font-size:14px;transition:all .2s}
+.footer-social a:hover{background:rgba(255,255,255,.12);color:var(--gold-400)}
+.footer-col h4{font-size:12px;font-weight:600;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;font-family:var(--font-mono);margin-bottom:1rem}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.625rem}
+.footer-col ul li a{font-size:14px;color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s}
+.footer-col ul li a:hover{color:rgba(255,255,255,.8)}
+.footer-bottom{padding-top:2rem;border-top:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between;flex-wrap:gap}
+.footer-copy{font-size:12px;color:rgba(255,255,255,.25);font-family:var(--font-mono)}
+.footer-legal{display:flex;gap:1.5rem}
+.footer-legal a{font-size:12px;color:rgba(255,255,255,.25);text-decoration:none;transition:color .2s;font-family:var(--font-mono)}
+.footer-legal a:hover{color:rgba(255,255,255,.5)}
+
+/* ── FADE IN ── */
+.fade-in{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.fade-in.visible{opacity:1;transform:none}
+.fade-delay-1{transition-delay:.1s}
+.fade-delay-2{transition-delay:.2s}
+.fade-delay-3{transition-delay:.3s}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .hero-grid,.platform-grid,.uc-content.active,.footer-grid{grid-template-columns:1fr;gap:3rem}
+  .solutions-grid,.compliance-grid,.pricing-grid,.testimonials-grid{grid-template-columns:1fr}
+  .comparison-wrap{overflow-x:auto}
+  .nav-links,.nav-actions{display:none}
+  .nav-mobile{display:block}
+  .hero-visual{display:none}
+  .cta-stats{gap:2rem}
+}
 </style>
 </head>
 <body>
 
-<!-- Loading overlay -->
-<div class="loading-overlay" id="loadingOverlay">
-  <div class="loading-card">
-    <div class="loading-logo">
-      <div class="hex" style="background:#DB0011"></div>
-      <div class="hex" style="background:#DB0011"></div>
-      <div class="hex" style="background:#DB0011"></div>
-      <div class="hex" style="background:#DB0011"></div>
+<!-- ── NAV ── -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-mark"></div>
+      <div>
+        <div class="nav-logo-name">Talent<span>AIQ</span></div>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="#solutions">Solutions</a>
+      <a href="#platform">Platform</a>
+      <a href="#usecases">Use Cases</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#compliance">Compliance</a>
     </div>
-    <div class="loading-title">Extracting Document</div>
-    <div class="loading-sub" id="loadingStep">Running OCR engine…</div>
-    <div class="loading-progress"><div class="loading-progress-bar"></div></div>
+    <div class="nav-actions">
+      <a href="https://talentaiq-careers-app.vercel.app" class="btn-nav-login" target="_blank">Careers Site ↗</a>
+      <a href="mailto:hello@talentaiq.in" class="btn-nav-demo">Request Demo</a>
+    </div>
+    <button class="nav-mobile" onclick="document.querySelector('.nav-links').style.display='flex'">☰</button>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero" id="home">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow">
+          <div class="hero-eyebrow-dot"></div>
+          <span class="hero-eyebrow-text">Purpose-built for Financial Services</span>
+        </div>
+        <h1 class="hero-title">
+          AI talent intelligence<br/>that <em>explains itself</em>
+        </h1>
+        <p class="hero-sub">The only ATS built for BFSI. Every match score comes with a written explanation. RBI-compliant DEI reporting. Deploy on your cloud in a day.</p>
+        <div class="hero-actions">
+          <a href="mailto:hello@talentaiq.in" class="hero-btn-primary">
+            Request a Demo
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#platform" class="hero-btn-ghost">
+            See how it works
+            <svg class="arrow" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+        <div class="hero-trust">
+          <div class="hero-trust-label">Trusted capabilities</div>
+          <div class="hero-trust-items">
+            <div class="hero-trust-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              Explainable AI
+            </div>
+            <div class="hero-trust-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              BFSI Skills Ontology
+            </div>
+            <div class="hero-trust-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              DEI Compliance
+            </div>
+            <div class="hero-trust-item">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              Deploy on your cloud
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-card">
+          <div class="hero-card-header">
+            <span class="hero-card-title">AI Match Scores — Risk & Compliance Roles</span>
+            <span class="hero-card-badge">LIVE</span>
+          </div>
+          <div class="score-item">
+            <div class="score-avatar" style="background:rgba(212,160,23,.15);color:var(--gold-400)">PS</div>
+            <div class="score-info">
+              <div class="score-name">P. Sharma</div>
+              <div class="score-meta">Senior Risk Analyst · NovaBanc Financial</div>
+              <div class="score-bar-wrap"><div class="score-bar"><div class="score-bar-fill" style="width:87%"></div></div></div>
+            </div>
+            <div class="score-badge">
+              <span class="score-pct">87%</span>
+              <span class="score-tier tier-best">BEST</span>
+            </div>
+          </div>
+          <div class="score-item">
+            <div class="score-avatar" style="background:rgba(37,99,235,.15);color:#60a5fa">AM</div>
+            <div class="score-info">
+              <div class="score-name">A. Mehta</div>
+              <div class="score-meta">Risk Manager · Meridian Capital</div>
+              <div class="score-bar-wrap"><div class="score-bar"><div class="score-bar-fill" style="width:71%"></div></div></div>
+            </div>
+            <div class="score-badge">
+              <span class="score-pct" style="color:rgba(255,255,255,.7)">71%</span>
+              <span class="score-tier tier-good">GOOD</span>
+            </div>
+          </div>
+          <div class="score-item">
+            <div class="score-avatar" style="background:rgba(5,150,105,.1);color:#6ee7b7">KR</div>
+            <div class="score-info">
+              <div class="score-name">K. Reddy</div>
+              <div class="score-meta">Compliance Officer · FinSwift Technologies</div>
+              <div class="score-bar-wrap"><div class="score-bar"><div class="score-bar-fill" style="width:48%"></div></div></div>
+            </div>
+            <div class="score-badge">
+              <span class="score-pct" style="color:rgba(255,255,255,.5)">48%</span>
+              <span class="score-tier tier-fair">FAIR</span>
+            </div>
+          </div>
+          <div class="hero-explain">
+            <div class="hero-explain-label">AI Explanation — P. Sharma</div>
+            <div class="hero-explain-text">Strong KYC/AML background (7 yrs). All 4 required Basel III skills matched. Python proficiency confirmed. Exceeds experience requirement by 3 years.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── LOGOS ── -->
+<div class="logos">
+  <div class="container">
+    <div class="logos-label">Built for teams at</div>
+    <div class="logos-row">
+      <span class="logo-item">Fintech Startups</span>
+      <span class="logo-item">NBFCs</span>
+      <span class="logo-item">Neobanks</span>
+      <span class="logo-item">WealthTech</span>
+      <span class="logo-item">InsurTech</span>
+      <span class="logo-item">Regional Banks</span>
+      <span class="logo-item">Payment Companies</span>
+    </div>
   </div>
 </div>
 
-<!-- Header -->
-<header>
-  <div class="header-logo">
-    <div class="hsbc-hexagons">
-      <div class="hex" style="background:#DB0011"></div>
-      <div class="hex" style="background:#FFFFFF"></div>
-      <div class="hex" style="background:#FFFFFF"></div>
-      <div class="hex" style="background:#DB0011"></div>
-    </div>
-    <div class="header-brand">
-      <span class="header-brand-name">HSBC</span>
-      <span class="header-brand-sub">Corporate Technology</span>
+<!-- ── SOLUTIONS ── -->
+<section class="solutions" id="solutions">
+  <div class="container fade-in">
+    <div class="section-label">Solutions</div>
+    <h2 class="section-title">AI-powered solutions for every<br/>stage of talent acquisition</h2>
+    <p class="section-sub">From first application to internal promotion — TalentAIQ covers the full talent lifecycle with AI that explains every decision.</p>
+    <div class="solutions-grid">
+      <a href="#usecases" class="solution-card fade-in fade-delay-1">
+        <div class="solution-card-icon navy">🏦</div>
+        <h3>For Fintech Startups</h3>
+        <p>Replace spreadsheets with an AI-powered ATS. Get a branded careers site live in a day. Hire engineering, risk, and compliance talent faster with explainable AI scoring.</p>
+        <div class="solution-card-link">Explore <span class="arrow">→</span></div>
+      </a>
+      <a href="#usecases" class="solution-card fade-in fade-delay-2">
+        <div class="solution-card-icon gold">📊</div>
+        <h3>For NBFCs & Regional Banks</h3>
+        <p>RBI-compliant EEO reporting. Algorithmic bias detection. Structured interview guides for regulated roles. Audit-ready hiring trails built in from day one.</p>
+        <div class="solution-card-link">Explore <span class="arrow">→</span></div>
+      </a>
+      <a href="#platform" class="solution-card fade-in fade-delay-3">
+        <div class="solution-card-icon teal">🔄</div>
+        <h3>Internal Mobility</h3>
+        <p>Reduce lateral hiring costs with skills-based internal mobility. Employees see their skills gap, apply internally, and progress with AI-matched role recommendations.</p>
+        <div class="solution-card-link">Explore <span class="arrow">→</span></div>
+      </a>
     </div>
   </div>
-  <div class="header-divider"></div>
-  <span class="header-title">T-ext-ractor · Intelligent Document Intelligence</span>
-  <div class="header-spacer"></div>
-  <span class="header-badge">PoC · v1.0</span>
-</header>
+</section>
 
-<!-- Main layout -->
-<div class="app-body">
-
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <form method="POST" enctype="multipart/form-data" id="extractForm">
-
-      <!-- Upload section -->
-      <div class="sidebar-section">
-        <div class="section-label">Document Upload</div>
-        <div class="drop-zone" id="dropZone">
-          <input type="file" name="image" id="fileInput" accept=".jpg,.jpeg,.png" required>
-          <div class="drop-icon">
-            <svg viewBox="0 0 24 24"><path d="M19 13v5H5v-5H3v5c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-5h-2zm-7-9l-4 4h3v6h2V8h3l-4-4z"/></svg>
+<!-- ── PLATFORM ── -->
+<section class="platform" id="platform">
+  <div class="container">
+    <div class="platform-grid">
+      <div class="fade-in">
+        <div class="section-label" style="color:var(--gold-400)">Platform</div>
+        <h2 class="section-title" style="color:var(--white)">One platform.<br/>Every talent workflow.</h2>
+        <p class="section-sub" style="color:rgba(255,255,255,.5)">305 API endpoints. 26 database migrations. Built for scale from day one.</p>
+        <div class="platform-features">
+          <div class="platform-feature active">
+            <div class="platform-feature-icon active-icon">🤖</div>
+            <div class="platform-feature-text">
+              <h4>Explainable AI Scoring</h4>
+              <p>Every match score comes with a written explanation. Semantic (50%) + Skills (35%) + Experience (15%) — fully transparent, fully defensible.</p>
+            </div>
           </div>
-          <div class="drop-title">Upload Document Image</div>
-          <div class="drop-hint">JPG · JPEG · PNG — max 10MB</div>
-        </div>
-        <div class="file-preview" id="filePreview">
-          <img id="previewImg" src="" alt="Preview" />
-          <div class="file-preview-name" id="previewName"></div>
-        </div>
-      </div>
-
-      <!-- Schema fields -->
-      <div class="sidebar-section">
-        <div class="section-label">Extraction Schema</div>
-        <div class="field-group">
-          <label class="field-label" for="schemaInput">Fields to Extract</label>
-          <textarea
-            class="field-input"
-            id="schemaInput"
-            name="schema_fields"
-            rows="3"
-            placeholder="invoice_number, date, amount, vendor_name…"
-          >{{ schema_fields_input or "" }}</textarea>
-          <div class="field-hint">Comma-separated field names</div>
-        </div>
-        <div class="tags-container" id="tagsList"></div>
-      </div>
-
-      <!-- Submit -->
-      <div class="sidebar-section">
-        {% if error %}
-        <div class="alert alert-error" style="margin-bottom:1rem">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-          {{ error }}
-        </div>
-        {% endif %}
-        <button type="submit" class="btn-extract" id="submitBtn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
-          <span id="btnText">Extract Document</span>
-          <div class="spinner" id="btnSpinner"></div>
-        </button>
-      </div>
-
-      <!-- Metrics (if result exists) -->
-      {% if result %}
-      <div class="sidebar-section">
-        <div class="section-label">Performance Metrics</div>
-        <div class="result-image-preview">
-          <img src="/uploads/{{ result.uploaded_image }}" alt="Uploaded document" />
-        </div>
-        <div style="margin-top:1rem;">
-          {% for key, val in result.metrics.items() %}
-          <div class="metric-row">
-            <span class="metric-key">{{ key.replace('_', ' ') }}</span>
-            <span class="metric-val">{{ val }}{% if 'ms' in key %} ms{% endif %}</span>
+          <div class="platform-feature">
+            <div class="platform-feature-icon">🧠</div>
+            <div class="platform-feature-text">
+              <h4>BFSI Skills Ontology</h4>
+              <p>398 canonical skills across 20 categories. KYC, AML, Basel III, MiFID II, SEBI regulations built in. Fuzzy matching via pg_trgm.</p>
+            </div>
           </div>
-          {% endfor %}
+          <div class="platform-feature">
+            <div class="platform-feature-icon">⚖️</div>
+            <div class="platform-feature-text">
+              <h4>DEI & Compliance Engine</h4>
+              <p>Algorithmic bias detection at score level. EEO reports. Anonymised screening. Diversity goal tracking. RBI-ready audit trails.</p>
+            </div>
+          </div>
+          <div class="platform-feature">
+            <div class="platform-feature-icon">📈</div>
+            <div class="platform-feature-text">
+              <h4>Predictive Analytics</h4>
+              <p>10-tab MI Dashboard. Source ROI. Time-to-fill forecasting. Drop-off analysis. Recruiter efficiency benchmarking.</p>
+            </div>
+          </div>
         </div>
       </div>
-      {% endif %}
-
-    </form>
-  </aside>
-
-  <!-- Main content -->
-  <main class="main-content">
-
-    {% if result %}
-    <!-- Status bar -->
-    <div class="status-bar">
-      <div class="status-indicator">
-        <div class="status-dot active"></div>
-        Extraction Complete
-      </div>
-      <div class="status-sep"></div>
-      <div class="status-indicator">
-        <div class="status-dot active"></div>
-        OCR · {{ result.metrics.get('ocr_latency_ms', '—') }} ms
-      </div>
-      <div class="status-sep"></div>
-      <div class="status-indicator">
-        <div class="status-dot active"></div>
-        LLM Mapped
-      </div>
-      <div class="status-sep"></div>
-      <div class="status-indicator">
-        Total · {{ result.metrics.get('total_request_ms', '—') }} ms
+      <div class="fade-in fade-delay-2">
+        <div class="platform-visual">
+          <div class="platform-visual-tab">
+            <span class="pvt active" onclick="switchTab(this,'overview-pv')">Overview</span>
+            <span class="pvt" onclick="switchTab(this,'pipeline-pv')">Pipeline</span>
+            <span class="pvt" onclick="switchTab(this,'dei-pv')">DEI</span>
+          </div>
+          <div class="pv-content" id="overview-pv">
+            <div class="pv-stat-grid">
+              <div class="pv-stat">
+                <div class="pv-stat-val">87%</div>
+                <div class="pv-stat-label">Avg AI Score</div>
+              </div>
+              <div class="pv-stat">
+                <div class="pv-stat-val">14d</div>
+                <div class="pv-stat-label">Avg Time to Hire</div>
+              </div>
+              <div class="pv-stat">
+                <div class="pv-stat-val">8</div>
+                <div class="pv-stat-label">Open Roles</div>
+              </div>
+              <div class="pv-stat">
+                <div class="pv-stat-val">94%</div>
+                <div class="pv-stat-label">Offer Acceptance</div>
+              </div>
+            </div>
+            <div style="margin-top:1rem">
+              <div class="pv-bar-item">
+                <div class="pv-bar-label"><span>Engineering</span><span>87%</span></div>
+                <div class="pv-bar"><div class="pv-bar-fill" style="width:87%"></div></div>
+              </div>
+              <div class="pv-bar-item">
+                <div class="pv-bar-label"><span>Risk & Compliance</span><span>74%</span></div>
+                <div class="pv-bar"><div class="pv-bar-fill green" style="width:74%"></div></div>
+              </div>
+              <div class="pv-bar-item">
+                <div class="pv-bar-label"><span>Product</span><span>62%</span></div>
+                <div class="pv-bar"><div class="pv-bar-fill blue" style="width:62%"></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="pv-content" id="pipeline-pv" style="display:none">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div class="uc-stage"><div class="uc-stage-dot" style="background:#6366f1"></div><div class="uc-stage-label">New Applicants</div><div class="uc-stage-count">12 candidates</div></div>
+              <div class="uc-stage"><div class="uc-stage-dot" style="background:var(--gold-400)"></div><div class="uc-stage-label">Shortlisted</div><div class="uc-stage-count">7 candidates</div></div>
+              <div class="uc-stage"><div class="uc-stage-dot" style="background:#8b5cf6"></div><div class="uc-stage-label">Screening</div><div class="uc-stage-count">4 candidates</div></div>
+              <div class="uc-stage"><div class="uc-stage-dot" style="background:#06b6d4"></div><div class="uc-stage-label">Interview</div><div class="uc-stage-count">3 candidates</div></div>
+              <div class="uc-stage"><div class="uc-stage-dot" style="background:#10b981"></div><div class="uc-stage-label">Offer Extended</div><div class="uc-stage-count">1 candidate</div></div>
+              <div class="uc-stage"><div class="uc-stage-dot" style="background:var(--gold-500)"></div><div class="uc-stage-label">Hired</div><div class="uc-stage-count">1 this month</div></div>
+            </div>
+          </div>
+          <div class="pv-content" id="dei-pv" style="display:none">
+            <div style="margin-bottom:1rem;padding:12px;background:rgba(212,160,23,.08);border:1px solid rgba(212,160,23,.15);border-radius:8px">
+              <div style="font-size:10px;color:var(--gold-500);font-family:var(--font-mono);margin-bottom:4px">BIAS ALERT</div>
+              <div style="font-size:12px;color:rgba(255,255,255,.6)">Gender score disparity detected: Male candidates scoring 8.2% higher than female in Engineering pipeline. Review recommended.</div>
+            </div>
+            <div class="pv-bar-item">
+              <div class="pv-bar-label"><span style="color:rgba(255,255,255,.6)">Women in pipeline</span><span>38%</span></div>
+              <div class="pv-bar"><div class="pv-bar-fill" style="width:38%"></div></div>
+            </div>
+            <div class="pv-bar-item">
+              <div class="pv-bar-label"><span style="color:rgba(255,255,255,.6)">Diversity goal (40%)</span><span style="color:#f87171">AT RISK</span></div>
+              <div class="pv-bar"><div class="pv-bar-fill" style="width:40%;background:rgba(248,113,113,.6)"></div></div>
+            </div>
+            <div style="margin-top:12px;padding:10px;background:rgba(255,255,255,.04);border-radius:8px;font-size:12px;color:rgba(255,255,255,.4)">EEO Report ready for export · Last updated: today</div>
+          </div>
+        </div>
       </div>
     </div>
-    {% endif %}
+  </div>
+</section>
 
-    <!-- Output grid -->
-    <div class="results-grid">
-
-      <!-- Raw OCR Text -->
-      <div class="result-panel">
-        <div class="panel-header">
-          <div class="panel-title">
-            <div class="panel-title-dot"></div>
-            Raw OCR Text
-          </div>
-          {% if result %}
-          <div class="panel-actions">
-            <button class="btn-copy" onclick="copyText('ocrOutput', this)">Copy</button>
-          </div>
-          {% endif %}
-        </div>
-        <div class="panel-body">
-          {% if result %}
-          <pre class="code-output" id="ocrOutput">{{ result.ocr_text }}</pre>
-          {% else %}
-          <div class="empty-state">
-            <div class="empty-state-icon">
-              <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/></svg>
-            </div>
-            <div class="empty-title">No document extracted yet</div>
-            <div class="empty-sub">Upload a document to see the OCR text output here</div>
-          </div>
-          {% endif %}
-        </div>
+<!-- ── COMPLIANCE ── -->
+<section class="compliance" id="compliance">
+  <div class="container fade-in">
+    <div class="section-label">Governance & Compliance</div>
+    <h2 class="section-title">Built for regulated industries<br/>from the ground up</h2>
+    <p class="section-sub">Generic ATSs add compliance as an afterthought. TalentAIQ was architected for financial services regulation from day one.</p>
+    <div class="compliance-grid">
+      <div class="compliance-card fade-in fade-delay-1">
+        <div class="compliance-icon">📋</div>
+        <h3>RBI-Ready EEO Reporting</h3>
+        <p>Export Equal Employment Opportunity reports in seconds. Gender funnel analysis, ethnicity distribution, veterans, disability tracking — all in one click.</p>
       </div>
-
-      <!-- JSON Output -->
-      <div class="result-panel">
-        <div class="panel-header">
-          <div class="panel-title">
-            <div class="panel-title-dot green"></div>
-            Structured JSON Output
-          </div>
-          {% if result %}
-          <div class="panel-actions">
-            <button class="btn-copy" onclick="copyText('jsonOutput', this)">Copy</button>
-            <button class="btn-copy" onclick="downloadJson()">Download</button>
-          </div>
-          {% endif %}
-        </div>
-        <div class="panel-body">
-          {% if result %}
-          <pre class="code-output json-colored" id="jsonOutput">{{ result.llm_json | highlight_json | safe }}</pre>
-          {% else %}
-          <div class="empty-state">
-            <div class="empty-state-icon">
-              <svg viewBox="0 0 24 24"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm5 14l8-8-1.5-1.5L10 14l-3.5-3.5L5 12l5 5z"/></svg>
-            </div>
-            <div class="empty-title">Structured output will appear here</div>
-            <div class="empty-sub">Define schema fields and upload a document to extract structured data</div>
-          </div>
-          {% endif %}
-        </div>
+      <div class="compliance-card fade-in fade-delay-2">
+        <div class="compliance-icon">🛡️</div>
+        <h3>Algorithmic Bias Detection</h3>
+        <p>The only ATS that detects bias at the score level — not just pipeline reporting. Real-time alerts when AI scores show statistically significant demographic disparities.</p>
       </div>
-
+      <div class="compliance-card fade-in fade-delay-3">
+        <div class="compliance-icon">🔍</div>
+        <h3>Full Audit Trail</h3>
+        <p>Every hiring decision logged with actor, timestamp, and before/after state. When your regulator or board asks why you hired candidate A over B — you have the answer.</p>
+      </div>
+      <div class="compliance-card fade-in fade-delay-1">
+        <div class="compliance-icon">🔒</div>
+        <h3>Anonymised Screening</h3>
+        <p>One toggle hides names, emails, photos, and identifying information across the entire pipeline. Structured screening without unconscious bias.</p>
+      </div>
+      <div class="compliance-card fade-in fade-delay-2">
+        <div class="compliance-icon">☁️</div>
+        <h3>Deploy on Your Cloud</h3>
+        <p>Docker + Kubernetes. Deploy on AWS Mumbai, Azure India, or your private cloud. Data stays in India. No data residency concerns. Full infrastructure control.</p>
+      </div>
+      <div class="compliance-card fade-in fade-delay-3">
+        <div class="compliance-icon">📊</div>
+        <h3>Diversity Goal Tracking</h3>
+        <p>Set diversity targets by department, job level, and dimension. Track ON_TRACK / AT_RISK / OFF_TRACK status in real time. Export for board reporting.</p>
+      </div>
     </div>
-  </main>
-</div>
+  </div>
+</section>
+
+<!-- ── USE CASES ── -->
+<section class="usecases" id="usecases">
+  <div class="container fade-in">
+    <div class="section-label">Use Cases</div>
+    <h2 class="section-title">Built for every role in<br/>your talent team</h2>
+    <div class="usecases-tabs">
+      <button class="uc-tab active" onclick="switchUC(this,'uc-recruiter')">Recruiter</button>
+      <button class="uc-tab" onclick="switchUC(this,'uc-ta-head')">TA Head</button>
+      <button class="uc-tab" onclick="switchUC(this,'uc-chro')">CHRO / Leadership</button>
+      <button class="uc-tab" onclick="switchUC(this,'uc-employee')">Employee</button>
+    </div>
+    <div class="uc-content active" id="uc-recruiter">
+      <div>
+        <h3 style="font-family:var(--font-display);font-size:1.75rem;color:var(--navy-950);margin-bottom:1rem">Focus on candidates,<br/>not admin work</h3>
+        <p style="color:var(--gray-500);font-size:15px;line-height:1.7">TalentAIQ eliminates the grunt work. AI parses resumes, scores candidates, and drafts outreach messages — so you spend your time on what matters.</p>
+        <div class="uc-features">
+          <div class="uc-feature"><div class="uc-feature-check"></div><p><strong>AI resume parsing</strong> extracts skills, experience, education, and previous roles automatically on upload</p></div>
+          <div class="uc-feature"><div class="uc-feature-check"></div><p><strong>Match explanations</strong> tell you exactly why each candidate scored high or low — no black box</p></div>
+          <div class="uc-feature"><div class="uc-feature-check"></div><p><strong>SLA alerts</strong> via Slack when candidates sit too long in any stage</p></div>
+          <div class="uc-feature"><div class="uc-feature-check"></div><p><strong>Kanban pipeline</strong> with drag-and-drop stage management and bulk actions</p></div>
+          <div class="uc-feature"><div class="uc-feature-check"></div><p><strong>Structured interview guides</strong> generated by Claude AI, specific to each role's competencies</p></div>
+        </div>
+      </div>
+      <div class="uc-visual">
+        <div style="margin-bottom:1rem;font-size:11px;color:var(--gold-400);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.08em">Today's Pipeline</div>
+        <div class="uc-metric-grid">
+          <div class="uc-metric"><div class="uc-metric-val">12</div><div class="uc-metric-label">New Today</div></div>
+          <div class="uc-metric"><div class="uc-metric-val">4</div><div class="uc-metric-label">SLA Alerts</div></div>
+        </div>
+        <div class="uc-pipeline">
+          <div class="uc-stage"><div class="uc-stage-dot" style="background:#6366f1"></div><div class="uc-stage-label">New Applicants</div><div class="uc-stage-count">12</div></div>
+          <div class="uc-stage"><div class="uc-stage-dot" style="background:var(--gold-400)"></div><div class="uc-stage-label">Shortlisted</div><div class="uc-stage-count">7</div></div>
+          <div class="uc-stage"><div class="uc-stage-dot" style="background:#8b5cf6"></div><div class="uc-stage-label">Screening</div><div class="uc-stage-count">4</div></div>
+          <div class="uc-stage"><div class="uc-stage-dot" style="background:#06b6d4"></div><div class="uc-stage-label">Interview</div><div class="uc-stage-count">3</div></div>
+          <div class="uc-stage"><div class="uc-stage-dot" style="background:#10b981"></div><div class="uc-stage-label">Offer Extended</div><div class="uc-stage-count">1</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="uc-content" id="uc-ta-head">
+      <div>
+        <h3 style="font-family:var(--font-display);font-size:1.75rem;color:var(--navy-950);margin-bottom:1rem">Full pipeline visibility<br/>across every requisition</h3>
+        <p style="color:var(--gray-500);font-size:15px;line-height:1.7">Know exactly where every open role stands — no chasing recruiters for updates. Predictive analytics tell you which roles are at risk before they miss targets.</p>
+        <div class="uc-features">
+          <div class="uc-feature"><div class="uc-feature-check"></div><p><strong>10-tab MI Dashboard</strong> with overview, department, HM, recruiter, velocity, AI scores, time-to-hire, source ROI, predictive, and drop-off analytics</p></div>
+          <div class="uc-feature"><div class="uc-feature-check"></div><p><strong>Open role health status</strong> — On Track / At Risk / Needs Attention based on pipeline depth and match scores</p></div>
+          <div class="uc-feature"><div class="uc-feature-check"></div><p><strong>Source ROI tracking</strong> — LinkedIn vs Naukri vs Direct with hire conversion rates per channel</p></div>
+          <div class="uc-feature"><div class="uc-feature-check"></div><p><strong>Recruiter efficiency benchmarks</strong> — time per stage, conversion rates, hire rates per recruiter</p></div>
+        </div>
+      </div>
+      <div class="uc-visual">
+        <div style="margin-bottom:1rem;font-size:11px;color:var(--gold-400);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.08em">Source ROI — This Quarter</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div><div style="display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.5);margin-bottom:4px"><span>LinkedIn</span><span>12% hire rate</span></div><div style="height:8px;background:rgba(255,255,255,.08);border-radius:4px"><div style="height:100%;width:72%;background:linear-gradient(90deg,var(--gold-600),var(--gold-400));border-radius:4px"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.5);margin-bottom:4px"><span>Naukri</span><span>8% hire rate</span></div><div style="height:8px;background:rgba(255,255,255,.08);border-radius:4px"><div style="height:100%;width:48%;background:linear-gradient(90deg,#1d4ed8,#60a5fa);border-radius:4px"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.5);margin-bottom:4px"><span>Internal</span><span>34% conversion</span></div><div style="height:8px;background:rgba(255,255,255,.08);border-radius:4px"><div style="height:100%;width:90%;background:linear-gradient(90deg,#059669,#10b981);border-radius:4px"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.5);margin-bottom:4px"><span>Direct / Referral</span><span>22% hire rate</span></div><div style="height:8px;background:rgba(255,255,255,.08);border-radius:4px"><div style="height:100%;width:62%;background:linear-gradient(90deg,#7c3aed,#a78bfa);border-radius:4px"></div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="uc-content" id="uc-chro">
+      <div>
+        <h3 style="font-family:var(--font-display);font-size:1.75rem;color:var(--navy-950);margin-bottom:1rem">Board-ready reporting.<br/>Regulator-ready compliance.</h3>
+        <p style="color:var(--gray-500);font-size:15px;line-height:1.7">When your board asks about diversity in hiring, or your regulator requests EEO data — TalentAIQ gives you the answer in seconds, not weeks.</p>
+        <div class="uc-features">
+          <div class="uc-feature"><div class="uc-feature-check"></div><p><strong>EEO Report export</strong> — gender, ethnicity, veterans, disability at every pipeline stage in one click</p></div>
+          <div class="uc-feature"><div class="uc-feature-check"></div><p><strong>Algorithmic bias audit</strong> — prove to your board that AI scoring is fair and unbiased with statistical evidence</p></div>
+          <div class="uc-feature"><div class="uc-feature-check"></div><p><strong>Diversity goal tracking</strong> — set targets, track actuals, get ON_TRACK / AT_RISK / OFF_TRACK status</p></div>
+          <div class="uc-feature"><div class="uc-feature-check"></div><p><strong>Full audit trail</strong> — every hiring decision logged, actor identified, reason documented</p></div>
+        </div>
+      </div>
+      <div class="uc-visual">
+        <div style="margin-bottom:1rem;font-size:11px;color:var(--gold-400);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.08em">Diversity Goals — Q1 2026</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="padding:12px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:8px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;color:#6ee7b7">Women in Tech Roles</span><span style="font-size:11px;background:rgba(16,185,129,.2);color:#6ee7b7;padding:2px 8px;border-radius:4px;font-family:var(--font-mono)">ON TRACK</span></div>
+            <div style="font-size:11px;color:rgba(255,255,255,.4)">Target: 40% · Actual: 38% · 2pts gap</div>
+          </div>
+          <div style="padding:12px;background:rgba(212,160,23,.08);border:1px solid rgba(212,160,23,.2);border-radius:8px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;color:var(--gold-300)">Senior Risk Diversity</span><span style="font-size:11px;background:rgba(212,160,23,.2);color:var(--gold-300);padding:2px 8px;border-radius:4px;font-family:var(--font-mono)">AT RISK</span></div>
+            <div style="font-size:11px;color:rgba(255,255,255,.4)">Target: 30% · Actual: 22% · Action needed</div>
+          </div>
+          <div style="padding:12px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:8px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;color:#fca5a5">Leadership Diversity</span><span style="font-size:11px;background:rgba(248,113,113,.2);color:#fca5a5;padding:2px 8px;border-radius:4px;font-family:var(--font-mono)">OFF TRACK</span></div>
+            <div style="font-size:11px;color:rgba(255,255,255,.4)">Target: 25% · Actual: 14% · Review hiring</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="uc-content" id="uc-employee">
+      <div>
+        <h3 style="font-family:var(--font-display);font-size:1.75rem;color:var(--navy-950);margin-bottom:1rem">Your next role might<br/>already be inside your firm</h3>
+        <p style="color:var(--gray-500);font-size:15px;line-height:1.7">TalentAIQ gives employees a careers portal to explore internal opportunities, understand their skills gap, and apply internally with a single click.</p>
+        <div class="uc-features">
+          <div class="uc-feature"><div class="uc-feature-check"></div><p><strong>Internal job matching</strong> — AI matches open roles to your skills profile and shows your match score</p></div>
+          <div class="uc-feature"><div class="uc-feature-check"></div><p><strong>Skills gap analysis</strong> — see exactly which skills you need for your target role and create a learning plan</p></div>
+          <div class="uc-feature"><div class="uc-feature-check"></div><p><strong>One-click internal apply</strong> — apply internally with cover note, automatically flagged as internal candidate</p></div>
+          <div class="uc-feature"><div class="uc-feature-check"></div><p><strong>Referral portal</strong> — refer external candidates for open roles directly from your dashboard</p></div>
+        </div>
+      </div>
+      <div class="uc-visual">
+        <div style="margin-bottom:1rem;font-size:11px;color:var(--gold-400);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.08em">Internal Opportunities — Skills Match</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="padding:12px;background:rgba(255,255,255,.04);border-radius:8px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:13px;color:var(--white);font-weight:600">Senior Risk Manager</span><span style="font-size:14px;color:var(--gold-400);font-weight:700">84%</span></div>
+            <div style="font-size:11px;color:rgba(255,255,255,.4)">Risk & Compliance · Mumbai</div>
+            <div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap"><span style="font-size:10px;padding:2px 8px;background:rgba(16,185,129,.15);color:#6ee7b7;border-radius:4px">KYC ✓</span><span style="font-size:10px;padding:2px 8px;background:rgba(16,185,129,.15);color:#6ee7b7;border-radius:4px">AML ✓</span><span style="font-size:10px;padding:2px 8px;background:rgba(248,113,113,.15);color:#fca5a5;border-radius:4px">Basel III gap</span></div>
+          </div>
+          <div style="padding:12px;background:rgba(255,255,255,.04);border-radius:8px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:13px;color:var(--white);font-weight:600">Compliance Lead</span><span style="font-size:14px;color:rgba(255,255,255,.6);font-weight:700">71%</span></div>
+            <div style="font-size:11px;color:rgba(255,255,255,.4)">Legal & Compliance · Bengaluru</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── COMPARISON ── -->
+<section class="comparison" id="comparison">
+  <div class="container fade-in">
+    <div class="section-label" style="color:var(--gold-400)">Why TalentAIQ</div>
+    <h2 class="section-title" style="color:var(--white)">Built for BFSI.<br/>Not adapted for it.</h2>
+    <p class="section-sub" style="color:rgba(255,255,255,.5)">Generic ATSs were built for tech companies. Financial services recruiting is different — and they haven't caught up.</p>
+    <div class="comparison-wrap">
+      <div class="comp-header">
+        <span>Capability</span>
+        <span class="ours">TalentAIQ</span>
+        <span>Greenhouse</span>
+        <span>Lever</span>
+        <span>Keka</span>
+      </div>
+      <div class="comp-row"><span class="cap">Explainable AI scoring</span><span class="talentaiq-col yes">✓</span><span class="no">✗</span><span class="no">✗</span><span class="no">✗</span></div>
+      <div class="comp-row"><span class="cap">BFSI skills ontology</span><span class="talentaiq-col yes">✓</span><span class="no">✗</span><span class="no">✗</span><span class="no">✗</span></div>
+      <div class="comp-row"><span class="cap">Algorithmic bias detection</span><span class="talentaiq-col yes">✓</span><span class="partial">~</span><span class="partial">~</span><span class="no">✗</span></div>
+      <div class="comp-row"><span class="cap">Internal mobility module</span><span class="talentaiq-col yes">✓</span><span class="no">✗</span><span class="partial">~</span><span class="partial">~</span></div>
+      <div class="comp-row"><span class="cap">Native assessment engine</span><span class="talentaiq-col yes">✓</span><span class="no">3rd party</span><span class="no">3rd party</span><span class="partial">~</span></div>
+      <div class="comp-row"><span class="cap">Predictive analytics</span><span class="talentaiq-col yes">✓</span><span class="partial">~</span><span class="partial">~</span><span class="no">✗</span></div>
+      <div class="comp-row"><span class="cap">Deploy on your cloud</span><span class="talentaiq-col yes">✓</span><span class="no">✗</span><span class="no">✗</span><span class="partial">~</span></div>
+      <div class="comp-row"><span class="cap">Starting price / year</span><span class="talentaiq-col" style="color:var(--gold-400);font-weight:700">₹99K</span><span style="color:rgba(255,255,255,.3);font-size:12px">₹8-15L</span><span style="color:rgba(255,255,255,.3);font-size:12px">₹6-12L</span><span style="color:rgba(255,255,255,.3);font-size:12px">₹3-5L</span></div>
+      <div class="comp-disclaimer"><p>* Competitor information based on publicly available product documentation and pricing pages as of April 2026. Pricing estimates based on market research; actual pricing may vary by contract terms and organisation size. Features marked ✗ were not found in public documentation at time of publication. Features marked ~ indicate partial or add-on capability. TalentAIQ makes no claim that competitor products are defective or unsuitable for other use cases.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICING ── -->
+<section class="pricing" id="pricing">
+  <div class="container fade-in">
+    <div class="section-label">Pricing</div>
+    <h2 class="section-title">Simple, transparent pricing<br/>for growing fintech teams</h2>
+    <p class="section-sub">No per-seat fees. No surprise add-ons. One price for your whole team.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card fade-in fade-delay-1">
+        <div class="pricing-name">Starter</div>
+        <div class="pricing-desc">For early-stage fintechs hiring 2-5 roles at a time</div>
+        <div class="pricing-price">
+          <span class="pricing-amount">₹99K</span>
+          <span class="pricing-period">/ year</span>
+        </div>
+        <ul class="pricing-features">
+          <li>5 active job postings</li>
+          <li>AI match scoring & explanations</li>
+          <li>External careers site</li>
+          <li>Candidate profile portal</li>
+          <li>Basic analytics dashboard</li>
+          <li>Email support</li>
+        </ul>
+        <a href="mailto:hello@talentaiq.in?subject=Starter Plan" class="pricing-cta outline">Get started</a>
+      </div>
+      <div class="pricing-card featured fade-in fade-delay-2">
+        <div class="pricing-badge">Most Popular</div>
+        <div class="pricing-name">Growth</div>
+        <div class="pricing-desc">For Series A/B fintechs scaling hiring across departments</div>
+        <div class="pricing-price">
+          <span class="pricing-amount">₹2.49L</span>
+          <span class="pricing-period">/ year</span>
+        </div>
+        <ul class="pricing-features">
+          <li>Unlimited job postings</li>
+          <li>Full DEI suite + EEO reports</li>
+          <li>Internal mobility module</li>
+          <li>Native assessment engine</li>
+          <li>10-tab MI Dashboard</li>
+          <li>Slack integration</li>
+          <li>Source ROI & predictive analytics</li>
+          <li>Priority support</li>
+        </ul>
+        <a href="mailto:hello@talentaiq.in?subject=Growth Plan" class="pricing-cta primary">Request demo</a>
+      </div>
+      <div class="pricing-card fade-in fade-delay-3">
+        <div class="pricing-name">Scale</div>
+        <div class="pricing-desc">For NBFCs and regional banks with enterprise requirements</div>
+        <div class="pricing-price">
+          <span class="pricing-amount">₹4.99L</span>
+          <span class="pricing-period">/ year</span>
+        </div>
+        <ul class="pricing-features">
+          <li>Everything in Growth</li>
+          <li>Deploy on your private cloud</li>
+          <li>Custom HRIS integrations</li>
+          <li>White-label careers site</li>
+          <li>Dedicated onboarding</li>
+          <li>SLA-backed support</li>
+          <li>Custom skills ontology</li>
+        </ul>
+        <a href="mailto:hello@talentaiq.in?subject=Scale Plan" class="pricing-cta outline">Talk to us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ── -->
+<section class="testimonials" id="testimonials">
+  <div class="container fade-in">
+    <div class="section-label">What customers say</div>
+    <h2 class="section-title">The ATS that finally speaks<br/>financial services</h2>
+    <div class="testimonials-grid">
+      <div class="testimonial-card fade-in fade-delay-1">
+        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-quote">"We were on a generic ATS for 3 years and never once could tell our investors why we hired candidate A over B. TalentAIQ's explainable scores changed that in week one."</div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">SP</div>
+          <div>
+            <div class="testimonial-name">S. Patel*</div>
+            <div class="testimonial-role">Head of Talent · Series B Fintech, Bengaluru</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card fade-in fade-delay-2">
+        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-quote">"Our RBI audit team asked for diversity data in hiring. I exported the EEO report in 30 seconds. That conversation used to take two weeks to prepare for."</div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">RK</div>
+          <div>
+            <div class="testimonial-name">R. Kumar*</div>
+            <div class="testimonial-role">CHRO · NBFC, Mumbai</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card fade-in fade-delay-3">
+        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-quote">"The internal mobility feature alone saved us 4 lateral hires this quarter. Employees can see their skills gap and apply internally. Our retention improved noticeably."</div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">AM</div>
+          <div>
+            <div class="testimonial-name">A. Menon*</div>
+            <div class="testimonial-role">VP People · Neobank, Hyderabad</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-disclaimer">* Illustrative quotes based on common customer pain points in BFSI hiring. Names changed for privacy.</div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="cta-section" id="contact">
+  <div class="container">
+    <div class="cta-inner fade-in">
+      <div class="section-label" style="color:var(--gold-400);text-align:center;justify-content:center">Get started today</div>
+      <h2 class="section-title">Ready to see TalentAIQ<br/>in action?</h2>
+      <p class="cta-sub">30-minute demo. Live on your data. No generic slides.</p>
+      <div class="cta-actions">
+        <a href="mailto:hello@talentaiq.in" class="cta-btn-white">
+          Request a Demo
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="https://talentaiq-careers-app.vercel.app" class="cta-btn-outline" target="_blank">
+          See Careers Site Live ↗
+        </a>
+      </div>
+      <div class="cta-stats">
+        <div>
+          <span class="cta-stat-val">305</span>
+          <div class="cta-stat-label">API Endpoints</div>
+        </div>
+        <div>
+          <span class="cta-stat-val">398</span>
+          <div class="cta-stat-label">BFSI Skills</div>
+        </div>
+        <div>
+          <span class="cta-stat-val">10</span>
+          <div class="cta-stat-label">Analytics Tabs</div>
+        </div>
+        <div>
+          <span class="cta-stat-val">3</span>
+          <div class="cta-stat-label">User Portals</div>
+        </div>
+        <div>
+          <span class="cta-stat-val">₹99K</span>
+          <div class="cta-stat-label">Starting Price/yr</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">Talent<span>AIQ</span></div>
+        <div class="footer-tagline">The only AI talent intelligence platform purpose-built for financial services. Explainable AI. RBI-compliant DEI. Deploy on your cloud.</div>
+        <div class="footer-social">
+          <a href="https://linkedin.com" target="_blank" title="LinkedIn">in</a>
+          <a href="https://twitter.com" target="_blank" title="Twitter">𝕏</a>
+          <a href="mailto:hello@talentaiq.in" title="Email">✉</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#platform">Platform</a></li>
+          <li><a href="#solutions">Solutions</a></li>
+          <li><a href="#compliance">Compliance</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="https://talentaiq-careers-app.vercel.app" target="_blank">Careers Site ↗</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Use Cases</h4>
+        <ul>
+          <li><a href="#usecases">Fintech Startups</a></li>
+          <li><a href="#usecases">NBFCs</a></li>
+          <li><a href="#usecases">Regional Banks</a></li>
+          <li><a href="#usecases">Internal Mobility</a></li>
+          <li><a href="#usecases">DEI Compliance</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="mailto:hello@talentaiq.in">Contact Us</a></li>
+          <li><a href="mailto:hello@talentaiq.in">Request Demo</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Security</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© TalentAIQ 2026. All rights reserved. Built for financial services.</div>
+      <div class="footer-legal">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Security</a>
+      </div>
+    </div>
+  </div>
+</footer>
 
 <script>
-// File input preview
-const fileInput = document.getElementById('fileInput');
-const filePreview = document.getElementById('filePreview');
-const previewImg = document.getElementById('previewImg');
-const previewName = document.getElementById('previewName');
-const dropZone = document.getElementById('dropZone');
-
-fileInput.addEventListener('change', (e) => {
-  const file = e.target.files[0];
-  if (file) showPreview(file);
+// Nav scroll
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
 });
 
-dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
-dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-dropZone.addEventListener('drop', (e) => {
-  e.preventDefault();
-  dropZone.classList.remove('dragover');
-  const file = e.dataTransfer.files[0];
-  if (file) {
-    const dt = new DataTransfer();
-    dt.items.add(file);
-    fileInput.files = dt.files;
-    showPreview(file);
-  }
-});
+// Fade in on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-function showPreview(file) {
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    previewImg.src = e.target.result;
-    previewName.textContent = file.name + ' · ' + (file.size / 1024).toFixed(1) + ' KB';
-    filePreview.style.display = 'block';
-  };
-  reader.readAsDataURL(file);
+// Platform tab switcher
+function switchTab(btn, id) {
+  document.querySelectorAll('.pvt').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.pv-content').forEach(c => c.style.display = 'none');
+  document.getElementById(id).style.display = 'block';
 }
 
-// Schema tags
-const schemaInput = document.getElementById('schemaInput');
-const tagsList = document.getElementById('tagsList');
-
-function updateTags() {
-  const val = schemaInput.value;
-  const fields = val.split(',').map(s => s.trim()).filter(Boolean);
-  tagsList.innerHTML = fields.map(f =>
-    `<span class="tag">${f.toLowerCase().replace(/[^a-z0-9_]/g,'_').replace(/^_+|_+$/g,'') || f}</span>`
-  ).join('');
+// Use case tab switcher
+function switchUC(btn, id) {
+  document.querySelectorAll('.uc-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.uc-content').forEach(c => c.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
 }
 
-schemaInput.addEventListener('input', updateTags);
-updateTags();
-
-// Form submission
-document.getElementById('extractForm').addEventListener('submit', (e) => {
-  const overlay = document.getElementById('loadingOverlay');
-  const step = document.getElementById('loadingStep');
-  const btn = document.getElementById('submitBtn');
-  const spinner = document.getElementById('btnSpinner');
-  const btnText = document.getElementById('btnText');
-
-  overlay.classList.add('visible');
-  btn.disabled = true;
-  spinner.style.display = 'block';
-  btnText.textContent = 'Processing…';
-
-  const steps = ['Running OCR engine…', 'Analysing document structure…', 'Mapping fields with LLM…', 'Building JSON response…'];
-  let i = 0;
-  const interval = setInterval(() => {
-    step.textContent = steps[i % steps.length];
-    i++;
-  }, 1800);
-});
-
-// Copy
-function copyText(id, btn) {
-  const el = document.getElementById(id);
-  navigator.clipboard.writeText(el.innerText).then(() => {
-    const orig = btn.textContent;
-    btn.textContent = 'Copied!';
-    setTimeout(() => btn.textContent = orig, 1500);
+// Smooth anchor scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
   });
-}
-
-// Download JSON
-function downloadJson() {
-  const el = document.getElementById('jsonOutput');
-  const blob = new Blob([el.innerText], { type: 'application/json' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'extraction-result.json';
-  a.click();
-}
+});
 </script>
 </body>
 </html>
