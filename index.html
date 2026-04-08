@@ -900,84 +900,87 @@ footer{
         </div>
       </div>
 
-      <!-- hero UI -->
+      <!-- hero visual: platform metrics -->
       <div class="hero-ui">
         <div class="hui-glow"></div>
+
         <div class="hui-float hf-top">
           <div class="hf-icon" style="background:rgba(13,158,114,.12);border:1px solid rgba(13,158,114,.2)">✓</div>
           <div>
-            <div class="hf-label">Scoring complete</div>
-            <div class="hf-sub">3 candidates ranked · 2.1s</div>
+            <div class="hf-label">Audit trail recorded</div>
+            <div class="hf-sub">Every decision logged · exportable</div>
           </div>
         </div>
+
         <div class="hui-card">
           <div class="hui-topbar">
-            <span class="hui-title">CANDIDATE INTELLIGENCE · RISK ANALYST ROLE</span>
-            <div class="hui-live"><div class="hui-live-dot"></div>LIVE</div>
+            <span class="hui-title">DECISION INTELLIGENCE · LIVE PLATFORM</span>
+            <div class="hui-live"><div class="hui-live-dot"></div>ACTIVE</div>
           </div>
-          <div class="hui-cand">
-            <div class="hui-av" style="background:rgba(201,147,10,.12);color:#e8c050">A1</div>
-            <div class="hui-info">
-              <div class="hui-name">Candidate A</div>
-              <div class="hui-role">Senior Risk Analyst · BFSI Org · 6 yrs</div>
-              <div class="hui-barwrap"><div class="hui-bar" style="width:87%"></div></div>
+
+          <!-- KPI row -->
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:1.25rem">
+            <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:1rem">
+              <div style="font-family:var(--fd);font-size:2rem;font-weight:700;color:var(--au-light);line-height:1">87%</div>
+              <div style="font-size:10px;color:rgba(255,255,255,.3);font-family:var(--fm);margin-top:4px">AVG AI MATCH SCORE</div>
             </div>
-            <div class="hui-score">
-              <span class="hui-pct">87%</span>
-              <span class="hui-tier tier-best">BEST MATCH</span>
+            <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:1rem">
+              <div style="font-family:var(--fd);font-size:2rem;font-weight:700;color:var(--t1);line-height:1">14d</div>
+              <div style="font-size:10px;color:rgba(255,255,255,.3);font-family:var(--fm);margin-top:4px">AVG TIME TO HIRE</div>
             </div>
-          </div>
-          <div class="hui-cand">
-            <div class="hui-av" style="background:rgba(37,99,235,.1);color:#93c5fd">A2</div>
-            <div class="hui-info">
-              <div class="hui-name">Candidate B</div>
-              <div class="hui-role">Risk Manager · Financial Institution · 9 yrs</div>
-              <div class="hui-barwrap"><div class="hui-bar" style="width:71%;background:rgba(255,255,255,.3)"></div></div>
+            <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:1rem">
+              <div style="font-family:var(--fd);font-size:2rem;font-weight:700;color:var(--t1);line-height:1">0</div>
+              <div style="font-size:10px;color:rgba(255,255,255,.3);font-family:var(--fm);margin-top:4px">BIAS FLAGS DETECTED</div>
             </div>
-            <div class="hui-score">
-              <span class="hui-pct" style="color:rgba(255,255,255,.6)">71%</span>
-              <span class="hui-tier tier-good">GOOD</span>
+            <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:1rem">
+              <div style="font-family:var(--fd);font-size:2rem;font-weight:700;color:var(--au-light);line-height:1">94%</div>
+              <div style="font-size:10px;color:rgba(255,255,255,.3);font-family:var(--fm);margin-top:4px">OFFER ACCEPTANCE RATE</div>
             </div>
           </div>
-          <div class="hui-cand">
-            <div class="hui-av" style="background:rgba(124,58,237,.1);color:#c4b5fd">A3</div>
-            <div class="hui-info">
-              <div class="hui-name">Candidate C</div>
-              <div class="hui-role">Compliance Officer · Fintech Co · 4 yrs</div>
-              <div class="hui-barwrap"><div class="hui-bar" style="width:48%;background:rgba(255,255,255,.18)"></div></div>
+
+          <!-- pipeline stages -->
+          <div style="margin-bottom:.75rem;font-size:10px;color:rgba(255,255,255,.25);font-family:var(--fm);letter-spacing:.06em">ACTIVE PIPELINE · SENIOR RISK ANALYST</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:rgba(255,255,255,.04);border-radius:8px">
+              <div style="width:6px;height:6px;border-radius:50%;background:#6366f1;flex-shrink:0"></div>
+              <span style="font-size:12px;color:rgba(255,255,255,.55);flex:1">New Applicants</span>
+              <span style="font-size:11px;font-family:var(--fm);color:rgba(255,255,255,.25)">12 candidates</span>
             </div>
-            <div class="hui-score">
-              <span class="hui-pct" style="color:rgba(255,255,255,.38)">48%</span>
-              <span class="hui-tier tier-fair">FAIR</span>
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:rgba(201,147,10,.06);border:1px solid rgba(201,147,10,.15);border-radius:8px">
+              <div style="width:6px;height:6px;border-radius:50%;background:var(--au-light);flex-shrink:0"></div>
+              <span style="font-size:12px;color:rgba(255,255,255,.7);flex:1;font-weight:600">Shortlisted</span>
+              <span style="font-size:11px;font-family:var(--fm);color:var(--au)">7 candidates</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:rgba(255,255,255,.04);border-radius:8px">
+              <div style="width:6px;height:6px;border-radius:50%;background:#8b5cf6;flex-shrink:0"></div>
+              <span style="font-size:12px;color:rgba(255,255,255,.55);flex:1">Interview</span>
+              <span style="font-size:11px;font-family:var(--fm);color:rgba(255,255,255,.25)">3 candidates</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:rgba(255,255,255,.04);border-radius:8px">
+              <div style="width:6px;height:6px;border-radius:50%;background:#10b981;flex-shrink:0"></div>
+              <span style="font-size:12px;color:rgba(255,255,255,.55);flex:1">Offer Extended</span>
+              <span style="font-size:11px;font-family:var(--fm);color:rgba(255,255,255,.25)">1 candidate</span>
             </div>
           </div>
-          <div class="hui-explain">
-            <div class="hui-explain-top">
-              <span class="hui-explain-icon">◆</span>
-              <span class="hui-explain-label">AI reasoning · Candidate A</span>
+
+          <!-- compliance status -->
+          <div style="margin-top:1rem;padding:10px 12px;background:rgba(13,158,114,.06);border:1px solid rgba(13,158,114,.2);border-radius:8px;display:flex;align-items:center;justify-content:space-between">
+            <div style="display:flex;align-items:center;gap:6px">
+              <div style="width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px rgba(13,158,114,.6)"></div>
+              <span style="font-size:11px;color:var(--green);font-family:var(--fm);font-weight:600">DEI COMPLIANT</span>
             </div>
-            <div class="hui-explain-text">KYC/AML experience confirmed across 7 years. Basel III requirement met. Python validated. Exceeds minimum experience by 2 years. Semantic alignment: 0.92.</div>
-          </div>
-          <div class="hui-chips">
-            <span class="hui-chip chip-match">KYC ✓</span>
-            <span class="hui-chip chip-match">AML ✓</span>
-            <span class="hui-chip chip-match">Basel III ✓</span>
-            <span class="hui-chip chip-match">Python ✓</span>
-            <span class="hui-chip chip-miss">MiFID II ✗</span>
+            <span style="font-size:10px;color:rgba(255,255,255,.25);font-family:var(--fm)">No bias flags · Audit ready</span>
           </div>
         </div>
-        <div class="hui-compliance">
-          <div class="hc-dot"></div>
-          <span class="hc-text">DEI screening · No bias detected</span>
-        </div>
+
         <div class="hui-float hf-bot">
-          <div class="hf-icon" style="background:rgba(201,147,10,.1);border:1px solid rgba(201,147,10,.2)">📋</div>
+          <div class="hf-icon" style="background:rgba(201,147,10,.1);border:1px solid rgba(201,147,10,.2)">◆</div>
           <div>
-            <div class="hf-label">Audit trail recorded</div>
-            <div class="hf-sub">Full decision log · exportable</div>
+            <div class="hf-label">AI explanation generated</div>
+            <div class="hf-sub">Every decision documented</div>
           </div>
         </div>
-      </div>
+
     </div>
   </div>
 </section>
