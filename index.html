@@ -3,390 +3,835 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>TalentAIQ — AI Talent Intelligence for Financial Services</title>
-<meta name="description" content="The only AI-powered ATS purpose-built for BFSI. Explainable AI scoring, RBI-compliant DEI reporting, deploy on your cloud."/>
-<meta property="og:title" content="TalentAIQ — AI Talent Intelligence for Financial Services"/>
-<meta property="og:description" content="Explainable AI. BFSI skills ontology. DEI compliance. Built for fintechs and banks."/>
-<meta property="og:type" content="website"/>
+<title>TalentAIQ — Decision Intelligence for Financial Services Hiring</title>
+<meta name="description" content="Make hiring decisions you can explain, audit, and trust. AI-driven talent intelligence built for regulated financial services environments."/>
+<meta property="og:title" content="TalentAIQ — Decision Intelligence for Financial Services"/>
+<meta property="og:description" content="AI you can explain. Compliance you can demonstrate. Hiring decisions you can defend."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
+/* ── RESET & BASE ───────────────────────────────────────── */
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --ink:#0a0e1a;--ink-80:rgba(10,14,26,.8);
-  --n900:#060d1f;--n800:#0d1a38;--n700:#142551;--n600:#1c326a;--n500:#243f83;
-  --g400:#e8c050;--g500:#d4a017;--g600:#b8880f;--g300:#f5d98b;--g200:#faefc6;
-  --white:#ffffff;--gray50:#f8fafc;--gray100:#f1f5f9;--gray200:#e2e8f0;
-  --gray300:#cbd5e1;--gray400:#94a3b8;--gray500:#64748b;--gray600:#475569;
-  --gray700:#334155;--gray800:#1e293b;--gray900:#0f172a;
-  --green:#10b981;--red:#f43f5e;--blue:#3b82f6;--purple:#8b5cf6;
+  /* surfaces */
+  --bg-void:#080c17;
+  --bg-deep:#0c1120;
+  --bg-mid:#111827;
+  --bg-raised:#161d2e;
+  --bg-overlay:#1d2640;
+  --bg-glass:rgba(255,255,255,.03);
+  --bg-glass-hover:rgba(255,255,255,.055);
+  /* borders */
+  --b1:rgba(255,255,255,.06);
+  --b2:rgba(255,255,255,.1);
+  --b3:rgba(255,255,255,.16);
+  /* text */
+  --t1:#ffffff;
+  --t2:rgba(255,255,255,.65);
+  --t3:rgba(255,255,255,.38);
+  --t4:rgba(255,255,255,.22);
+  /* gold accent */
+  --au:#c9930a;
+  --au-light:#e8c050;
+  --au-dim:rgba(201,147,10,.12);
+  --au-border:rgba(201,147,10,.22);
+  /* light section */
+  --lt-bg:#f8f9fb;
+  --lt-card:#ffffff;
+  --lt-border:#e8ecf2;
+  --lt-t1:#0f1623;
+  --lt-t2:#4b5568;
+  --lt-t3:#8896a7;
+  /* status */
+  --green:#0d9e72;
+  --green-dim:rgba(13,158,114,.12);
+  --green-border:rgba(13,158,114,.25);
+  --amber:#c97b0a;
+  --amber-dim:rgba(201,123,10,.12);
+  --red:#c0392b;
+  --red-dim:rgba(192,57,43,.1);
+  --blue:#2563eb;
+  --blue-dim:rgba(37,99,235,.1);
+  /* type */
   --fd:'Playfair Display',Georgia,serif;
   --fb:'DM Sans',system-ui,sans-serif;
   --fm:'DM Mono',monospace;
-  --r8:8px;--r12:12px;--r16:16px;--r20:20px;--r999:999px;
+  /* radius */
+  --r6:6px;--r8:8px;--r12:12px;--r16:16px;--r20:20px;--rpill:999px;
 }
-html{scroll-behavior:smooth}
-body{font-family:var(--fb);background:var(--ink);color:var(--white);-webkit-font-smoothing:antialiased;overflow-x:hidden}
-
-/* ─── NOISE TEXTURE ─── */
-body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;mix-blend-mode:overlay}
-
-/* ─── SCROLLBAR ─── */
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  font-family:var(--fb);
+  background:var(--bg-void);
+  color:var(--t1);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+}
+::selection{background:rgba(201,147,10,.25);color:var(--t1)}
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--n700);border-radius:4px}
+::-webkit-scrollbar-thumb{background:var(--bg-overlay);border-radius:4px}
 
-/* ─── NAV ─── */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 0;transition:all .4s}
-nav.solid{background:rgba(10,14,26,.92);backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid rgba(255,255,255,.06)}
-.nav-inner{max-width:1280px;margin:0 auto;padding:0 2.5rem;height:70px;display:flex;align-items:center;justify-content:space-between}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-.logo-mark{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--n700),var(--n600));border:1px solid rgba(232,192,80,.25);display:grid;place-items:center}
-.logo-t{font-family:var(--fd);font-size:17px;font-weight:700;color:var(--g400);line-height:1}
-.logo-name{font-family:var(--fd);font-size:19px;font-weight:700;color:var(--white);letter-spacing:-.01em}
-.logo-name b{color:var(--g400);font-weight:700}
-.nav-center{display:flex;gap:.25rem}
-.nav-link{color:rgba(255,255,255,.55);text-decoration:none;font-size:14px;font-weight:500;padding:8px 14px;border-radius:var(--r8);transition:all .2s}
-.nav-link:hover{color:var(--white);background:rgba(255,255,255,.06)}
-.nav-right{display:flex;align-items:center;gap:.75rem}
-.nav-sign-in{color:rgba(255,255,255,.6);text-decoration:none;font-size:14px;font-weight:500;padding:8px 16px;border-radius:var(--r8);transition:all .2s}
-.nav-sign-in:hover{color:var(--white);background:rgba(255,255,255,.06)}
-.nav-demo{background:linear-gradient(135deg,var(--g600),var(--g400));color:var(--n900);font-size:14px;font-weight:700;padding:9px 22px;border-radius:var(--r8);text-decoration:none;transition:all .2s;border:none;cursor:pointer;font-family:var(--fb)}
-.nav-demo:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(212,160,23,.35)}
+/* ── GRAIN TEXTURE ──────────────────────────────────────── */
+body::after{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9000;mix-blend-mode:overlay;
+}
 
-/* ─── HERO ─── */
-.hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:140px 0 100px}
+/* ── NAV ────────────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  transition:background .4s,border-color .4s,backdrop-filter .4s;
+}
+nav.scrolled{
+  background:rgba(8,12,23,.88);
+  backdrop-filter:blur(28px) saturate(160%);
+  border-bottom:1px solid var(--b1);
+}
+.nav-w{
+  max-width:1280px;margin:0 auto;padding:0 2.5rem;
+  height:68px;display:flex;align-items:center;justify-content:space-between;
+}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logomark{
+  width:32px;height:32px;border-radius:8px;
+  background:linear-gradient(135deg,#131e36,#1c2d52);
+  border:1px solid var(--au-border);
+  display:grid;place-items:center;
+  font-family:var(--fd);font-size:15px;font-weight:700;color:var(--au-light);
+}
+.nav-wordmark{font-family:var(--fd);font-size:18px;font-weight:700;letter-spacing:-.01em;color:var(--t1)}
+.nav-wordmark b{color:var(--au-light)}
+.nav-links{display:flex;gap:.125rem}
+.nav-a{
+  color:var(--t3);text-decoration:none;font-size:13.5px;font-weight:500;
+  padding:8px 14px;border-radius:var(--r8);transition:all .2s;
+}
+.nav-a:hover{color:var(--t1);background:var(--bg-glass)}
+.nav-end{display:flex;align-items:center;gap:.75rem}
+.nav-ghost{
+  color:var(--t3);font-size:13.5px;font-weight:500;text-decoration:none;
+  padding:8px 14px;border-radius:var(--r8);transition:all .2s;
+}
+.nav-ghost:hover{color:var(--t1);background:var(--bg-glass)}
+.nav-cta{
+  background:var(--au-light);color:var(--bg-void);
+  font-size:13.5px;font-weight:700;padding:9px 22px;border-radius:var(--r8);
+  text-decoration:none;border:none;cursor:pointer;font-family:var(--fb);
+  transition:all .2s;
+}
+.nav-cta:hover{background:#f0cc5c;transform:translateY(-1px);box-shadow:0 6px 20px rgba(201,147,10,.3)}
 
-/* mesh background */
-.hero-mesh{position:absolute;inset:0;pointer-events:none}
-.mesh-1{position:absolute;top:-20%;left:-10%;width:900px;height:900px;background:radial-gradient(circle,rgba(36,63,131,.5) 0%,transparent 60%);filter:blur(80px)}
-.mesh-2{position:absolute;top:10%;right:-15%;width:700px;height:700px;background:radial-gradient(circle,rgba(212,160,23,.12) 0%,transparent 60%);filter:blur(80px)}
-.mesh-3{position:absolute;bottom:-20%;left:30%;width:600px;height:600px;background:radial-gradient(circle,rgba(20,37,81,.6) 0%,transparent 60%);filter:blur(80px)}
+/* ── HERO ───────────────────────────────────────────────── */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  position:relative;overflow:hidden;padding:120px 0 80px;
+}
 
-/* grid lines */
-.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse at center,black 30%,transparent 70%)}
+/* background layers */
+.hero-bg{position:absolute;inset:0;pointer-events:none}
+.hb-gradient{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 30% 40%,rgba(25,45,100,.55) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 40% at 75% 25%,rgba(201,147,10,.07) 0%,transparent 50%),
+    radial-gradient(ellipse 60% 50% at 60% 80%,rgba(15,30,70,.4) 0%,transparent 55%);
+}
+.hb-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);
+  background-size:72px 72px;
+  mask-image:radial-gradient(ellipse 80% 70% at 50% 50%,black 0%,transparent 75%);
+}
+.hb-glow-left{
+  position:absolute;top:15%;left:-5%;
+  width:600px;height:600px;
+  background:radial-gradient(circle,rgba(37,99,235,.12) 0%,transparent 65%);
+  filter:blur(40px);
+}
+.hb-glow-gold{
+  position:absolute;top:5%;right:10%;
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(201,147,10,.07) 0%,transparent 60%);
+  filter:blur(50px);
+}
 
 .hero-inner{max-width:1280px;margin:0 auto;padding:0 2.5rem;position:relative;z-index:2}
-.hero-layout{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.hero-layout{display:grid;grid-template-columns:1fr 1fr;gap:7rem;align-items:center}
 
-.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 8px;background:rgba(232,192,80,.08);border:1px solid rgba(232,192,80,.2);border-radius:var(--r999);margin-bottom:2rem}
-.hero-eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--g400);box-shadow:0 0 8px var(--g500);animation:glow 2s ease-in-out infinite}
-@keyframes glow{0%,100%{box-shadow:0 0 4px var(--g500)}50%{box-shadow:0 0 12px var(--g400)}}
-.hero-eyebrow-text{font-size:12px;font-weight:600;color:var(--g300);font-family:var(--fm);letter-spacing:.04em}
+/* hero copy */
+.hero-kicker{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:5px 12px 5px 8px;
+  background:var(--au-dim);border:1px solid var(--au-border);
+  border-radius:var(--rpill);margin-bottom:1.75rem;
+}
+.hk-dot{
+  width:6px;height:6px;border-radius:50%;background:var(--au-light);
+  box-shadow:0 0 6px var(--au),0 0 12px rgba(201,147,10,.4);
+  animation:pulse-gold 2.4s ease-in-out infinite;
+}
+@keyframes pulse-gold{
+  0%,100%{box-shadow:0 0 4px var(--au),0 0 8px rgba(201,147,10,.3)}
+  50%{box-shadow:0 0 10px var(--au),0 0 20px rgba(201,147,10,.5)}
+}
+.hk-text{font-family:var(--fm);font-size:11.5px;font-weight:500;color:var(--au-light);letter-spacing:.04em}
 
-h1.hero-title{font-family:var(--fd);font-size:clamp(2.8rem,5.5vw,4.25rem);font-weight:700;line-height:1.08;letter-spacing:-.02em;color:var(--white);margin-bottom:1.5rem}
-h1.hero-title .italic{font-style:italic;color:var(--g400)}
-h1.hero-title .dim{color:rgba(255,255,255,.45)}
+.hero-h1{
+  font-family:var(--fd);
+  font-size:clamp(2.75rem,5vw,4rem);
+  font-weight:700;line-height:1.08;letter-spacing:-.025em;
+  color:var(--t1);margin-bottom:1.5rem;
+}
+.hero-h1 em{font-style:italic;color:var(--au-light)}
+.hero-h1 .muted{color:var(--t3)}
 
-.hero-sub{font-size:1.125rem;line-height:1.75;color:rgba(255,255,255,.5);margin-bottom:2.5rem;max-width:500px}
-.hero-sub strong{color:rgba(255,255,255,.8);font-weight:600}
+.hero-sub{
+  font-size:1.0625rem;line-height:1.75;color:var(--t2);
+  margin-bottom:2.5rem;max-width:480px;
+}
+.hero-sub strong{color:var(--t1);font-weight:600}
 
-.hero-cta{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:3rem}
-.btn-gold{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--g600),var(--g400));color:var(--n900);font-size:15px;font-weight:700;padding:14px 28px;border-radius:var(--r8);text-decoration:none;transition:all .25s;border:none;cursor:pointer;font-family:var(--fb)}
-.btn-gold:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(212,160,23,.4)}
-.btn-ghost-white{display:inline-flex;align-items:center;gap:8px;color:rgba(255,255,255,.6);font-size:15px;font-weight:500;text-decoration:none;transition:all .2s;padding:14px 4px}
-.btn-ghost-white:hover{color:var(--white)}
-.btn-ghost-white .arr{transition:transform .2s}
-.btn-ghost-white:hover .arr{transform:translateX(4px)}
+.hero-actions{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:3rem}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--au-light);color:var(--bg-void);
+  font-size:14.5px;font-weight:700;padding:13px 26px;
+  border-radius:var(--r8);text-decoration:none;
+  transition:all .25s;border:none;cursor:pointer;font-family:var(--fb);
+}
+.btn-primary:hover{background:#f0cc5c;transform:translateY(-2px);box-shadow:0 12px 28px rgba(201,147,10,.35)}
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:8px;
+  color:var(--t2);font-size:14.5px;font-weight:500;
+  padding:13px 24px;border:1px solid var(--b2);border-radius:var(--r8);
+  text-decoration:none;transition:all .2s;
+}
+.btn-secondary:hover{color:var(--t1);border-color:var(--b3);background:var(--bg-glass)}
 
-.hero-proof{display:flex;flex-wrap:wrap;gap:1.5rem}
-.proof-item{display:flex;align-items:center;gap:8px}
-.proof-icon{width:18px;height:18px;border-radius:50%;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);display:grid;place-items:center}
-.proof-icon::after{content:'✓';font-size:9px;color:var(--green);font-weight:700}
-.proof-text{font-size:13px;color:rgba(255,255,255,.45);font-weight:500}
+.hero-trust{display:flex;flex-wrap:wrap;gap:1.25rem}
+.trust-item{display:flex;align-items:center;gap:7px}
+.trust-check{
+  width:16px;height:16px;border-radius:50%;
+  background:var(--green-dim);border:1px solid var(--green-border);
+  display:grid;place-items:center;font-size:8px;color:var(--green);font-weight:800;
+}
+.trust-text{font-size:12.5px;color:var(--t3);font-weight:500}
 
-/* hero visual */
-.hero-visual{position:relative}
-.hv-glow{position:absolute;inset:-40px;background:radial-gradient(circle at center,rgba(232,192,80,.08) 0%,transparent 60%);pointer-events:none}
-.hv-card{background:rgba(13,26,56,.7);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:1.5rem;backdrop-filter:blur(20px);position:relative}
-.hv-card::before{content:'';position:absolute;inset:0;border-radius:20px;background:linear-gradient(135deg,rgba(232,192,80,.06),transparent 50%);pointer-events:none}
+/* hero product UI */
+.hero-ui{position:relative}
+.hui-glow{
+  position:absolute;inset:-60px;
+  background:radial-gradient(ellipse at center,rgba(37,99,235,.08) 0%,transparent 65%);
+  pointer-events:none;
+}
 
-.hv-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:1px solid rgba(255,255,255,.06)}
-.hv-title{font-size:12px;color:rgba(255,255,255,.4);font-family:var(--fm);letter-spacing:.04em}
-.hv-live{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--green);font-family:var(--fm)}
-.hv-live::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:glow 2s infinite}
+/* main scoring card */
+.hui-card{
+  background:rgba(17,24,40,.75);
+  border:1px solid var(--b2);border-radius:var(--r20);
+  padding:1.5rem;
+  backdrop-filter:blur(24px) saturate(150%);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.04) inset,
+    0 24px 64px rgba(0,0,0,.5),
+    0 0 80px rgba(37,99,235,.06);
+  position:relative;
+}
+.hui-card::before{
+  content:'';position:absolute;inset:0;border-radius:var(--r20);
+  background:linear-gradient(135deg,rgba(255,255,255,.05) 0%,transparent 50%);
+  pointer-events:none;
+}
 
-.hv-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)}
-.hv-row:last-of-type{border-bottom:none}
-.hv-avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;font-family:var(--fd);flex-shrink:0}
-.hv-info{flex:1;min-width:0}
-.hv-name{font-size:13px;font-weight:600;color:var(--white);margin-bottom:2px}
-.hv-meta{font-size:11px;color:rgba(255,255,255,.3);font-family:var(--fm)}
-.hv-bar-wrap{height:3px;background:rgba(255,255,255,.07);border-radius:2px;margin-top:6px;overflow:hidden}
-.hv-bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--g600),var(--g400))}
-.hv-score-col{text-align:right;flex-shrink:0}
-.hv-pct{font-family:var(--fd);font-size:20px;font-weight:700;color:var(--g400);display:block}
-.hv-tier{font-size:9px;font-family:var(--fm);font-weight:700;padding:2px 7px;border-radius:4px;display:inline-block;margin-top:2px}
-.t-best{background:rgba(16,185,129,.15);color:#6ee7b7}
-.t-good{background:rgba(232,192,80,.12);color:var(--g300)}
-.t-fair{background:rgba(59,130,246,.12);color:#93c5fd}
+.hui-topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-bottom:1rem;margin-bottom:1.25rem;
+  border-bottom:1px solid var(--b1);
+}
+.hui-title{font-size:11px;color:var(--t4);font-family:var(--fm);letter-spacing:.06em;text-transform:uppercase}
+.hui-live{
+  display:flex;align-items:center;gap:5px;
+  font-size:10.5px;color:var(--green);font-family:var(--fm);
+}
+.hui-live-dot{
+  width:5px;height:5px;border-radius:50%;background:var(--green);
+  animation:blink 1.8s ease-in-out infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
 
-.hv-explain{background:rgba(232,192,80,.06);border:1px solid rgba(232,192,80,.14);border-radius:10px;padding:12px;margin-top:1rem}
-.hv-explain-label{font-size:9px;color:var(--g500);font-family:var(--fm);letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px}
-.hv-explain-text{font-size:11.5px;color:rgba(255,255,255,.5);line-height:1.65}
+/* candidate rows */
+.hui-cand{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04);
+}
+.hui-cand:last-of-type{border-bottom:none}
+.hui-av{
+  width:36px;height:36px;border-radius:50%;
+  display:grid;place-items:center;
+  font-family:var(--fd);font-size:12px;font-weight:700;
+  flex-shrink:0;
+}
+.hui-info{flex:1;min-width:0}
+.hui-name{font-size:12.5px;font-weight:600;color:var(--t1);margin-bottom:1px}
+.hui-role{font-size:11px;color:var(--t4);font-family:var(--fm)}
+.hui-barwrap{height:2.5px;background:rgba(255,255,255,.07);border-radius:2px;margin-top:5px;overflow:hidden}
+.hui-bar{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--au),var(--au-light))}
+.hui-score{text-align:right;flex-shrink:0}
+.hui-pct{font-family:var(--fd);font-size:18px;font-weight:700;color:var(--au-light);display:block;line-height:1}
+.hui-tier{
+  font-size:9px;font-family:var(--fm);font-weight:700;
+  padding:2px 6px;border-radius:4px;display:inline-block;margin-top:3px;
+}
+.tier-best{background:rgba(13,158,114,.15);color:#34d399}
+.tier-good{background:rgba(201,147,10,.12);color:#e8c050}
+.tier-fair{background:rgba(37,99,235,.12);color:#93c5fd}
 
-/* floating badge */
-.hv-float{position:absolute;background:rgba(13,26,56,.9);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 14px;backdrop-filter:blur(16px);display:flex;align-items:center;gap:8px;box-shadow:0 20px 40px rgba(0,0,0,.4)}
-.hv-float-top{top:-20px;right:-20px}
-.hv-float-bot{bottom:-20px;left:-20px}
-.hv-float-icon{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;font-size:13px;flex-shrink:0}
-.hv-float-label{font-size:11px;font-weight:600;color:var(--white);white-space:nowrap}
-.hv-float-sub{font-size:10px;color:rgba(255,255,255,.35);font-family:var(--fm)}
+/* AI explanation */
+.hui-explain{
+  margin-top:1.125rem;padding:12px;
+  background:rgba(201,147,10,.05);
+  border:1px solid rgba(201,147,10,.13);
+  border-radius:10px;
+}
+.hui-explain-top{
+  display:flex;align-items:center;gap:6px;
+  margin-bottom:6px;
+}
+.hui-explain-icon{font-size:11px}
+.hui-explain-label{font-size:9.5px;color:var(--au);font-family:var(--fm);letter-spacing:.06em;text-transform:uppercase}
+.hui-explain-text{font-size:11.5px;color:var(--t3);line-height:1.65}
 
-/* ─── LOGOS STRIP ─── */
-.logos{border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);padding:3rem 0;background:rgba(255,255,255,.015)}
-.logos-inner{max-width:1280px;margin:0 auto;padding:0 2.5rem}
-.logos-label{font-size:11px;color:rgba(255,255,255,.25);font-family:var(--fm);letter-spacing:.1em;text-transform:uppercase;text-align:center;margin-bottom:2rem}
-.logos-row{display:flex;align-items:center;justify-content:center;gap:3rem;flex-wrap:wrap}
-.logo-pill{font-family:var(--fd);font-size:15px;font-weight:600;color:rgba(255,255,255,.2);transition:color .3s;cursor:default}
-.logo-pill:hover{color:rgba(255,255,255,.5)}
+/* skill chips under card */
+.hui-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.hui-chip{
+  font-size:10px;padding:3px 9px;border-radius:var(--rpill);
+  font-family:var(--fm);border:1px solid;
+}
+.chip-match{background:rgba(13,158,114,.1);border-color:rgba(13,158,114,.25);color:#6ee7b7}
+.chip-miss{background:rgba(192,57,43,.08);border-color:rgba(192,57,43,.2);color:#fca5a5}
 
-/* ─── SECTION COMMONS ─── */
-.section{padding:8rem 0}
-.s-inner{max-width:1280px;margin:0 auto;padding:0 2.5rem}
-.s-label{font-size:11px;font-weight:600;color:var(--g500);font-family:var(--fm);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1rem}
-.s-title{font-family:var(--fd);font-size:clamp(2rem,3.5vw,3rem);font-weight:700;line-height:1.15;letter-spacing:-.02em;color:var(--white);margin-bottom:1.25rem}
-.s-title.dark{color:var(--gray900)}
-.s-sub{font-size:1.0625rem;color:rgba(255,255,255,.45);line-height:1.7;max-width:580px}
-.s-sub.dark{color:var(--gray500)}
+/* floating indicators */
+.hui-float{
+  position:absolute;background:rgba(13,18,32,.9);
+  border:1px solid var(--b2);border-radius:12px;
+  padding:10px 14px;backdrop-filter:blur(20px);
+  display:flex;align-items:center;gap:10px;
+  box-shadow:0 16px 40px rgba(0,0,0,.45);
+  z-index:10;
+}
+.hf-top{top:-18px;right:-16px}
+.hf-bot{bottom:-18px;left:-16px}
+.hf-icon{
+  width:26px;height:26px;border-radius:7px;
+  display:grid;place-items:center;font-size:12px;flex-shrink:0;
+}
+.hf-label{font-size:11px;font-weight:600;color:var(--t1);white-space:nowrap}
+.hf-sub{font-size:10px;color:var(--t4);font-family:var(--fm);margin-top:1px}
 
-/* ─── FEATURES BENTO ─── */
-.features{background:var(--ink)}
-.bento{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:minmax(180px,auto);gap:1rem;margin-top:3rem}
-.bento-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:var(--r20);padding:2rem;transition:all .3s;overflow:hidden;position:relative}
-.bento-card:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12);transform:translateY(-2px)}
-.bento-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(232,192,80,.04),transparent 50%);border-radius:var(--r20);opacity:0;transition:opacity .3s}
-.bento-card:hover::before{opacity:1}
-.bc-1{grid-column:span 5;grid-row:span 2}
-.bc-2{grid-column:span 4}
-.bc-3{grid-column:span 3}
-.bc-4{grid-column:span 7}
-.bc-5{grid-column:span 5}
-.bc-6{grid-column:span 4}
-.bc-7{grid-column:span 4}
-.bc-8{grid-column:span 4}
-.bc-icon{width:44px;height:44px;border-radius:12px;background:rgba(232,192,80,.1);border:1px solid rgba(232,192,80,.15);display:grid;place-items:center;font-size:18px;margin-bottom:1.25rem;flex-shrink:0}
-.bc-icon.blue{background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.2)}
-.bc-icon.green{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.2)}
-.bc-icon.purple{background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.2)}
-.bc-icon.red{background:rgba(244,63,94,.1);border-color:rgba(244,63,94,.2)}
-.bc-tag{display:inline-block;font-size:10px;color:var(--g500);font-family:var(--fm);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.75rem}
-.bc-h{font-size:1.0625rem;font-weight:700;color:var(--white);margin-bottom:.5rem;line-height:1.3}
-.bc-p{font-size:13px;color:rgba(255,255,255,.4);line-height:1.65}
+/* compliance badge */
+.hui-compliance{
+  position:absolute;bottom:-12px;right:20px;
+  display:flex;align-items:center;gap:8px;
+  background:rgba(13,18,32,.9);border:1px solid var(--green-border);
+  border-radius:var(--rpill);padding:7px 14px;
+  backdrop-filter:blur(16px);
+}
+.hc-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px rgba(13,158,114,.6)}
+.hc-text{font-size:11px;font-weight:600;color:var(--green);font-family:var(--fm)}
 
-/* score visual inside bento */
-.bc-score-rows{margin-top:1.25rem;display:flex;flex-direction:column;gap:10px}
-.bc-score-row{display:flex;align-items:center;gap:10px}
-.bc-sname{font-size:12px;color:rgba(255,255,255,.55);width:80px;flex-shrink:0}
-.bc-sbar{flex:1;height:5px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden}
-.bc-sbar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--g600),var(--g400))}
-.bc-spct{font-size:12px;font-family:var(--fm);color:var(--g400);width:34px;text-align:right;flex-shrink:0}
+/* ── TRUST STRIP ────────────────────────────────────────── */
+.trust-strip{
+  border-top:1px solid var(--b1);border-bottom:1px solid var(--b1);
+  padding:2.5rem 0;background:rgba(255,255,255,.012);
+}
+.ts-inner{max-width:1280px;margin:0 auto;padding:0 2.5rem}
+.ts-label{
+  font-size:11px;color:var(--t4);font-family:var(--fm);
+  letter-spacing:.1em;text-transform:uppercase;
+  text-align:center;margin-bottom:1.75rem;
+}
+.ts-row{display:flex;align-items:center;justify-content:center;gap:3rem;flex-wrap:wrap}
+.ts-item{
+  font-family:var(--fd);font-size:15px;font-weight:600;
+  color:rgba(255,255,255,.18);transition:color .3s;cursor:default;
+}
+.ts-item:hover{color:rgba(255,255,255,.42)}
 
-.bc-stat-big{font-family:var(--fd);font-size:3.5rem;font-weight:700;color:var(--g400);line-height:1;margin-bottom:.25rem}
-.bc-stat-label{font-size:13px;color:rgba(255,255,255,.35)}
+/* ── SECTION BASE ───────────────────────────────────────── */
+section{padding:7.5rem 0}
+.sw{max-width:1280px;margin:0 auto;padding:0 2.5rem}
+.s-eyebrow{
+  font-size:11px;font-weight:600;color:var(--au);font-family:var(--fm);
+  letter-spacing:.1em;text-transform:uppercase;margin-bottom:.875rem;
+}
+.s-eyebrow.dark{color:var(--lt-t3)}
+.s-h2{
+  font-family:var(--fd);font-size:clamp(1.875rem,3.5vw,2.875rem);
+  font-weight:700;line-height:1.15;letter-spacing:-.02em;
+  color:var(--t1);margin-bottom:1.125rem;
+}
+.s-h2.dark{color:var(--lt-t1)}
+.s-lead{
+  font-size:1.0625rem;line-height:1.72;color:var(--t2);max-width:560px;
+}
+.s-lead.dark{color:var(--lt-t2)}
 
-.bc-pill-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:1rem}
-.bc-pill{font-size:11px;padding:4px 10px;border-radius:var(--r999);font-family:var(--fm);border:1px solid}
-.bc-pill.match{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.25);color:#6ee7b7}
-.bc-pill.miss{background:rgba(244,63,94,.08);border-color:rgba(244,63,94,.2);color:#fda4af}
+/* ── DIFFERENTIATION ────────────────────────────────────── */
+.diff{background:var(--bg-deep)}
+.diff-head{margin-bottom:4rem;max-width:640px}
+.diff-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:1px;
+  background:var(--b1);border-radius:var(--r20);overflow:hidden;
+}
+.diff-card{
+  background:var(--bg-mid);padding:2.5rem;
+  transition:background .25s;
+  position:relative;overflow:hidden;
+}
+.diff-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,147,10,.15),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.diff-card:hover{background:var(--bg-raised)}
+.diff-card:hover::before{opacity:1}
+.diff-num{
+  font-family:var(--fm);font-size:11px;color:var(--t4);
+  letter-spacing:.06em;margin-bottom:1.5rem;
+}
+.diff-icon-wrap{
+  width:48px;height:48px;border-radius:12px;
+  display:grid;place-items:center;font-size:20px;
+  margin-bottom:1.25rem;
+  border:1px solid;
+}
+.di-gold{background:var(--au-dim);border-color:var(--au-border)}
+.di-blue{background:rgba(37,99,235,.1);border-color:rgba(37,99,235,.2)}
+.di-green{background:var(--green-dim);border-color:var(--green-border)}
+.di-purple{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.2)}
+.diff-h{font-size:1rem;font-weight:700;color:var(--t1);margin-bottom:.5rem;line-height:1.35}
+.diff-p{font-size:13.5px;color:var(--t3);line-height:1.65}
 
-.bc-stages{margin-top:1rem;display:flex;flex-direction:column;gap:6px}
-.bc-stage{display:flex;align-items:center;justify-content:space-between;padding:6px 10px;background:rgba(255,255,255,.04);border-radius:8px}
-.bc-stage-label{font-size:12px;color:rgba(255,255,255,.5);display:flex;align-items:center;gap:6px}
-.bc-stage-dot{width:6px;height:6px;border-radius:50%}
-.bc-stage-n{font-size:11px;font-family:var(--fm);color:rgba(255,255,255,.3)}
+/* ── PRODUCT EXPERIENCE ─────────────────────────────────── */
+.product-exp{background:var(--bg-void)}
+.pe-layout{display:grid;grid-template-columns:420px 1fr;gap:4rem;align-items:start;margin-top:3.5rem}
+.pe-tabs{display:flex;flex-direction:column;gap:.375rem}
+.pe-tab{
+  display:flex;align-items:flex-start;gap:.875rem;
+  padding:.875rem 1rem;border-radius:var(--r12);cursor:pointer;
+  border:1px solid transparent;transition:all .25s;
+}
+.pe-tab:hover,.pe-tab.on{
+  background:var(--bg-glass-hover);
+  border-color:var(--b1);
+}
+.pe-tab.on{border-color:var(--au-border);background:var(--au-dim)}
+.pe-tab-icon{
+  width:34px;height:34px;border-radius:9px;
+  background:var(--bg-raised);border:1px solid var(--b1);
+  display:grid;place-items:center;font-size:14px;flex-shrink:0;margin-top:2px;
+  transition:all .25s;
+}
+.pe-tab.on .pe-tab-icon{background:rgba(201,147,10,.12);border-color:var(--au-border)}
+.pe-tab-h{font-size:13.5px;font-weight:600;color:var(--t2);margin-bottom:3px;transition:color .2s}
+.pe-tab.on .pe-tab-h{color:var(--t1)}
+.pe-tab-p{font-size:12px;color:var(--t4);line-height:1.55}
 
-/* ─── SOLUTIONS ─── */
-.solutions{background:var(--n900);border-top:1px solid rgba(255,255,255,.05)}
-.sol-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:3rem;background:rgba(255,255,255,.06);border-radius:var(--r20);overflow:hidden}
-.sol-card{background:var(--n900);padding:2.5rem;transition:background .3s;cursor:pointer}
-.sol-card:hover{background:rgba(255,255,255,.03)}
-.sol-num{font-family:var(--fm);font-size:11px;color:rgba(255,255,255,.2);margin-bottom:1.5rem}
-.sol-icon{font-size:2rem;margin-bottom:1.25rem;display:block}
-.sol-h{font-family:var(--fd);font-size:1.25rem;font-weight:700;color:var(--white);margin-bottom:.75rem;line-height:1.3}
-.sol-p{font-size:14px;color:rgba(255,255,255,.4);line-height:1.7;margin-bottom:1.5rem}
-.sol-link{font-size:13px;font-weight:600;color:var(--g400);display:flex;align-items:center;gap:6px;text-decoration:none;transition:gap .2s}
-.sol-card:hover .sol-link{gap:10px}
+/* product screen */
+.pe-screen{
+  background:var(--bg-mid);
+  border:1px solid var(--b2);border-radius:var(--r20);
+  overflow:hidden;
+  box-shadow:0 32px 80px rgba(0,0,0,.5),0 0 1px rgba(255,255,255,.06) inset;
+}
+.pe-screen-chrome{
+  background:var(--bg-raised);padding:.75rem 1.25rem;
+  display:flex;align-items:center;gap:.625rem;
+  border-bottom:1px solid var(--b1);
+}
+.chrome-dot{width:10px;height:10px;border-radius:50%}
+.chrome-url{
+  flex:1;text-align:center;font-size:11px;color:var(--t4);font-family:var(--fm);
+  background:var(--bg-overlay);padding:4px 12px;border-radius:5px;margin:0 .5rem;
+}
+.pe-body{padding:1.5rem;min-height:420px}
 
-/* ─── COMPLIANCE ─── */
-.compliance{background:var(--white)}
-.comp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
-.comp-card{background:var(--gray50);border:1px solid var(--gray200);border-radius:var(--r16);padding:2rem;transition:all .3s}
-.comp-card:hover{border-color:var(--gray300);box-shadow:0 8px 24px rgba(0,0,0,.06);transform:translateY(-2px)}
-.comp-icon{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--n800),var(--n700));display:grid;place-items:center;font-size:20px;margin-bottom:1.25rem}
-.comp-h{font-size:1rem;font-weight:700;color:var(--gray900);margin-bottom:.5rem}
-.comp-p{font-size:13.5px;color:var(--gray500);line-height:1.65}
+/* tab panels */
+.pe-panel{display:none}
+.pe-panel.on{display:block}
 
-/* ─── PLATFORM SPLIT ─── */
-.platform{background:var(--ink)}
-.plat-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
-.plat-tabs{display:flex;flex-direction:column;gap:.5rem;margin-top:2rem}
-.plat-tab{display:flex;gap:1rem;align-items:flex-start;padding:1rem;border-radius:var(--r12);cursor:pointer;transition:background .2s;border:1px solid transparent}
-.plat-tab:hover,.plat-tab.active{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.07)}
-.plat-tab.active{border-color:rgba(232,192,80,.2);background:rgba(232,192,80,.04)}
-.plat-tab-icon{width:36px;height:36px;border-radius:9px;background:rgba(255,255,255,.05);display:grid;place-items:center;font-size:14px;flex-shrink:0;margin-top:2px;transition:background .2s}
-.plat-tab.active .plat-tab-icon{background:rgba(232,192,80,.12);border:1px solid rgba(232,192,80,.2)}
-.plat-tab-h{font-size:14px;font-weight:600;color:rgba(255,255,255,.7);margin-bottom:3px;transition:color .2s}
-.plat-tab.active .plat-tab-h{color:var(--white)}
-.plat-tab-p{font-size:12.5px;color:rgba(255,255,255,.35);line-height:1.55}
+/* panel: evaluation */
+.eval-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.eval-role-title{font-size:13px;font-weight:700;color:var(--t1)}
+.eval-role-dept{font-size:11px;color:var(--t4);font-family:var(--fm);margin-top:2px}
+.eval-badge{font-size:10px;padding:4px 10px;border-radius:var(--rpill);font-family:var(--fm);font-weight:700}
+.eval-open{background:rgba(37,99,235,.12);color:#93c5fd;border:1px solid rgba(37,99,235,.2)}
+.eval-cands{display:flex;flex-direction:column;gap:1px}
+.eval-row{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;
+  background:var(--bg-raised);border-radius:var(--r8);
+  transition:background .2s;cursor:pointer;
+}
+.eval-row:hover{background:var(--bg-overlay)}
+.eval-row.selected{background:var(--bg-overlay);border:1px solid var(--b2)}
+.er-rank{font-size:11px;color:var(--t4);font-family:var(--fm);width:16px;text-align:center;flex-shrink:0}
+.er-av{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-family:var(--fd);font-size:11px;font-weight:700;flex-shrink:0}
+.er-info{flex:1;min-width:0}
+.er-name{font-size:12.5px;font-weight:600;color:var(--t1)}
+.er-meta{font-size:10.5px;color:var(--t4);font-family:var(--fm)}
+.er-score-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0}
+.er-pct{font-family:var(--fd);font-size:16px;font-weight:700;color:var(--au-light)}
+.er-bar-track{width:60px;height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
+.er-bar-fill{height:100%;border-radius:2px}
+.er-conf-row{display:flex;align-items:center;justify-content:space-between;margin-top:1rem;padding:10px 12px;background:var(--bg-raised);border-radius:var(--r8)}
+.er-conf-label{font-size:11px;color:var(--t4);font-family:var(--fm)}
+.er-conf-value{font-size:11px;font-weight:700;color:var(--green);font-family:var(--fm)}
 
-.plat-screen{background:rgba(13,26,56,.6);border:1px solid rgba(255,255,255,.09);border-radius:var(--r20);overflow:hidden;backdrop-filter:blur(16px)}
-.plat-screen-bar{background:rgba(255,255,255,.04);padding:.75rem 1.25rem;display:flex;align-items:center;gap:.5rem;border-bottom:1px solid rgba(255,255,255,.06)}
-.psb-dot{width:10px;height:10px;border-radius:50%}
-.plat-screen-body{padding:1.5rem;min-height:380px}
-.psb-tab-row{display:flex;gap:6px;margin-bottom:1.25rem}
-.psb-tab{padding:5px 12px;border-radius:6px;font-size:11px;font-family:var(--fm);cursor:pointer;transition:all .2s;border:none}
-.psb-tab.on{background:var(--g500);color:var(--n900);font-weight:700}
-.psb-tab:not(.on){color:rgba(255,255,255,.3);background:rgba(255,255,255,.04)}
-.psb-kpi-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:1.25rem}
-.psb-kpi{background:rgba(255,255,255,.04);border-radius:10px;padding:1rem}
-.psb-kpi-v{font-family:var(--fd);font-size:1.875rem;font-weight:700;color:var(--white)}
-.psb-kpi-v span{font-size:1rem;color:var(--g400)}
-.psb-kpi-l{font-size:10px;color:rgba(255,255,255,.3);font-family:var(--fm);margin-top:3px}
-.psb-bar-item{margin-bottom:9px}
-.psb-bar-lrow{display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.4);margin-bottom:4px}
-.psb-bar-track{height:5px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden}
-.psb-bar-fill{height:100%;border-radius:3px}
-.bf-gold{background:linear-gradient(90deg,var(--g600),var(--g400))}
-.bf-green{background:linear-gradient(90deg,#059669,#10b981)}
-.bf-blue{background:linear-gradient(90deg,#1d4ed8,#60a5fa)}
-.bf-purple{background:linear-gradient(90deg,#6d28d9,#a78bfa)}
+/* panel: score breakdown */
+.sb-cand-header{display:flex;align-items:center;gap:12px;margin-bottom:1.25rem;padding-bottom:1.125rem;border-bottom:1px solid var(--b1)}
+.sb-avatar{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-family:var(--fd);font-size:14px;font-weight:700;flex-shrink:0}
+.sb-name{font-size:14px;font-weight:700;color:var(--t1)}
+.sb-role{font-size:11.5px;color:var(--t4);font-family:var(--fm);margin-top:2px}
+.sb-big-score{
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:1.5rem;gap:1.5rem;
+}
+.sbs-ring{
+  width:80px;height:80px;border-radius:50%;
+  background:conic-gradient(var(--au-light) 0% 87%,rgba(255,255,255,.08) 87% 100%);
+  display:grid;place-items:center;position:relative;
+}
+.sbs-ring::before{
+  content:'';position:absolute;inset:6px;border-radius:50%;
+  background:var(--bg-mid);
+}
+.sbs-inner{position:relative;z-index:1;text-align:center}
+.sbs-pct{font-family:var(--fd);font-size:20px;font-weight:700;color:var(--au-light)}
+.sbs-label{font-size:9px;color:var(--t4);font-family:var(--fm)}
+.sbs-breakdown{flex:1}
+.sbs-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.sbs-row:last-child{margin-bottom:0}
+.sbs-label-text{font-size:11px;color:var(--t3);width:80px;flex-shrink:0}
+.sbs-track{flex:1;height:5px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden}
+.sbs-fill{height:100%;border-radius:3px}
+.sf-semantic{background:linear-gradient(90deg,var(--au),var(--au-light))}
+.sf-skills{background:linear-gradient(90deg,#059669,#10b981)}
+.sf-exp{background:linear-gradient(90deg,#2563eb,#60a5fa)}
+.sbs-val{font-size:11px;font-family:var(--fm);color:var(--t4);width:28px;text-align:right;flex-shrink:0}
+.sbs-weight{font-size:10px;color:var(--t4);font-family:var(--fm)}
+.sb-skills{margin-top:1rem}
+.sb-skills-h{font-size:11px;color:var(--t4);font-family:var(--fm);margin-bottom:8px}
+.sb-skill-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.sk-name{font-size:12px;color:var(--t2);flex:1}
+.sk-status{font-size:10px;padding:2px 8px;border-radius:var(--rpill);font-family:var(--fm);font-weight:700}
+.sk-match{background:var(--green-dim);color:#34d399;border:1px solid var(--green-border)}
+.sk-miss{background:var(--red-dim);color:#fca5a5;border:1px solid rgba(192,57,43,.2)}
 
-/* ─── COMPARISON ─── */
-.comparison{background:var(--n900);border-top:1px solid rgba(255,255,255,.05)}
-.comp-table{margin-top:3rem;border-radius:var(--r20);overflow:hidden;border:1px solid rgba(255,255,255,.07)}
-.ct-head{display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr 1fr;background:rgba(255,255,255,.03);padding:1rem 1.5rem;border-bottom:1px solid rgba(255,255,255,.06)}
-.ct-head span{font-size:11px;font-weight:600;color:rgba(255,255,255,.3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.06em}
-.ct-head .ours{color:var(--g400)}
-.ct-row{display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr 1fr;padding:.875rem 1.5rem;border-bottom:1px solid rgba(255,255,255,.04);transition:background .2s;align-items:center}
-.ct-row:last-child{border-bottom:none}
-.ct-row:hover{background:rgba(255,255,255,.02)}
-.ct-cap{font-size:14px;color:rgba(255,255,255,.65);font-weight:500}
-.ct-yes{color:var(--green);font-size:16px;font-weight:700}
-.ct-no{color:rgba(255,255,255,.15);font-size:15px}
-.ct-part{color:rgba(255,255,255,.3);font-size:13px;font-family:var(--fm)}
-.ct-ours{color:var(--g400) !important;font-weight:700 !important}
-.ct-price{font-size:12px;color:rgba(255,255,255,.25);font-family:var(--fm)}
-.ct-our-price{font-size:14px;font-weight:800;color:var(--g400);font-family:var(--fd)}
-.ct-disclaimer{padding:.875rem 1.5rem;background:rgba(255,255,255,.015);font-size:10.5px;color:rgba(255,255,255,.18);line-height:1.6;font-family:var(--fm);border-top:1px solid rgba(255,255,255,.04)}
+/* panel: compliance */
+.comp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.comp-title{font-size:13px;font-weight:700;color:var(--t1)}
+.comp-status{
+  display:flex;align-items:center;gap:5px;
+  font-size:11px;font-family:var(--fm);color:var(--green);
+}
+.comp-status-dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+.comp-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
+.comp-card{
+  background:var(--bg-raised);border-radius:var(--r12);padding:1rem;
+  border:1px solid var(--b1);
+}
+.comp-card-v{font-family:var(--fd);font-size:1.75rem;font-weight:700;color:var(--t1);display:block}
+.comp-card-l{font-size:10px;color:var(--t4);font-family:var(--fm);margin-top:3px}
+.comp-alert{
+  padding:12px;border-radius:var(--r8);display:flex;gap:10px;
+  align-items:flex-start;
+}
+.ca-warn{background:var(--amber-dim);border:1px solid rgba(201,123,10,.25)}
+.ca-ok{background:var(--green-dim);border:1px solid var(--green-border)}
+.ca-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+.ca-text{font-size:12px;color:var(--t2);line-height:1.55}
 
-/* ─── USE CASES ─── */
-.usecases{background:var(--white)}
-.uc-wrap{margin-top:3rem}
-.uc-tab-row{display:flex;gap:6px;padding:6px;background:var(--gray100);border-radius:var(--r12);width:fit-content;margin-bottom:2.5rem}
-.uc-tab{padding:9px 20px;border-radius:var(--r8);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;border:none;background:none;color:var(--gray500)}
-.uc-tab.on{background:var(--white);color:var(--gray900);box-shadow:0 1px 4px rgba(0,0,0,.1)}
-.uc-panel{display:none;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
-.uc-panel.on{display:grid}
-.uc-panel-h{font-family:var(--fd);font-size:1.875rem;font-weight:700;color:var(--gray900);line-height:1.2;margin-bottom:1rem}
-.uc-panel-p{font-size:15px;color:var(--gray500);line-height:1.7;margin-bottom:1.5rem}
-.uc-list{list-style:none;display:flex;flex-direction:column;gap:.875rem}
-.uc-list li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--gray600);line-height:1.55}
-.uc-list li::before{content:'';width:18px;height:18px;border-radius:50%;background:rgba(212,160,23,.12);border:1px solid rgba(212,160,23,.25);display:grid;place-items:center;flex-shrink:0;margin-top:2px;font-size:9px;color:var(--g600)}
-.uc-list li::before{content:'✓';display:flex;align-items:center;justify-content:center;font-weight:800}
-.uc-visual{background:var(--n900);border-radius:var(--r20);padding:1.75rem;min-height:340px}
-.ucv-label{font-size:10px;color:var(--g500);font-family:var(--fm);letter-spacing:.08em;text-transform:uppercase;margin-bottom:1.25rem}
-.ucv-metric-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.25rem}
-.ucv-metric{background:rgba(255,255,255,.04);border-radius:10px;padding:.875rem;text-align:center}
-.ucv-metric-v{font-family:var(--fd);font-size:1.75rem;font-weight:700;color:var(--g400)}
-.ucv-metric-l{font-size:10px;color:rgba(255,255,255,.3);font-family:var(--fm);margin-top:3px}
-.ucv-bar-item{margin-bottom:8px}
-.ucv-bar-lrow{display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.4);margin-bottom:3px}
-.ucv-bar-track{height:5px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden}
-.ucv-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--g600),var(--g400))}
-.ucv-stage-list{display:flex;flex-direction:column;gap:7px}
-.ucv-stage{display:flex;align-items:center;gap:10px;padding:8px 12px;background:rgba(255,255,255,.04);border-radius:8px}
-.ucv-stage-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-.ucv-stage-label{font-size:12px;color:rgba(255,255,255,.55);flex:1}
-.ucv-stage-n{font-size:11px;font-family:var(--fm);color:rgba(255,255,255,.25)}
+/* panel: insights */
+.ins-kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1.25rem}
+.ins-kpi{background:var(--bg-raised);border-radius:var(--r8);padding:.75rem;text-align:center}
+.ins-kpi-v{font-family:var(--fd);font-size:1.5rem;font-weight:700;color:var(--t1)}
+.ins-kpi-l{font-size:9.5px;color:var(--t4);font-family:var(--fm);margin-top:2px}
+.ins-trend{display:flex;align-items:flex-end;gap:3px;height:60px;margin-bottom:1rem}
+.ins-bar{flex:1;background:linear-gradient(to top,var(--au),var(--au-light));border-radius:3px 3px 0 0;opacity:.7;transition:opacity .2s}
+.ins-bar:hover{opacity:1}
+.ins-source{display:flex;flex-direction:column;gap:6px}
+.is-row{display:flex;align-items:center;gap:8px}
+.is-label{font-size:11px;color:var(--t3);width:80px;flex-shrink:0}
+.is-track{flex:1;height:4px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden}
+.is-fill{height:100%;border-radius:2px}
+.is-n{font-size:10px;color:var(--t4);font-family:var(--fm);width:24px;text-align:right}
 
-/* ─── PRICING ─── */
-.pricing{background:var(--ink);border-top:1px solid rgba(255,255,255,.05)}
-.pri-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
-.pri-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:var(--r20);padding:2rem;position:relative;transition:all .3s}
-.pri-card:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.14);transform:translateY(-3px)}
-.pri-card.featured{border-color:rgba(232,192,80,.3);background:rgba(232,192,80,.04);box-shadow:0 0 0 1px rgba(232,192,80,.15),0 24px 48px rgba(0,0,0,.3)}
-.pri-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--g600),var(--g400));color:var(--n900);font-size:10px;font-weight:800;padding:4px 14px;border-radius:var(--r999);font-family:var(--fm);white-space:nowrap;letter-spacing:.04em}
-.pri-name{font-family:var(--fd);font-size:1.125rem;font-weight:700;color:var(--white);margin-bottom:.375rem}
-.pri-desc{font-size:13px;color:rgba(255,255,255,.35);margin-bottom:1.5rem;line-height:1.5}
-.pri-amount{font-family:var(--fd);font-size:2.75rem;font-weight:700;color:var(--white);display:inline}
-.pri-period{font-size:14px;color:rgba(255,255,255,.3);margin-left:4px}
-.pri-divider{height:1px;background:rgba(255,255,255,.07);margin:1.5rem 0}
+/* ── HOW IT WORKS ───────────────────────────────────────── */
+.hiw{background:var(--lt-bg)}
+.hiw-head{max-width:580px;margin-bottom:4rem}
+.hiw-flow{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  gap:0;position:relative;
+}
+.hiw-flow::before{
+  content:'';position:absolute;top:32px;left:10%;right:10%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--lt-border) 20%,var(--lt-border) 80%,transparent);
+  pointer-events:none;
+}
+.hiw-step{text-align:center;padding:0 1rem;position:relative}
+.hiw-step-icon{
+  width:64px;height:64px;border-radius:50%;
+  background:var(--lt-card);border:1.5px solid var(--lt-border);
+  display:grid;place-items:center;font-size:22px;
+  margin:0 auto 1.25rem;position:relative;z-index:2;
+  box-shadow:0 2px 12px rgba(0,0,0,.06);
+  transition:all .3s;
+}
+.hiw-step:hover .hiw-step-icon{
+  border-color:var(--au);
+  box-shadow:0 0 0 4px rgba(201,147,10,.08);
+  transform:translateY(-3px);
+}
+.hiw-step-n{
+  position:absolute;top:-6px;right:-6px;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--au);color:var(--bg-void);
+  font-size:10px;font-weight:800;font-family:var(--fm);
+  display:grid;place-items:center;z-index:3;
+}
+.hiw-step-h{font-size:13.5px;font-weight:700;color:var(--lt-t1);margin-bottom:.375rem}
+.hiw-step-p{font-size:12px;color:var(--lt-t2);line-height:1.6}
+.hiw-arrow{
+  position:absolute;top:22px;right:-12px;z-index:3;
+  color:var(--lt-t3);font-size:16px;
+}
+
+/* ── ENTERPRISE VALUE ───────────────────────────────────── */
+.ev{background:var(--bg-deep)}
+.ev-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3.5rem}
+.ev-card{
+  background:var(--bg-glass);border:1px solid var(--b1);
+  border-radius:var(--r16);padding:2rem;transition:all .3s;
+}
+.ev-card:hover{background:var(--bg-glass-hover);border-color:var(--b2);transform:translateY(-3px)}
+.ev-metric{font-family:var(--fd);font-size:2.5rem;font-weight:700;color:var(--au-light);line-height:1;margin-bottom:.375rem}
+.ev-metric-label{font-size:11px;color:var(--t4);font-family:var(--fm);margin-bottom:1.25rem}
+.ev-h{font-size:14px;font-weight:700;color:var(--t1);margin-bottom:.375rem}
+.ev-p{font-size:13px;color:var(--t3);line-height:1.6}
+
+/* ── POSITIONING ────────────────────────────────────────── */
+.pos{background:var(--bg-void)}
+.pos-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.pos-copy .s-h2{max-width:440px}
+.pos-copy .s-lead{max-width:420px;margin-bottom:2rem}
+.pos-points{display:flex;flex-direction:column;gap:1rem}
+.pos-point{display:flex;gap:12px;align-items:flex-start}
+.pos-point-dot{
+  width:20px;height:20px;border-radius:50%;
+  background:var(--au-dim);border:1px solid var(--au-border);
+  display:grid;place-items:center;
+  font-size:8.5px;color:var(--au-light);font-weight:800;
+  flex-shrink:0;margin-top:2px;
+}
+.pos-point-h{font-size:13.5px;font-weight:700;color:var(--t1);margin-bottom:3px}
+.pos-point-p{font-size:12.5px;color:var(--t3);line-height:1.6}
+.pos-table{
+  background:var(--bg-mid);border:1px solid var(--b1);
+  border-radius:var(--r16);overflow:hidden;
+}
+.pt-head{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+  background:var(--bg-raised);padding:.875rem 1.25rem;
+  border-bottom:1px solid var(--b1);
+}
+.pt-head-cell{font-size:11px;font-weight:600;color:var(--t4);font-family:var(--fm);text-transform:uppercase;letter-spacing:.05em}
+.pt-head-cell.ours{color:var(--au)}
+.pt-row{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+  padding:.75rem 1.25rem;border-bottom:1px solid rgba(255,255,255,.03);
+  transition:background .2s;align-items:center;
+}
+.pt-row:last-child{border-bottom:none}
+.pt-row:hover{background:rgba(255,255,255,.015)}
+.pt-cap{font-size:13px;color:var(--t2);font-weight:500}
+.pt-yes{color:var(--green);font-size:14px;font-weight:800}
+.pt-no{color:rgba(255,255,255,.18);font-size:14px}
+.pt-part{color:var(--t4);font-size:12px;font-family:var(--fm)}
+.pt-ours{color:var(--au-light) !important;font-weight:800 !important}
+.pt-price{font-size:11.5px;color:var(--t4);font-family:var(--fm)}
+.pt-our-price{font-family:var(--fd);font-size:14px;font-weight:700;color:var(--au-light)}
+.pt-disclaimer{padding:.875rem 1.25rem;font-size:10px;color:var(--t4);font-family:var(--fm);line-height:1.6;border-top:1px solid rgba(255,255,255,.03)}
+
+/* ── PRICING ────────────────────────────────────────────── */
+.pricing-section{background:var(--bg-deep);border-top:1px solid var(--b1)}
+.pri-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3.5rem}
+.pri-card{
+  background:var(--bg-mid);border:1px solid var(--b1);
+  border-radius:var(--r20);padding:2rem;
+  position:relative;transition:all .3s;
+}
+.pri-card:hover{transform:translateY(-4px);border-color:var(--b2)}
+.pri-card.featured{
+  border-color:var(--au-border);
+  background:linear-gradient(160deg,rgba(201,147,10,.06) 0%,var(--bg-mid) 40%);
+  box-shadow:0 0 0 1px rgba(201,147,10,.1),0 24px 56px rgba(0,0,0,.3);
+}
+.pri-badge{
+  position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+  background:var(--au-light);color:var(--bg-void);
+  font-size:10px;font-weight:800;padding:4px 14px;
+  border-radius:var(--rpill);font-family:var(--fm);white-space:nowrap;letter-spacing:.04em;
+}
+.pri-name{font-family:var(--fd);font-size:1.125rem;font-weight:700;color:var(--t1);margin-bottom:.375rem}
+.pri-desc{font-size:13px;color:var(--t4);margin-bottom:1.5rem;line-height:1.5}
+.pri-price-wrap{margin-bottom:1.5rem}
+.pri-amount{font-family:var(--fd);font-size:2.625rem;font-weight:700;color:var(--t1)}
+.pri-period{font-size:13px;color:var(--t4);margin-left:4px}
+.pri-sep{height:1px;background:var(--b1);margin-bottom:1.5rem}
 .pri-features{list-style:none;display:flex;flex-direction:column;gap:.75rem;margin-bottom:2rem}
-.pri-features li{display:flex;align-items:flex-start;gap:8px;font-size:13.5px;color:rgba(255,255,255,.55);line-height:1.5}
-.pri-features li::before{content:'✓';color:var(--g500);font-weight:700;flex-shrink:0;margin-top:1px}
-.pri-cta{display:block;width:100%;padding:13px;border-radius:var(--r8);font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;font-family:var(--fb);text-align:center;text-decoration:none}
-.pri-cta.gold{background:linear-gradient(135deg,var(--g600),var(--g400));color:var(--n900);border:none}
-.pri-cta.gold:hover{box-shadow:0 8px 24px rgba(212,160,23,.35);transform:translateY(-1px)}
-.pri-cta.outline{background:transparent;color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.15)}
-.pri-cta.outline:hover{border-color:rgba(255,255,255,.3);color:var(--white)}
+.pri-features li{
+  display:flex;align-items:flex-start;gap:9px;
+  font-size:13.5px;color:var(--t3);line-height:1.5;
+}
+.pri-features li::before{
+  content:'✓';color:var(--au);font-weight:800;font-size:11px;
+  flex-shrink:0;margin-top:2px;
+}
+.pri-btn{
+  display:block;width:100%;padding:12px;border-radius:var(--r8);
+  font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;
+  font-family:var(--fb);text-align:center;text-decoration:none;border:none;
+}
+.pri-btn-gold{background:var(--au-light);color:var(--bg-void)}
+.pri-btn-gold:hover{background:#f0cc5c;box-shadow:0 6px 20px rgba(201,147,10,.3)}
+.pri-btn-outline{background:transparent;color:var(--t2);border:1px solid var(--b2)}
+.pri-btn-outline:hover{border-color:var(--b3);color:var(--t1)}
 
-/* ─── TESTIMONIALS ─── */
-.testimonials{background:var(--n900);border-top:1px solid rgba(255,255,255,.05)}
-.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
-.test-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:var(--r16);padding:2rem;transition:all .3s}
-.test-card:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12)}
-.test-stars{color:var(--g400);font-size:13px;letter-spacing:2px;margin-bottom:1rem}
-.test-q{font-family:var(--fd);font-size:.9375rem;font-style:italic;color:rgba(255,255,255,.65);line-height:1.75;margin-bottom:1.5rem}
-.test-divider{height:1px;background:rgba(255,255,255,.06);margin-bottom:1.25rem}
-.test-author{display:flex;align-items:center;gap:12px}
-.test-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--n700),var(--n600));border:1px solid rgba(232,192,80,.2);display:grid;place-items:center;font-family:var(--fd);font-size:13px;font-weight:700;color:var(--g400);flex-shrink:0}
-.test-name{font-size:13px;font-weight:600;color:var(--white)}
-.test-role{font-size:11px;color:rgba(255,255,255,.3);margin-top:2px;font-family:var(--fm)}
-.test-disclaimer{text-align:center;margin-top:2rem;font-size:10.5px;color:rgba(255,255,255,.2);font-family:var(--fm)}
+/* ── FINAL CTA ──────────────────────────────────────────── */
+.final{
+  background:var(--bg-void);padding:9rem 0;
+  position:relative;overflow:hidden;
+  border-top:1px solid var(--b1);
+}
+.final-bg{position:absolute;inset:0;pointer-events:none}
+.fb-glow{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:900px;height:600px;
+  background:
+    radial-gradient(ellipse 60% 50% at 40% 50%,rgba(25,45,100,.4) 0%,transparent 60%),
+    radial-gradient(ellipse 40% 35% at 60% 50%,rgba(201,147,10,.07) 0%,transparent 55%);
+  filter:blur(40px);
+}
+.final-inner{position:relative;z-index:2;text-align:center}
+.final-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:5px 14px;background:var(--au-dim);border:1px solid var(--au-border);
+  border-radius:var(--rpill);margin-bottom:1.75rem;
+  font-size:11px;color:var(--au-light);font-family:var(--fm);letter-spacing:.04em;
+}
+.final-h{
+  font-family:var(--fd);
+  font-size:clamp(2.25rem,4vw,3.5rem);
+  font-weight:700;line-height:1.1;letter-spacing:-.02em;
+  color:var(--t1);margin-bottom:1.25rem;
+}
+.final-h em{font-style:italic;color:var(--au-light)}
+.final-sub{font-size:1.0625rem;color:var(--t2);margin-bottom:2.5rem;line-height:1.7}
+.final-btns{display:flex;align-items:center;justify-content:center;gap:1rem;flex-wrap:wrap;margin-bottom:4rem}
+.final-btn-white{
+  background:var(--t1);color:var(--bg-void);
+  font-size:14.5px;font-weight:700;padding:14px 30px;
+  border-radius:var(--r8);text-decoration:none;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:all .25s;border:none;cursor:pointer;font-family:var(--fb);
+}
+.final-btn-white:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(255,255,255,.15)}
+.final-btn-outline{
+  color:var(--t2);font-size:14.5px;font-weight:500;
+  padding:14px 24px;border:1px solid var(--b2);border-radius:var(--r8);
+  text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+  transition:all .2s;
+}
+.final-btn-outline:hover{color:var(--t1);border-color:var(--b3)}
+.final-stats{
+  display:flex;align-items:center;justify-content:center;
+  gap:4rem;flex-wrap:wrap;
+  padding-top:3rem;border-top:1px solid var(--b1);
+}
+.fs-item{text-align:center}
+.fs-val{
+  font-family:var(--fd);font-size:2.25rem;font-weight:700;
+  color:var(--au-light);display:block;
+}
+.fs-label{font-size:11.5px;color:var(--t4);margin-top:4px;font-family:var(--fm)}
 
-/* ─── CTA FINAL ─── */
-.final-cta{background:var(--ink);padding:8rem 0;position:relative;overflow:hidden}
-.final-cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:500px;background:radial-gradient(ellipse,rgba(36,63,131,.4) 0%,transparent 60%);filter:blur(60px);pointer-events:none}
-.final-cta::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:400px;height:300px;background:radial-gradient(ellipse,rgba(212,160,23,.08) 0%,transparent 60%);filter:blur(40px);pointer-events:none}
-.fct-inner{text-align:center;position:relative;z-index:2}
-.fct-title{font-family:var(--fd);font-size:clamp(2.25rem,4vw,3.5rem);font-weight:700;color:var(--white);line-height:1.1;letter-spacing:-.02em;margin-bottom:1.25rem}
-.fct-title em{font-style:italic;color:var(--g400)}
-.fct-sub{font-size:1.0625rem;color:rgba(255,255,255,.45);margin-bottom:2.5rem;line-height:1.7}
-.fct-btns{display:flex;align-items:center;justify-content:center;gap:1rem;flex-wrap:wrap;margin-bottom:4rem}
-.fct-btn-white{background:var(--white);color:var(--n900);font-size:15px;font-weight:700;padding:15px 32px;border-radius:var(--r8);text-decoration:none;transition:all .25s;display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;font-family:var(--fb)}
-.fct-btn-white:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(255,255,255,.15)}
-.fct-btn-outline{color:rgba(255,255,255,.6);font-size:15px;font-weight:500;padding:15px 24px;border:1px solid rgba(255,255,255,.15);border-radius:var(--r8);text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
-.fct-btn-outline:hover{color:var(--white);border-color:rgba(255,255,255,.35)}
-.fct-stats{display:flex;align-items:center;justify-content:center;gap:4rem;flex-wrap:wrap;padding-top:3rem;border-top:1px solid rgba(255,255,255,.06)}
-.fct-stat-v{font-family:var(--fd);font-size:2.25rem;font-weight:700;color:var(--g400);display:block}
-.fct-stat-l{font-size:12px;color:rgba(255,255,255,.35);margin-top:4px;font-family:var(--fm)}
-
-/* ─── FOOTER ─── */
-footer{background:var(--n900);border-top:1px solid rgba(255,255,255,.06);padding:4.5rem 0 2.5rem}
-.foot-inner{max-width:1280px;margin:0 auto;padding:0 2.5rem}
+/* ── FOOTER ─────────────────────────────────────────────── */
+footer{
+  background:var(--bg-deep);
+  border-top:1px solid var(--b1);
+  padding:4rem 0 2.5rem;
+}
+.foot-w{max-width:1280px;margin:0 auto;padding:0 2.5rem}
 .foot-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3.5rem}
-.foot-brand{font-family:var(--fd);font-size:21px;font-weight:700;color:var(--white);margin-bottom:.75rem}
-.foot-brand b{color:var(--g400)}
-.foot-tagline{font-size:13px;color:rgba(255,255,255,.3);line-height:1.65;margin-bottom:1.5rem;max-width:260px}
-.foot-social{display:flex;gap:10px}
-.foot-soc-a{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.06);display:grid;place-items:center;color:rgba(255,255,255,.35);text-decoration:none;font-size:13px;transition:all .2s}
-.foot-soc-a:hover{background:rgba(255,255,255,.12);color:var(--g400)}
-.foot-col h4{font-size:10.5px;font-weight:700;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.1em;font-family:var(--fm);margin-bottom:1.25rem}
+.foot-brand-name{font-family:var(--fd);font-size:20px;font-weight:700;color:var(--t1);margin-bottom:.625rem}
+.foot-brand-name b{color:var(--au-light)}
+.foot-tag{font-size:13px;color:var(--t4);line-height:1.65;margin-bottom:1.5rem;max-width:270px}
+.foot-soc{display:flex;gap:8px}
+.fsoc-a{
+  width:30px;height:30px;border-radius:7px;background:var(--bg-glass);
+  border:1px solid var(--b1);display:grid;place-items:center;
+  color:var(--t4);text-decoration:none;font-size:12px;transition:all .2s;
+}
+.fsoc-a:hover{background:var(--bg-glass-hover);color:var(--au-light);border-color:var(--au-border)}
+.foot-col h4{
+  font-size:10.5px;font-weight:700;color:var(--t4);font-family:var(--fm);
+  text-transform:uppercase;letter-spacing:.1em;margin-bottom:1.125rem;
+}
 .foot-col ul{list-style:none;display:flex;flex-direction:column;gap:.625rem}
-.foot-col ul li a{font-size:13.5px;color:rgba(255,255,255,.4);text-decoration:none;transition:color .2s}
-.foot-col ul li a:hover{color:rgba(255,255,255,.75)}
-.foot-bottom{border-top:1px solid rgba(255,255,255,.06);padding-top:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem}
-.foot-copy{font-size:12px;color:rgba(255,255,255,.2);font-family:var(--fm)}
+.foot-col a{font-size:13px;color:var(--t4);text-decoration:none;transition:color .2s}
+.foot-col a:hover{color:var(--t2)}
+.foot-bottom{
+  border-top:1px solid var(--b1);padding-top:2rem;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;
+}
+.foot-copy{font-size:12px;color:var(--t4);font-family:var(--fm)}
 .foot-legal{display:flex;gap:1.5rem}
-.foot-legal a{font-size:12px;color:rgba(255,255,255,.2);text-decoration:none;font-family:var(--fm);transition:color .2s}
-.foot-legal a:hover{color:rgba(255,255,255,.5)}
+.foot-legal a{font-size:12px;color:var(--t4);text-decoration:none;font-family:var(--fm);transition:color .2s}
+.foot-legal a:hover{color:var(--t2)}
 
-/* ─── REVEAL ANIMATION ─── */
-.reveal{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease}
-.reveal.shown{opacity:1;transform:none}
-.r1{transition-delay:.05s}.r2{transition-delay:.12s}.r3{transition-delay:.19s}.r4{transition-delay:.26s}
+/* ── REVEAL ANIMATION ───────────────────────────────────── */
+.r{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.r.vis{opacity:1;transform:none}
+.rd1{transition-delay:.06s}.rd2{transition-delay:.13s}.rd3{transition-delay:.20s}.rd4{transition-delay:.27s}
 
-/* ─── RESPONSIVE ─── */
-@media(max-width:960px){
-  .hero-layout,.plat-grid,.uc-panel.on{grid-template-columns:1fr;gap:3rem}
-  .hero-visual{display:none}
-  .bento{grid-template-columns:1fr 1fr}
-  .bc-1,.bc-2,.bc-3,.bc-4,.bc-5,.bc-6,.bc-7,.bc-8{grid-column:span 1;grid-row:span 1}
-  .sol-grid,.comp-grid,.test-grid,.pri-grid{grid-template-columns:1fr}
+/* ── RESPONSIVE ─────────────────────────────────────────── */
+@media(max-width:1024px){
+  .hero-layout,.pos-grid{grid-template-columns:1fr;gap:3.5rem}
+  .hero-ui{display:none}
+  .pe-layout{grid-template-columns:1fr;gap:2rem}
+  .pe-tabs{flex-direction:row;flex-wrap:wrap;gap:.5rem}
+  .pe-tab{flex:none;width:auto}
+  .pe-tab-p{display:none}
+  .hiw-flow{grid-template-columns:1fr 1fr;gap:2rem}
+  .hiw-flow::before{display:none}
+  .ev-grid{grid-template-columns:1fr 1fr}
+  .pri-grid{grid-template-columns:1fr}
   .foot-top{grid-template-columns:1fr 1fr;gap:2rem}
-  .nav-center,.nav-sign-in{display:none}
+}
+@media(max-width:768px){
+  .diff-grid,.comp-cards,.ins-kpi-row{grid-template-columns:1fr}
+  .hiw-flow{grid-template-columns:1fr}
+  .ev-grid{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .nav-ghost{display:none}
+  section{padding:5rem 0}
 }
 </style>
 </head>
@@ -394,118 +839,142 @@ footer{background:var(--n900);border-top:1px solid rgba(255,255,255,.06);padding
 
 <!-- NAV -->
 <nav id="nav">
-  <div class="nav-inner">
-    <a href="/" class="logo">
-      <div class="logo-mark"><span class="logo-t">T</span></div>
-      <span class="logo-name">Talent<b>AIQ</b></span>
+  <div class="nav-w">
+    <a href="/" class="nav-logo">
+      <div class="nav-logomark">T</div>
+      <span class="nav-wordmark">Talent<b>AIQ</b></span>
     </a>
-    <div class="nav-center">
-      <a href="#features" class="nav-link">Platform</a>
-      <a href="#solutions" class="nav-link">Solutions</a>
-      <a href="#usecases" class="nav-link">Use Cases</a>
-      <a href="#pricing" class="nav-link">Pricing</a>
-      <a href="#compliance" class="nav-link">Compliance</a>
+    <div class="nav-links">
+      <a href="#product" class="nav-a">Platform</a>
+      <a href="#how" class="nav-a">How it works</a>
+      <a href="#enterprise" class="nav-a">Enterprise</a>
+      <a href="#pricing" class="nav-a">Pricing</a>
     </div>
-    <div class="nav-right">
-      <a href="https://talentaiq-careers-app.vercel.app" class="nav-sign-in" target="_blank">Careers Site ↗</a>
-      <a href="mailto:hello@talentaiq.in" class="nav-demo">Request Demo</a>
+    <div class="nav-end">
+      <a href="https://talentaiq-careers-app.vercel.app" class="nav-ghost" target="_blank">Careers site ↗</a>
+      <a href="mailto:hello@talentaiq.in" class="nav-cta">Request Demo</a>
     </div>
   </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-mesh">
-    <div class="mesh-1"></div>
-    <div class="mesh-2"></div>
-    <div class="mesh-3"></div>
+  <div class="hero-bg">
+    <div class="hb-gradient"></div>
+    <div class="hb-grid"></div>
+    <div class="hb-glow-left"></div>
+    <div class="hb-glow-gold"></div>
   </div>
-  <div class="hero-grid-bg"></div>
   <div class="hero-inner">
     <div class="hero-layout">
+      <!-- copy -->
       <div>
-        <div class="hero-eyebrow">
-          <div class="hero-eyebrow-dot"></div>
-          <span class="hero-eyebrow-text">Purpose-built for financial services</span>
+        <div class="hero-kicker">
+          <div class="hk-dot"></div>
+          <span class="hk-text">Decision Intelligence Platform · BFSI</span>
         </div>
-        <h1 class="hero-title">
-          AI that explains<br/>
-          <span class="italic">every decision</span><br/>
-          <span class="dim">you make in hiring</span>
+        <h1 class="hero-h1">
+          Decision intelligence<br/>
+          for talent in<br/>
+          <em>financial services</em>
         </h1>
         <p class="hero-sub">
-          The only ATS built for BFSI. <strong>Explainable AI scoring.</strong> <strong>RBI-compliant DEI.</strong> <strong>Internal mobility.</strong> Deploy on your cloud in a day.
+          Make hiring decisions you can <strong>explain</strong>, <strong>audit</strong>, and <strong>defend</strong>.<br/>
+          AI-driven scoring with full transparency. Built for regulated environments.
         </p>
-        <div class="hero-cta">
-          <a href="mailto:hello@talentaiq.in" class="btn-gold">
+        <div class="hero-actions">
+          <a href="mailto:hello@talentaiq.in" class="btn-primary">
             Request a Demo
             <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
-          <a href="https://talentaiq-careers-app.vercel.app" class="btn-ghost-white" target="_blank">
-            See live careers site
-            <svg class="arr" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <a href="#product" class="btn-secondary">
+            See platform
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
         </div>
-        <div class="hero-proof">
-          <div class="proof-item"><div class="proof-icon"></div><span class="proof-text">Explainable AI scores</span></div>
-          <div class="proof-item"><div class="proof-icon"></div><span class="proof-text">BFSI skills ontology</span></div>
-          <div class="proof-item"><div class="proof-icon"></div><span class="proof-text">Deploy on your cloud</span></div>
-          <div class="proof-item"><div class="proof-icon"></div><span class="proof-text">RBI-ready DEI reports</span></div>
+        <div class="hero-trust">
+          <div class="trust-item"><div class="trust-check">✓</div><span class="trust-text">Explainable AI scoring</span></div>
+          <div class="trust-item"><div class="trust-check">✓</div><span class="trust-text">Audit-ready compliance</span></div>
+          <div class="trust-item"><div class="trust-check">✓</div><span class="trust-text">Deploy on your cloud</span></div>
+          <div class="trust-item"><div class="trust-check">✓</div><span class="trust-text">RBI-aligned DEI</span></div>
         </div>
       </div>
-      <div class="hero-visual">
-        <div class="hv-glow"></div>
-        <!-- floating top -->
-        <div class="hv-float hv-float-top">
-          <div class="hv-float-icon" style="background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.2)">✓</div>
+
+      <!-- hero UI -->
+      <div class="hero-ui">
+        <div class="hui-glow"></div>
+        <div class="hui-float hf-top">
+          <div class="hf-icon" style="background:rgba(13,158,114,.12);border:1px solid rgba(13,158,114,.2)">✓</div>
           <div>
-            <div class="hv-float-label">AI Match Score Generated</div>
-            <div class="hv-float-sub">87% · BEST match · just now</div>
+            <div class="hf-label">Scoring complete</div>
+            <div class="hf-sub">3 candidates ranked · 2.1s</div>
           </div>
         </div>
-        <div class="hv-card">
-          <div class="hv-header">
-            <span class="hv-title">AI MATCH SCORES — RISK & COMPLIANCE</span>
-            <div class="hv-live">LIVE</div>
+        <div class="hui-card">
+          <div class="hui-topbar">
+            <span class="hui-title">CANDIDATE INTELLIGENCE · RISK ANALYST ROLE</span>
+            <div class="hui-live"><div class="hui-live-dot"></div>LIVE</div>
           </div>
-          <div class="hv-row">
-            <div class="hv-avatar" style="background:rgba(232,192,80,.12);color:var(--g300)">PS</div>
-            <div class="hv-info">
-              <div class="hv-name">P. Sharma</div>
-              <div class="hv-meta">Senior Risk Analyst · NovaBanc Financial · 6 yrs exp</div>
-              <div class="hv-bar-wrap"><div class="hv-bar-fill" style="width:87%"></div></div>
+          <div class="hui-cand">
+            <div class="hui-av" style="background:rgba(201,147,10,.12);color:#e8c050">A1</div>
+            <div class="hui-info">
+              <div class="hui-name">Candidate A</div>
+              <div class="hui-role">Senior Risk Analyst · BFSI Org · 6 yrs</div>
+              <div class="hui-barwrap"><div class="hui-bar" style="width:87%"></div></div>
             </div>
-            <div class="hv-score-col"><span class="hv-pct">87%</span><span class="hv-tier t-best">BEST</span></div>
-          </div>
-          <div class="hv-row">
-            <div class="hv-avatar" style="background:rgba(59,130,246,.12);color:#93c5fd">AM</div>
-            <div class="hv-info">
-              <div class="hv-name">A. Mehta</div>
-              <div class="hv-meta">Risk Manager · Meridian Capital · 9 yrs exp</div>
-              <div class="hv-bar-wrap"><div class="hv-bar-fill" style="width:71%;background:rgba(255,255,255,.35)"></div></div>
+            <div class="hui-score">
+              <span class="hui-pct">87%</span>
+              <span class="hui-tier tier-best">BEST MATCH</span>
             </div>
-            <div class="hv-score-col"><span class="hv-pct" style="color:rgba(255,255,255,.65)">71%</span><span class="hv-tier t-good">GOOD</span></div>
           </div>
-          <div class="hv-row">
-            <div class="hv-avatar" style="background:rgba(16,185,129,.08);color:#6ee7b7">KR</div>
-            <div class="hv-info">
-              <div class="hv-name">K. Reddy</div>
-              <div class="hv-meta">Compliance Officer · FinSwift Technologies</div>
-              <div class="hv-bar-wrap"><div class="hv-bar-fill" style="width:48%;background:rgba(255,255,255,.2)"></div></div>
+          <div class="hui-cand">
+            <div class="hui-av" style="background:rgba(37,99,235,.1);color:#93c5fd">A2</div>
+            <div class="hui-info">
+              <div class="hui-name">Candidate B</div>
+              <div class="hui-role">Risk Manager · Financial Institution · 9 yrs</div>
+              <div class="hui-barwrap"><div class="hui-bar" style="width:71%;background:rgba(255,255,255,.3)"></div></div>
             </div>
-            <div class="hv-score-col"><span class="hv-pct" style="color:rgba(255,255,255,.4)">48%</span><span class="hv-tier t-fair">FAIR</span></div>
+            <div class="hui-score">
+              <span class="hui-pct" style="color:rgba(255,255,255,.6)">71%</span>
+              <span class="hui-tier tier-good">GOOD</span>
+            </div>
           </div>
-          <div class="hv-explain">
-            <div class="hv-explain-label">AI Explanation — P. Sharma</div>
-            <div class="hv-explain-text">Strong KYC/AML background confirmed (7 yrs). All 4 required Basel III skills matched. Python proficiency validated. Exceeds experience requirement by 2 years. Semantic similarity 0.92.</div>
+          <div class="hui-cand">
+            <div class="hui-av" style="background:rgba(124,58,237,.1);color:#c4b5fd">A3</div>
+            <div class="hui-info">
+              <div class="hui-name">Candidate C</div>
+              <div class="hui-role">Compliance Officer · Fintech Co · 4 yrs</div>
+              <div class="hui-barwrap"><div class="hui-bar" style="width:48%;background:rgba(255,255,255,.18)"></div></div>
+            </div>
+            <div class="hui-score">
+              <span class="hui-pct" style="color:rgba(255,255,255,.38)">48%</span>
+              <span class="hui-tier tier-fair">FAIR</span>
+            </div>
+          </div>
+          <div class="hui-explain">
+            <div class="hui-explain-top">
+              <span class="hui-explain-icon">◆</span>
+              <span class="hui-explain-label">AI reasoning · Candidate A</span>
+            </div>
+            <div class="hui-explain-text">KYC/AML experience confirmed across 7 years. Basel III requirement met. Python validated. Exceeds minimum experience by 2 years. Semantic alignment: 0.92.</div>
+          </div>
+          <div class="hui-chips">
+            <span class="hui-chip chip-match">KYC ✓</span>
+            <span class="hui-chip chip-match">AML ✓</span>
+            <span class="hui-chip chip-match">Basel III ✓</span>
+            <span class="hui-chip chip-match">Python ✓</span>
+            <span class="hui-chip chip-miss">MiFID II ✗</span>
           </div>
         </div>
-        <!-- floating bottom -->
-        <div class="hv-float hv-float-bot">
-          <div class="hv-float-icon" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.2)">📊</div>
+        <div class="hui-compliance">
+          <div class="hc-dot"></div>
+          <span class="hc-text">DEI screening · No bias detected</span>
+        </div>
+        <div class="hui-float hf-bot">
+          <div class="hf-icon" style="background:rgba(201,147,10,.1);border:1px solid rgba(201,147,10,.2)">📋</div>
           <div>
-            <div class="hv-float-label">DEI Alert Resolved</div>
-            <div class="hv-float-sub">Anonymised screening enabled</div>
+            <div class="hf-label">Audit trail recorded</div>
+            <div class="hf-sub">Full decision log · exportable</div>
           </div>
         </div>
       </div>
@@ -513,378 +982,354 @@ footer{background:var(--n900);border-top:1px solid rgba(255,255,255,.06);padding
   </div>
 </section>
 
-<!-- LOGOS -->
-<div class="logos">
-  <div class="logos-inner">
-    <div class="logos-label">Designed for teams at</div>
-    <div class="logos-row">
-      <span class="logo-pill">Fintech Startups</span>
-      <span class="logo-pill">Neobanks</span>
-      <span class="logo-pill">NBFCs</span>
-      <span class="logo-pill">WealthTech</span>
-      <span class="logo-pill">InsurTech</span>
-      <span class="logo-pill">Regional Banks</span>
-      <span class="logo-pill">Payment Companies</span>
+<!-- TRUST STRIP -->
+<div class="trust-strip">
+  <div class="ts-inner">
+    <div class="ts-label">Designed for hiring teams at</div>
+    <div class="ts-row">
+      <span class="ts-item">Fintech Startups</span>
+      <span class="ts-item">Neobanks</span>
+      <span class="ts-item">NBFCs</span>
+      <span class="ts-item">WealthTech</span>
+      <span class="ts-item">InsurTech</span>
+      <span class="ts-item">Regional Banks</span>
+      <span class="ts-item">Payment Companies</span>
     </div>
   </div>
 </div>
 
-<!-- FEATURES BENTO -->
-<section class="section features" id="features">
-  <div class="s-inner reveal">
-    <div class="s-label">Platform</div>
-    <h2 class="s-title">Every feature your<br/>talent team actually needs</h2>
-    <p class="s-sub">305 API endpoints. 26 database migrations. Built for BFSI from the ground up.</p>
-    <div class="bento">
-
-      <div class="bento-card bc-1 reveal r1">
-        <div class="bc-tag">AI Scoring Engine</div>
-        <div class="bc-h">Explainable match scores for every candidate</div>
-        <div class="bc-p">Semantic (50%) + Skills (35%) + Experience (15%). Every score comes with a written explanation. No black box — ever.</div>
-        <div class="bc-score-rows">
-          <div class="bc-score-row"><span class="bc-sname">P. Sharma</span><div class="bc-sbar"><div class="bc-sbar-fill" style="width:87%"></div></div><span class="bc-spct">87%</span></div>
-          <div class="bc-score-row"><span class="bc-sname">A. Mehta</span><div class="bc-sbar"><div class="bc-sbar-fill" style="width:71%;background:rgba(255,255,255,.3)"></div></div><span class="bc-spct" style="color:rgba(255,255,255,.5)">71%</span></div>
-          <div class="bc-score-row"><span class="bc-sname">K. Reddy</span><div class="bc-sbar"><div class="bc-sbar-fill" style="width:48%;background:rgba(255,255,255,.18)"></div></div><span class="bc-spct" style="color:rgba(255,255,255,.3)">48%</span></div>
-          <div class="bc-score-row"><span class="bc-sname">R. Singh</span><div class="bc-sbar"><div class="bc-sbar-fill" style="width:62%;background:rgba(255,255,255,.22)"></div></div><span class="bc-spct" style="color:rgba(255,255,255,.4)">62%</span></div>
-        </div>
-      </div>
-
-      <div class="bento-card bc-2 reveal r2">
-        <div class="bc-icon">🧠</div>
-        <div class="bc-h">BFSI Skills Ontology</div>
-        <div class="bc-p">398 canonical skills. KYC, AML, Basel III, MiFID II, SEBI built in. Fuzzy matching via pg_trgm.</div>
-        <div class="bc-pill-row">
-          <span class="bc-pill match">KYC ✓</span>
-          <span class="bc-pill match">AML ✓</span>
-          <span class="bc-pill match">Basel III ✓</span>
-          <span class="bc-pill miss">MiFID II ✗</span>
-          <span class="bc-pill match">Python ✓</span>
-        </div>
-      </div>
-
-      <div class="bento-card bc-3 reveal r3">
-        <div class="bc-stat-big">305</div>
-        <div class="bc-stat-label">API endpoints across 3 portals</div>
-      </div>
-
-      <div class="bento-card bc-4 reveal r1">
-        <div class="bc-icon blue">📊</div>
-        <div class="bc-h">10-Tab MI Dashboard</div>
-        <div class="bc-p">Overview, Department, HM, Recruiter, Velocity, AI Scores, Time-to-Hire, Source ROI, Predictive, Drop-off. Everything a TA leader needs in one screen.</div>
-      </div>
-
-      <div class="bento-card bc-5 reveal r2">
-        <div class="bc-icon green">⚖️</div>
-        <div class="bc-h">DEI Compliance Engine</div>
-        <div class="bc-p">Algorithmic bias detection at score level. EEO reports in seconds. Anonymised screening with one toggle. Diversity goal tracking.</div>
-      </div>
-
-      <div class="bento-card bc-6 reveal r1">
-        <div class="bc-icon purple">🔄</div>
-        <div class="bc-h">Internal Mobility</div>
-        <div class="bc-p">Skills gap analysis. Internal job matching. One-click internal apply. Referral portal. Retention risk signals.</div>
-        <div class="bc-stages">
-          <div class="bc-stage"><div class="bc-stage-dot" style="background:#6366f1"></div><div class="bc-stage-label">New Applicants</div><div class="bc-stage-n">12</div></div>
-          <div class="bc-stage"><div class="bc-stage-dot" style="background:var(--g400)"></div><div class="bc-stage-label">Shortlisted</div><div class="bc-stage-n">7</div></div>
-          <div class="bc-stage"><div class="bc-stage-dot" style="background:#10b981"></div><div class="bc-stage-label">Offer Extended</div><div class="bc-stage-n">2</div></div>
-        </div>
-      </div>
-
-      <div class="bento-card bc-7 reveal r2">
-        <div class="bc-stat-big" style="font-size:2.5rem">₹99K</div>
-        <div class="bc-stat-label">Starting price per year</div>
-      </div>
-
-      <div class="bento-card bc-8 reveal r3">
-        <div class="bc-icon red">🌐</div>
-        <div class="bc-h">External Career Portal</div>
-        <div class="bc-p">Shareable job URLs for LinkedIn & Naukri. OTP-based candidate login. Status tracking. Job alerts. UTM tracking.</div>
-      </div>
-
+<!-- DIFFERENTIATION -->
+<section class="diff" id="diff">
+  <div class="sw">
+    <div class="diff-head r">
+      <div class="s-eyebrow">Differentiation</div>
+      <h2 class="s-h2">Built for decisions,<br/>not just workflows</h2>
+      <p class="s-lead">Traditional ATS systems manage steps. TalentAIQ drives outcomes — helping regulated organisations make confident, defensible hiring decisions.</p>
     </div>
-  </div>
-</section>
-
-<!-- SOLUTIONS -->
-<section class="section solutions" id="solutions">
-  <div class="s-inner reveal">
-    <div class="s-label">Solutions</div>
-    <h2 class="s-title">The right ATS for<br/>every stage of growth</h2>
-    <p class="s-sub">Whether you're a 20-person fintech on spreadsheets or a 500-person NBFC outgrowing Keka — TalentAIQ has a solution.</p>
-    <div class="sol-grid">
-      <div class="sol-card reveal r1">
-        <div class="sol-num">01</div>
-        <span class="sol-icon">🚀</span>
-        <div class="sol-h">For Fintech Startups</div>
-        <p class="sol-p">Replace Google Sheets with an AI-powered ATS. Get a branded careers site live in a day. Hire engineering, risk, and compliance talent faster with explainable AI that your board can actually understand.</p>
-        <a href="#pricing" class="sol-link">See Starter plan <span>→</span></a>
+    <div class="diff-grid r rd1">
+      <div class="diff-card">
+        <div class="diff-num">01</div>
+        <div class="diff-icon-wrap di-gold">🔎</div>
+        <div class="diff-h">Explainable AI scoring</div>
+        <p class="diff-p">Every match score comes with a written, structured explanation. Know exactly why a candidate ranked where they did — semantic fit, skills coverage, experience weighting — before you make a decision.</p>
       </div>
-      <div class="sol-card reveal r2">
-        <div class="sol-num">02</div>
-        <span class="sol-icon">🏦</span>
-        <div class="sol-h">For NBFCs & Regional Banks</div>
-        <p class="sol-p">RBI-compliant EEO reporting. Algorithmic bias detection. Structured interview guides for regulated roles. Audit-ready hiring trails that stand up to regulatory scrutiny.</p>
-        <a href="#compliance" class="sol-link">See compliance features <span>→</span></a>
+      <div class="diff-card">
+        <div class="diff-num">02</div>
+        <div class="diff-icon-wrap di-green">📋</div>
+        <div class="diff-h">Compliance-ready by design</div>
+        <p class="diff-p">RBI-aligned EEO reporting. Algorithmic bias detection at the score level. Anonymised screening. Full audit trails. Built in from day one — not layered on as an afterthought.</p>
       </div>
-      <div class="sol-card reveal r3">
-        <div class="sol-num">03</div>
-        <span class="sol-icon">🔄</span>
-        <div class="sol-h">Internal Mobility Platform</div>
-        <p class="sol-p">Reduce lateral hiring costs. Employees see their skills gap, get matched to open roles, and apply internally. Managers get a full view of mobility-ready talent before posting externally.</p>
-        <a href="#usecases" class="sol-link">See employee portal <span>→</span></a>
+      <div class="diff-card">
+        <div class="diff-num">03</div>
+        <div class="diff-icon-wrap di-blue">🧠</div>
+        <div class="diff-h">BFSI skill intelligence</div>
+        <p class="diff-p">398 canonical skills across 20 categories. KYC, AML, Basel III, MiFID II, SEBI — mapped and normalised from day one. Fuzzy matching ensures nothing is missed. Not adapted for finance — native to it.</p>
+      </div>
+      <div class="diff-card">
+        <div class="diff-num">04</div>
+        <div class="diff-icon-wrap di-purple">☁️</div>
+        <div class="diff-h">Secure, sovereign deployment</div>
+        <p class="diff-p">Docker and Kubernetes ready. Deploy on AWS Mumbai, Azure India, or your private cloud. Your data stays in India. Full infrastructure ownership. No vendor lock-in, no data residency risk.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- COMPLIANCE -->
-<section class="section compliance" id="compliance">
-  <div class="s-inner reveal">
-    <div class="s-label" style="color:var(--g600)">Governance</div>
-    <h2 class="s-title dark">Built for regulated industries.<br/>Not adapted for them.</h2>
-    <p class="s-sub dark">Generic ATSs add compliance as an afterthought. TalentAIQ was architected for financial services regulation from day one.</p>
-    <div class="comp-grid">
-      <div class="comp-card reveal r1">
-        <div class="comp-icon">📋</div>
-        <div class="comp-h">RBI-Ready EEO Reporting</div>
-        <p class="comp-p">Export Equal Employment Opportunity reports in seconds. Gender funnel analysis, ethnicity distribution, veterans, disability — all in one click, board-ready.</p>
-      </div>
-      <div class="comp-card reveal r2">
-        <div class="comp-icon">🛡️</div>
-        <div class="comp-h">Algorithmic Bias Detection</div>
-        <p class="comp-p">The only ATS detecting bias at the score level. Real-time alerts when AI scoring shows statistically significant demographic disparities. Not just pipeline reporting.</p>
-      </div>
-      <div class="comp-card reveal r3">
-        <div class="comp-icon">🔍</div>
-        <div class="comp-h">Full Audit Trail</div>
-        <p class="comp-p">Every hiring decision logged with actor, timestamp, and before/after state. When your regulator asks why you hired candidate A over B — you have the answer in seconds.</p>
-      </div>
-      <div class="comp-card reveal r1">
-        <div class="comp-icon">🔒</div>
-        <div class="comp-h">Anonymised Screening</div>
-        <p class="comp-p">One toggle hides names, emails, photos, and identifying information across the entire pipeline. Structured, unbiased screening without process overhead.</p>
-      </div>
-      <div class="comp-card reveal r2">
-        <div class="comp-icon">☁️</div>
-        <div class="comp-h">Deploy on Your Cloud</div>
-        <p class="comp-p">Docker + Kubernetes. AWS Mumbai, Azure India, or your private cloud. Data stays in India. No data residency concerns. Full infrastructure ownership — yours.</p>
-      </div>
-      <div class="comp-card reveal r3">
-        <div class="comp-icon">📈</div>
-        <div class="comp-h">Diversity Goal Tracking</div>
-        <p class="comp-p">Set targets by department and job level. Track ON_TRACK / AT_RISK / OFF_TRACK in real time. Export for board reporting in one click.</p>
-      </div>
+<!-- PRODUCT EXPERIENCE -->
+<section class="product-exp" id="product">
+  <div class="sw">
+    <div class="r" style="max-width:600px;margin-bottom:.5rem">
+      <div class="s-eyebrow">Product experience</div>
+      <h2 class="s-h2">A platform built around<br/>the hiring decision</h2>
+      <p class="s-lead">Every screen is designed to surface what matters — so your team spends time on judgment, not administration.</p>
     </div>
-  </div>
-</section>
-
-<!-- PLATFORM SPLIT -->
-<section class="section platform" id="platform-detail">
-  <div class="s-inner">
-    <div class="plat-grid">
-      <div class="reveal">
-        <div class="s-label">How it works</div>
-        <h2 class="s-title">Your entire talent workflow.<br/>One platform.</h2>
-        <p class="s-sub">From first application to internal promotion — TalentAIQ covers the full lifecycle.</p>
-        <div class="plat-tabs">
-          <div class="plat-tab active" onclick="switchPlat(this,'plat-overview')">
-            <div class="plat-tab-icon">📊</div>
-            <div><div class="plat-tab-h">Analytics Dashboard</div><div class="plat-tab-p">10 tabs — overview, pipeline velocity, AI scores, source ROI, predictive, drop-off and more</div></div>
+    <div class="pe-layout">
+      <div class="pe-tabs r rd1">
+        <div class="pe-tab on" onclick="switchPE(this,'pe-eval')">
+          <div class="pe-tab-icon">👥</div>
+          <div>
+            <div class="pe-tab-h">Candidate evaluation</div>
+            <div class="pe-tab-p">Ranked shortlist with AI confidence scores</div>
           </div>
-          <div class="plat-tab" onclick="switchPlat(this,'plat-pipeline')">
-            <div class="plat-tab-icon">🔀</div>
-            <div><div class="plat-tab-h">Pipeline Kanban</div><div class="plat-tab-p">8-stage kanban with drag-and-drop, SLA alerts, and candidate detail panel</div></div>
+        </div>
+        <div class="pe-tab" onclick="switchPE(this,'pe-score')">
+          <div class="pe-tab-icon">📊</div>
+          <div>
+            <div class="pe-tab-h">Score breakdown</div>
+            <div class="pe-tab-p">Semantic, skills, and experience decomposition</div>
           </div>
-          <div class="plat-tab" onclick="switchPlat(this,'plat-dei')">
-            <div class="plat-tab-icon">⚖️</div>
-            <div><div class="plat-tab-h">DEI Dashboard</div><div class="plat-tab-p">Bias detection, EEO reports, diversity goals, anonymised screening controls</div></div>
+        </div>
+        <div class="pe-tab" onclick="switchPE(this,'pe-comp')">
+          <div class="pe-tab-icon">⚖️</div>
+          <div>
+            <div class="pe-tab-h">Compliance dashboard</div>
+            <div class="pe-tab-p">Bias detection and DEI reporting</div>
           </div>
-          <div class="plat-tab" onclick="switchPlat(this,'plat-source')">
-            <div class="plat-tab-icon">🎯</div>
-            <div><div class="plat-tab-h">Source ROI</div><div class="plat-tab-p">LinkedIn vs Naukri vs Direct — hire conversion rates, cost per hire by channel</div></div>
+        </div>
+        <div class="pe-tab" onclick="switchPE(this,'pe-ins')">
+          <div class="pe-tab-icon">📈</div>
+          <div>
+            <div class="pe-tab-h">Hiring intelligence</div>
+            <div class="pe-tab-p">Pipeline velocity and source analytics</div>
           </div>
         </div>
       </div>
-      <div class="reveal r2">
-        <div class="plat-screen">
-          <div class="plat-screen-bar">
-            <div class="psb-dot" style="background:#f43f5e"></div>
-            <div class="psb-dot" style="background:#fb923c"></div>
-            <div class="psb-dot" style="background:#4ade80"></div>
-            <span style="font-size:11px;color:rgba(255,255,255,.2);font-family:var(--fm);margin-left:8px">MI Dashboard — TalentAIQ</span>
-          </div>
-          <div class="plat-screen-body" id="plat-overview">
-            <div class="psb-tab-row">
-              <span class="psb-tab on">Overview</span>
-              <span class="psb-tab">Department</span>
-              <span class="psb-tab">Source ROI</span>
+      <div class="pe-screen r rd2">
+        <div class="pe-screen-chrome">
+          <div class="chrome-dot" style="background:#f43f5e"></div>
+          <div class="chrome-dot" style="background:#fb923c"></div>
+          <div class="chrome-dot" style="background:#4ade80"></div>
+          <div class="chrome-url">app.talentaiq.in · Decision Intelligence</div>
+        </div>
+        <div class="pe-body">
+
+          <!-- EVAL PANEL -->
+          <div class="pe-panel on" id="pe-eval">
+            <div class="eval-header">
+              <div>
+                <div class="eval-role-title">Senior Risk Analyst — Shortlist</div>
+                <div class="eval-role-dept">Risk & Compliance · Mumbai · 4 yrs minimum</div>
+              </div>
+              <div class="eval-badge eval-open">8 CANDIDATES</div>
             </div>
-            <div class="psb-kpi-row">
-              <div class="psb-kpi"><div class="psb-kpi-v">87<span>%</span></div><div class="psb-kpi-l">AVG AI MATCH</div></div>
-              <div class="psb-kpi"><div class="psb-kpi-v">14<span>d</span></div><div class="psb-kpi-l">AVG TIME TO HIRE</div></div>
-              <div class="psb-kpi"><div class="psb-kpi-v">8</div><div class="psb-kpi-l">OPEN ROLES</div></div>
-              <div class="psb-kpi"><div class="psb-kpi-v">94<span>%</span></div><div class="psb-kpi-l">OFFER ACCEPTANCE</div></div>
+            <div class="eval-cands">
+              <div class="eval-row selected">
+                <div class="er-rank">1</div>
+                <div class="er-av" style="background:rgba(201,147,10,.12);color:#e8c050">A1</div>
+                <div class="er-info"><div class="er-name">Candidate A</div><div class="er-meta">BFSI Organisation · 6yr · KYC/AML/Basel III</div></div>
+                <div class="er-score-wrap"><div class="er-pct">87%</div><div class="er-bar-track"><div class="er-bar-fill" style="width:87%;background:linear-gradient(90deg,#c9930a,#e8c050)"></div></div></div>
+              </div>
+              <div class="eval-row">
+                <div class="er-rank">2</div>
+                <div class="er-av" style="background:rgba(37,99,235,.1);color:#93c5fd">A2</div>
+                <div class="er-info"><div class="er-name">Candidate B</div><div class="er-meta">Financial Institution · 9yr · Risk Management</div></div>
+                <div class="er-score-wrap"><div class="er-pct" style="color:rgba(255,255,255,.6)">71%</div><div class="er-bar-track"><div class="er-bar-fill" style="width:71%;background:linear-gradient(90deg,#1d4ed8,#60a5fa)"></div></div></div>
+              </div>
+              <div class="eval-row">
+                <div class="er-rank">3</div>
+                <div class="er-av" style="background:rgba(124,58,237,.1);color:#c4b5fd">A3</div>
+                <div class="er-info"><div class="er-name">Candidate C</div><div class="er-meta">Fintech Company · 4yr · Compliance</div></div>
+                <div class="er-score-wrap"><div class="er-pct" style="color:rgba(255,255,255,.38)">48%</div><div class="er-bar-track"><div class="er-bar-fill" style="width:48%;background:linear-gradient(90deg,#6d28d9,#a78bfa)"></div></div></div>
+              </div>
             </div>
+            <div class="er-conf-row">
+              <span class="er-conf-label">AI CONFIDENCE · TOP RECOMMENDATION</span>
+              <span class="er-conf-value">HIGH (0.91)</span>
+            </div>
+          </div>
+
+          <!-- SCORE PANEL -->
+          <div class="pe-panel" id="pe-score">
+            <div class="sb-cand-header">
+              <div class="sb-avatar" style="background:rgba(201,147,10,.12);color:#e8c050;font-size:15px;font-weight:700">A1</div>
+              <div>
+                <div class="sb-name">Candidate A — Score Breakdown</div>
+                <div class="sb-role">Senior Risk Analyst · BFSI Organisation</div>
+              </div>
+            </div>
+            <div class="sb-big-score">
+              <div class="sbs-ring">
+                <div class="sbs-inner"><div class="sbs-pct">87%</div><div class="sbs-label">OVERALL</div></div>
+              </div>
+              <div class="sbs-breakdown">
+                <div class="sbs-row"><span class="sbs-label-text">Semantic fit</span><div class="sbs-track"><div class="sbs-fill sf-semantic" style="width:92%"></div></div><span class="sbs-val">92</span><span class="sbs-weight" style="font-size:9px;color:rgba(255,255,255,.25)">×50%</span></div>
+                <div class="sbs-row"><span class="sbs-label-text">Skills match</span><div class="sbs-track"><div class="sbs-fill sf-skills" style="width:85%"></div></div><span class="sbs-val">85</span><span class="sbs-weight" style="font-size:9px;color:rgba(255,255,255,.25)">×35%</span></div>
+                <div class="sbs-row"><span class="sbs-label-text">Experience</span><div class="sbs-track"><div class="sbs-fill sf-exp" style="width:80%"></div></div><span class="sbs-val">80</span><span class="sbs-weight" style="font-size:9px;color:rgba(255,255,255,.25)">×15%</span></div>
+              </div>
+            </div>
+            <div class="sb-skills">
+              <div class="sb-skills-h">REQUIRED SKILLS COVERAGE</div>
+              <div class="sb-skill-row"><span class="sk-name">KYC (Know Your Customer)</span><span class="sk-status sk-match">MATCHED</span></div>
+              <div class="sb-skill-row"><span class="sk-name">AML (Anti-Money Laundering)</span><span class="sk-status sk-match">MATCHED</span></div>
+              <div class="sb-skill-row"><span class="sk-name">Basel III</span><span class="sk-status sk-match">MATCHED</span></div>
+              <div class="sb-skill-row"><span class="sk-name">Python</span><span class="sk-status sk-match">MATCHED</span></div>
+              <div class="sb-skill-row"><span class="sk-name">MiFID II</span><span class="sk-status sk-miss">NOT FOUND</span></div>
+            </div>
+          </div>
+
+          <!-- COMPLIANCE PANEL -->
+          <div class="pe-panel" id="pe-comp">
+            <div class="comp-header">
+              <div class="comp-title">DEI & Compliance Dashboard</div>
+              <div class="comp-status"><div class="comp-status-dot"></div>All checks passed</div>
+            </div>
+            <div class="comp-cards">
+              <div class="comp-card"><span class="comp-card-v">38%</span><div class="comp-card-l">WOMEN IN PIPELINE</div></div>
+              <div class="comp-card"><span class="comp-card-v">0</span><div class="comp-card-l">BIAS FLAGS</div></div>
+              <div class="comp-card"><span class="comp-card-v">92%</span><div class="comp-card-l">SCORE FAIRNESS</div></div>
+              <div class="comp-card"><span class="comp-card-v">✓</span><div class="comp-card-l">EEO READY</div></div>
+            </div>
+            <div class="comp-alert ca-ok">
+              <span class="ca-icon">✓</span>
+              <div class="ca-text">Anonymised screening active. Candidate names and photos hidden from evaluators. Decisions based on skills and experience only.</div>
+            </div>
+            <div class="comp-alert ca-warn" style="margin-top:8px">
+              <span class="ca-icon">⚠</span>
+              <div class="ca-text">Diversity goal: Women in Risk Roles — currently 38% vs target 40%. 2 percentage points below target. Action recommended.</div>
+            </div>
+          </div>
+
+          <!-- INSIGHTS PANEL -->
+          <div class="pe-panel" id="pe-ins">
+            <div class="ins-kpi-row">
+              <div class="ins-kpi"><div class="ins-kpi-v">14d</div><div class="ins-kpi-l">AVG TIME TO HIRE</div></div>
+              <div class="ins-kpi"><div class="ins-kpi-v">87%</div><div class="ins-kpi-l">AVG AI SCORE</div></div>
+              <div class="ins-kpi"><div class="ins-kpi-v">94%</div><div class="ins-kpi-l">OFFER ACCEPTANCE</div></div>
+              <div class="ins-kpi"><div class="ins-kpi-v">8</div><div class="ins-kpi-l">OPEN ROLES</div></div>
+            </div>
+            <div style="font-size:10.5px;color:rgba(255,255,255,.3);font-family:var(--fm);margin-bottom:6px">APPLICATIONS · LAST 8 WEEKS</div>
+            <div class="ins-trend">
+              <div class="ins-bar" style="height:35%"></div>
+              <div class="ins-bar" style="height:55%"></div>
+              <div class="ins-bar" style="height:45%"></div>
+              <div class="ins-bar" style="height:70%"></div>
+              <div class="ins-bar" style="height:60%"></div>
+              <div class="ins-bar" style="height:85%"></div>
+              <div class="ins-bar" style="height:75%"></div>
+              <div class="ins-bar" style="height:100%;opacity:1"></div>
+            </div>
+            <div style="font-size:10.5px;color:rgba(255,255,255,.3);font-family:var(--fm);margin-bottom:8px">SOURCE ROI</div>
+            <div class="ins-source">
+              <div class="is-row"><span class="is-label">LinkedIn</span><div class="is-track"><div class="is-fill" style="width:72%;background:linear-gradient(90deg,#c9930a,#e8c050)"></div></div><span class="is-n">12%</span></div>
+              <div class="is-row"><span class="is-label">Internal</span><div class="is-track"><div class="is-fill" style="width:90%;background:linear-gradient(90deg,#059669,#10b981)"></div></div><span class="is-n">34%</span></div>
+              <div class="is-row"><span class="is-label">Naukri</span><div class="is-track"><div class="is-fill" style="width:48%;background:linear-gradient(90deg,#1d4ed8,#60a5fa)"></div></div><span class="is-n">8%</span></div>
+              <div class="is-row"><span class="is-label">Direct</span><div class="is-track"><div class="is-fill" style="width:62%;background:linear-gradient(90deg,#6d28d9,#a78bfa)"></div></div><span class="is-n">22%</span></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="hiw" id="how">
+  <div class="sw">
+    <div class="hiw-head r">
+      <div class="s-eyebrow dark">Process</div>
+      <h2 class="s-h2 dark">From resume to decision.<br/>Every step explained.</h2>
+      <p class="s-lead dark">TalentAIQ doesn't just surface candidates — it reasons about them, documents that reasoning, and gives your team the confidence to act.</p>
+    </div>
+    <div class="hiw-flow">
+      <div class="hiw-step r rd1">
+        <div class="hiw-step-icon"><span class="hiw-step-n">1</span>📄</div>
+        <div class="hiw-step-h">Resume ingestion</div>
+        <p class="hiw-step-p">Upload PDF, DOCX or CSV. Claude AI extracts skills, experience, education, and roles in seconds.</p>
+        <div class="hiw-arrow">→</div>
+      </div>
+      <div class="hiw-step r rd2">
+        <div class="hiw-step-icon"><span class="hiw-step-n">2</span>🧠</div>
+        <div class="hiw-step-h">Semantic analysis</div>
+        <p class="hiw-step-p">pgvector embeds resume and job description. Cosine similarity captures meaning beyond keywords.</p>
+        <div class="hiw-arrow">→</div>
+      </div>
+      <div class="hiw-step r rd3">
+        <div class="hiw-step-icon"><span class="hiw-step-n">3</span>📊</div>
+        <div class="hiw-step-h">Composite scoring</div>
+        <p class="hiw-step-p">Semantic (50%) + Skills (35%) + Experience (15%). Each weight transparent and auditable.</p>
+        <div class="hiw-arrow">→</div>
+      </div>
+      <div class="hiw-step r rd1">
+        <div class="hiw-step-icon"><span class="hiw-step-n">4</span>💬</div>
+        <div class="hiw-step-h">AI reasoning</div>
+        <p class="hiw-step-p">Claude generates a written explanation for every score. Skills matched, gaps identified, reasoning documented.</p>
+        <div class="hiw-arrow">→</div>
+      </div>
+      <div class="hiw-step r rd2">
+        <div class="hiw-step-icon"><span class="hiw-step-n">5</span>✅</div>
+        <div class="hiw-step-h">Defensible decision</div>
+        <p class="hiw-step-p">Your team acts with confidence. Every decision logged, auditable, and explainable to any stakeholder.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENTERPRISE VALUE -->
+<section class="ev" id="enterprise">
+  <div class="sw">
+    <div class="r" style="max-width:600px;margin-bottom:1rem">
+      <div class="s-eyebrow">Enterprise value</div>
+      <h2 class="s-h2">Outcomes that matter<br/>to regulated organisations</h2>
+      <p class="s-lead">TalentAIQ isn't evaluated on features. It's evaluated on whether it reduces hiring risk, improves decision quality, and withstands regulatory scrutiny.</p>
+    </div>
+    <div class="ev-grid">
+      <div class="ev-card r rd1">
+        <div class="ev-metric">↓40%</div>
+        <div class="ev-metric-label">REDUCTION IN TIME-TO-SHORTLIST</div>
+        <div class="ev-h">Reduce hiring risk</div>
+        <p class="ev-p">Explainable AI scores mean your team focuses on the right candidates from the start. Fewer mis-hires, faster decisions.</p>
+      </div>
+      <div class="ev-card r rd2">
+        <div class="ev-metric">100%</div>
+        <div class="ev-metric-label">AUDIT TRAIL COVERAGE</div>
+        <div class="ev-h">Improve decision quality</div>
+        <p class="ev-p">Every hire traceable to a documented AI score and written explanation. Board and regulator questions answered in seconds.</p>
+      </div>
+      <div class="ev-card r rd3">
+        <div class="ev-metric">RBI ✓</div>
+        <div class="ev-metric-label">COMPLIANCE READY</div>
+        <div class="ev-h">Ensure compliance</div>
+        <p class="ev-p">EEO reports, bias detection, anonymised screening, diversity goals. Everything a regulated organisation needs to demonstrate fair hiring.</p>
+      </div>
+      <div class="ev-card r rd4">
+        <div class="ev-metric">1 day</div>
+        <div class="ev-metric-label">DEPLOYMENT TIME</div>
+        <div class="ev-h">Accelerate hiring</div>
+        <p class="ev-p">Careers site live in a day. AI scoring active immediately. No months-long implementation. No consultant army required.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POSITIONING -->
+<section class="pos" id="position">
+  <div class="sw">
+    <div class="pos-grid">
+      <div class="pos-copy r">
+        <div class="s-eyebrow">Positioning</div>
+        <h2 class="s-h2">Beyond the ATS.<br/>A decision platform.</h2>
+        <p class="s-lead">Traditional ATS systems were built to manage hiring steps. TalentAIQ was built to improve hiring outcomes — specifically in environments where those outcomes need to be explained and defended.</p>
+        <div class="pos-points" style="margin-top:2rem">
+          <div class="pos-point">
+            <div class="pos-point-dot">✓</div>
             <div>
-              <div class="psb-bar-item"><div class="psb-bar-lrow"><span>Engineering</span><span>87%</span></div><div class="psb-bar-track"><div class="psb-bar-fill bf-gold" style="width:87%"></div></div></div>
-              <div class="psb-bar-item"><div class="psb-bar-lrow"><span>Risk & Compliance</span><span>74%</span></div><div class="psb-bar-track"><div class="psb-bar-fill bf-green" style="width:74%"></div></div></div>
-              <div class="psb-bar-item"><div class="psb-bar-lrow"><span>Product</span><span>62%</span></div><div class="psb-bar-track"><div class="psb-bar-fill bf-blue" style="width:62%"></div></div></div>
-              <div class="psb-bar-item"><div class="psb-bar-lrow"><span>Operations</span><span>55%</span></div><div class="psb-bar-track"><div class="psb-bar-fill bf-purple" style="width:55%"></div></div></div>
+              <div class="pos-point-h">AI you can explain</div>
+              <p class="pos-point-p">Every score decomposed into semantic fit, skills coverage, and experience weighting — not a black box confidence number.</p>
             </div>
           </div>
-          <div class="plat-screen-body" id="plat-pipeline" style="display:none">
-            <div style="font-size:10px;color:var(--g500);font-family:var(--fm);margin-bottom:1rem">PIPELINE — SENIOR RISK ANALYST</div>
-            <div style="display:flex;flex-direction:column;gap:7px">
-              <div class="ucv-stage"><div class="ucv-stage-dot" style="background:#6366f1"></div><div class="ucv-stage-label">New Applicants</div><div class="ucv-stage-n">12 candidates</div></div>
-              <div class="ucv-stage"><div class="ucv-stage-dot" style="background:var(--g400)"></div><div class="ucv-stage-label">Shortlisted</div><div class="ucv-stage-n">7 candidates</div></div>
-              <div class="ucv-stage"><div class="ucv-stage-dot" style="background:#8b5cf6"></div><div class="ucv-stage-label">Screening</div><div class="ucv-stage-n">4 candidates</div></div>
-              <div class="ucv-stage"><div class="ucv-stage-dot" style="background:#06b6d4"></div><div class="ucv-stage-label">Interview</div><div class="ucv-stage-n">3 candidates</div></div>
-              <div class="ucv-stage"><div class="ucv-stage-dot" style="background:#10b981"></div><div class="ucv-stage-label">Offer Extended</div><div class="ucv-stage-n">1 candidate</div></div>
-              <div class="ucv-stage"><div class="ucv-stage-dot" style="background:var(--g500)"></div><div class="ucv-stage-label">Hired ✓</div><div class="ucv-stage-n">1 this month</div></div>
+          <div class="pos-point">
+            <div class="pos-point-dot">✓</div>
+            <div>
+              <div class="pos-point-h">Compliance built in, not bolted on</div>
+              <p class="pos-point-p">Bias detection at score level. EEO reporting. Anonymised screening. Designed for regulated environments from day one.</p>
             </div>
           </div>
-          <div class="plat-screen-body" id="plat-dei" style="display:none">
-            <div style="font-size:10px;color:var(--g500);font-family:var(--fm);margin-bottom:1rem">DEI DASHBOARD</div>
-            <div style="background:rgba(212,160,23,.08);border:1px solid rgba(212,160,23,.2);border-radius:10px;padding:12px;margin-bottom:1rem">
-              <div style="font-size:9px;color:var(--g400);font-family:var(--fm);margin-bottom:4px">⚠ BIAS ALERT</div>
-              <div style="font-size:12px;color:rgba(255,255,255,.6)">Gender score disparity detected in Engineering pipeline. Male candidates scoring 8.2% higher. Review recommended.</div>
+          <div class="pos-point">
+            <div class="pos-point-dot">✓</div>
+            <div>
+              <div class="pos-point-h">Financial services native</div>
+              <p class="pos-point-p">398 BFSI skills. KYC, AML, Basel III, MiFID II, SEBI. Not adapted from a generic ATS — purpose-built for finance.</p>
             </div>
-            <div class="psb-bar-item"><div class="psb-bar-lrow"><span>Women in pipeline</span><span style="color:#fda4af">38% (target 40%)</span></div><div class="psb-bar-track"><div class="psb-bar-fill" style="width:38%;background:linear-gradient(90deg,#f43f5e,#fb7185)"></div></div></div>
-            <div class="psb-bar-item"><div class="psb-bar-lrow"><span>Diversity goal</span><span style="color:#fda4af">AT RISK</span></div><div class="psb-bar-track"><div class="psb-bar-fill" style="width:40%;background:rgba(251,113,133,.4)"></div></div></div>
-            <div style="margin-top:12px;padding:10px;background:rgba(255,255,255,.04);border-radius:8px;font-size:11px;color:rgba(255,255,255,.35);font-family:var(--fm)">EEO Report ready · Export in 1 click</div>
-          </div>
-          <div class="plat-screen-body" id="plat-source" style="display:none">
-            <div style="font-size:10px;color:var(--g500);font-family:var(--fm);margin-bottom:1rem">SOURCE ROI — Q1 2026</div>
-            <div class="psb-bar-item"><div class="psb-bar-lrow"><span>LinkedIn</span><span>12% hire rate</span></div><div class="psb-bar-track"><div class="psb-bar-fill bf-gold" style="width:72%"></div></div></div>
-            <div class="psb-bar-item"><div class="psb-bar-lrow"><span>Naukri</span><span>8% hire rate</span></div><div class="psb-bar-track"><div class="psb-bar-fill bf-blue" style="width:48%"></div></div></div>
-            <div class="psb-bar-item"><div class="psb-bar-lrow"><span>Internal Referral</span><span>34% conversion</span></div><div class="psb-bar-track"><div class="psb-bar-fill bf-green" style="width:90%"></div></div></div>
-            <div class="psb-bar-item"><div class="psb-bar-lrow"><span>Direct / Career Site</span><span>22% hire rate</span></div><div class="psb-bar-track"><div class="psb-bar-fill bf-purple" style="width:62%"></div></div></div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- COMPARISON -->
-<section class="section comparison" id="comparison">
-  <div class="s-inner reveal">
-    <div class="s-label">Why TalentAIQ</div>
-    <h2 class="s-title">Built for BFSI. Not adapted for it.</h2>
-    <p class="s-sub">Generic ATSs were built for tech companies. Financial services recruiting is different — and they haven't caught up.</p>
-    <div class="comp-table">
-      <div class="ct-head">
-        <span>Capability</span>
-        <span class="ours">TalentAIQ</span>
-        <span>Greenhouse</span>
-        <span>Lever</span>
-        <span>Keka</span>
-      </div>
-      <div class="ct-row"><span class="ct-cap">Explainable AI scoring</span><span class="ct-yes ct-ours">✓</span><span class="ct-no">✗</span><span class="ct-no">✗</span><span class="ct-no">✗</span></div>
-      <div class="ct-row"><span class="ct-cap">BFSI skills ontology</span><span class="ct-yes ct-ours">✓</span><span class="ct-no">✗</span><span class="ct-no">✗</span><span class="ct-no">✗</span></div>
-      <div class="ct-row"><span class="ct-cap">Algorithmic bias detection</span><span class="ct-yes ct-ours">✓</span><span class="ct-part">Partial</span><span class="ct-part">Partial</span><span class="ct-no">✗</span></div>
-      <div class="ct-row"><span class="ct-cap">Internal mobility module</span><span class="ct-yes ct-ours">✓</span><span class="ct-no">✗</span><span class="ct-part">Partial</span><span class="ct-part">Partial</span></div>
-      <div class="ct-row"><span class="ct-cap">Native assessment engine</span><span class="ct-yes ct-ours">✓</span><span class="ct-part">3rd party</span><span class="ct-part">3rd party</span><span class="ct-part">Partial</span></div>
-      <div class="ct-row"><span class="ct-cap">Predictive analytics</span><span class="ct-yes ct-ours">✓</span><span class="ct-part">Partial</span><span class="ct-part">Partial</span><span class="ct-no">✗</span></div>
-      <div class="ct-row"><span class="ct-cap">Deploy on your cloud</span><span class="ct-yes ct-ours">✓</span><span class="ct-no">✗</span><span class="ct-no">✗</span><span class="ct-part">Partial</span></div>
-      <div class="ct-row"><span class="ct-cap">Starting price / year</span><span class="ct-our-price">₹99K</span><span class="ct-price">₹8–15L</span><span class="ct-price">₹6–12L</span><span class="ct-price">₹3–5L</span></div>
-      <div class="ct-disclaimer">* Competitor information based on publicly available product documentation as of April 2026. Pricing estimates based on market research; actual pricing may vary. Features marked ✗ were not found in public documentation. Features marked Partial indicate add-on or limited capability. TalentAIQ makes no claim that competitor products are defective or unsuitable for other use cases.</div>
-    </div>
-  </div>
-</section>
-
-<!-- USE CASES -->
-<section class="section usecases" id="usecases">
-  <div class="s-inner reveal">
-    <div class="s-label" style="color:var(--g600)">Use Cases</div>
-    <h2 class="s-title dark">Built for every role in your talent team</h2>
-    <div class="uc-wrap">
-      <div class="uc-tab-row">
-        <button class="uc-tab on" onclick="switchUC(this,'uc-rec')">Recruiter</button>
-        <button class="uc-tab" onclick="switchUC(this,'uc-ta')">TA Head</button>
-        <button class="uc-tab" onclick="switchUC(this,'uc-chro')">CHRO</button>
-        <button class="uc-tab" onclick="switchUC(this,'uc-emp')">Employee</button>
-      </div>
-      <div class="uc-panel on" id="uc-rec">
-        <div>
-          <h3 class="uc-panel-h">Focus on candidates,<br/>not admin work</h3>
-          <p class="uc-panel-p">TalentAIQ eliminates the grunt work so you spend your time on what actually moves hiring forward.</p>
-          <ul class="uc-list">
-            <li><strong>AI resume parsing</strong> extracts skills, experience, education, and roles automatically on upload</li>
-            <li><strong>Match explanations</strong> tell you exactly why each candidate scored high or low — no guessing</li>
-            <li><strong>SLA alerts</strong> via Slack when candidates sit too long in any stage</li>
-            <li><strong>Kanban pipeline</strong> with drag-and-drop stage management across 8 stages</li>
-            <li><strong>Structured interview guides</strong> generated by Claude AI, specific to each role's competencies</li>
-          </ul>
-        </div>
-        <div class="uc-visual">
-          <div class="ucv-label">Today's Pipeline</div>
-          <div class="ucv-metric-row"><div class="ucv-metric"><div class="ucv-metric-v">12</div><div class="ucv-metric-l">NEW TODAY</div></div><div class="ucv-metric"><div class="ucv-metric-v">4</div><div class="ucv-metric-l">SLA ALERTS</div></div></div>
-          <div class="ucv-stage-list">
-            <div class="ucv-stage"><div class="ucv-stage-dot" style="background:#6366f1"></div><span class="ucv-stage-label">New Applicants</span><span class="ucv-stage-n">12</span></div>
-            <div class="ucv-stage"><div class="ucv-stage-dot" style="background:var(--g400)"></div><span class="ucv-stage-label">Shortlisted</span><span class="ucv-stage-n">7</span></div>
-            <div class="ucv-stage"><div class="ucv-stage-dot" style="background:#8b5cf6"></div><span class="ucv-stage-label">Screening</span><span class="ucv-stage-n">4</span></div>
-            <div class="ucv-stage"><div class="ucv-stage-dot" style="background:#06b6d4"></div><span class="ucv-stage-label">Interview</span><span class="ucv-stage-n">3</span></div>
-            <div class="ucv-stage"><div class="ucv-stage-dot" style="background:#10b981"></div><span class="ucv-stage-label">Offer Extended</span><span class="ucv-stage-n">1</span></div>
+      <div class="r rd2">
+        <div class="pos-table">
+          <div class="pt-head">
+            <span class="pt-head-cell">Capability</span>
+            <span class="pt-head-cell ours">TalentAIQ</span>
+            <span class="pt-head-cell">Greenhouse</span>
+            <span class="pt-head-cell">Keka</span>
           </div>
-        </div>
-      </div>
-      <div class="uc-panel" id="uc-ta">
-        <div>
-          <h3 class="uc-panel-h">Full visibility across<br/>every requisition</h3>
-          <p class="uc-panel-p">Know exactly where every open role stands — without chasing recruiters for updates.</p>
-          <ul class="uc-list">
-            <li><strong>10-tab MI Dashboard</strong> — overview, department, HM, recruiter, velocity, AI scores, time-to-hire, source ROI, predictive, drop-off</li>
-            <li><strong>Open role health status</strong> — On Track / At Risk / Needs Attention based on pipeline depth and match scores</li>
-            <li><strong>Source ROI tracking</strong> — LinkedIn vs Naukri vs Direct with hire conversion rates per channel</li>
-            <li><strong>Drop-off analysis</strong> — where candidates ghost, overdue SLAs, and withdrawal patterns</li>
-          </ul>
-        </div>
-        <div class="uc-visual">
-          <div class="ucv-label">Source ROI — This Quarter</div>
-          <div class="ucv-bar-item"><div class="ucv-bar-lrow"><span>LinkedIn</span><span>12% hire rate</span></div><div class="ucv-bar-track"><div class="ucv-bar-fill" style="width:72%"></div></div></div>
-          <div class="ucv-bar-item"><div class="ucv-bar-lrow"><span>Naukri</span><span>8% hire rate</span></div><div class="ucv-bar-track"><div class="ucv-bar-fill" style="width:48%;background:linear-gradient(90deg,#1d4ed8,#60a5fa)"></div></div></div>
-          <div class="ucv-bar-item"><div class="ucv-bar-lrow"><span>Internal Referral</span><span>34% conversion</span></div><div class="ucv-bar-track"><div class="ucv-bar-fill" style="width:90%;background:linear-gradient(90deg,#059669,#10b981)"></div></div></div>
-          <div class="ucv-bar-item"><div class="ucv-bar-lrow"><span>Direct / Career Site</span><span>22% hire rate</span></div><div class="ucv-bar-track"><div class="ucv-bar-fill" style="width:62%;background:linear-gradient(90deg,#6d28d9,#a78bfa)"></div></div></div>
-        </div>
-      </div>
-      <div class="uc-panel" id="uc-chro">
-        <div>
-          <h3 class="uc-panel-h">Board-ready reporting.<br/>Regulator-ready compliance.</h3>
-          <p class="uc-panel-p">When your board asks about diversity in hiring, or your regulator requests EEO data — TalentAIQ gives you the answer in seconds.</p>
-          <ul class="uc-list">
-            <li><strong>EEO Report export</strong> — gender, ethnicity, veterans, disability at every pipeline stage in one click</li>
-            <li><strong>Algorithmic bias audit</strong> — statistical evidence that AI scoring is fair and unbiased</li>
-            <li><strong>Diversity goal tracking</strong> — set targets, track actuals, get ON_TRACK / AT_RISK / OFF_TRACK status</li>
-            <li><strong>Full audit trail</strong> — every hiring decision logged, actor identified, reason documented</li>
-          </ul>
-        </div>
-        <div class="uc-visual">
-          <div class="ucv-label">Diversity Goals — Q1 2026</div>
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <div style="padding:10px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:8px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:12px;color:#6ee7b7">Women in Tech Roles</span><span style="font-size:10px;background:rgba(16,185,129,.2);color:#6ee7b7;padding:2px 8px;border-radius:4px;font-family:var(--fm)">ON TRACK</span></div><div style="font-size:11px;color:rgba(255,255,255,.35)">Target: 40% · Actual: 38%</div></div>
-            <div style="padding:10px;background:rgba(212,160,23,.08);border:1px solid rgba(212,160,23,.2);border-radius:8px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:12px;color:var(--g300)">Senior Risk Diversity</span><span style="font-size:10px;background:rgba(212,160,23,.2);color:var(--g300);padding:2px 8px;border-radius:4px;font-family:var(--fm)">AT RISK</span></div><div style="font-size:11px;color:rgba(255,255,255,.35)">Target: 30% · Actual: 22%</div></div>
-            <div style="padding:10px;background:rgba(244,63,94,.08);border:1px solid rgba(244,63,94,.2);border-radius:8px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:12px;color:#fda4af">Leadership Diversity</span><span style="font-size:10px;background:rgba(244,63,94,.2);color:#fda4af;padding:2px 8px;border-radius:4px;font-family:var(--fm)">OFF TRACK</span></div><div style="font-size:11px;color:rgba(255,255,255,.35)">Target: 25% · Actual: 14%</div></div>
-          </div>
-        </div>
-      </div>
-      <div class="uc-panel" id="uc-emp">
-        <div>
-          <h3 class="uc-panel-h">Your next role might already<br/>be inside your firm</h3>
-          <p class="uc-panel-p">TalentAIQ gives employees a careers portal to explore internal opportunities, understand their skills gap, and apply internally.</p>
-          <ul class="uc-list">
-            <li><strong>Internal job matching</strong> — AI matches open roles to your skills profile and shows your match score</li>
-            <li><strong>Skills gap analysis</strong> — see exactly which skills you need for your target role</li>
-            <li><strong>One-click internal apply</strong> — apply with cover note, automatically flagged as internal candidate</li>
-            <li><strong>Referral portal</strong> — refer external candidates for open roles directly from your dashboard</li>
-          </ul>
-        </div>
-        <div class="uc-visual">
-          <div class="ucv-label">Internal Opportunities — Skills Match</div>
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <div style="padding:12px;background:rgba(255,255,255,.04);border-radius:10px"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:13px;color:var(--white);font-weight:600">Senior Risk Manager</span><span style="font-size:16px;color:var(--g400);font-weight:700;font-family:var(--fd)">84%</span></div><div style="font-size:11px;color:rgba(255,255,255,.35);margin-bottom:6px">Risk & Compliance · Mumbai</div><div style="display:flex;gap:4px;flex-wrap:wrap"><span style="font-size:10px;padding:2px 8px;background:rgba(16,185,129,.12);color:#6ee7b7;border-radius:4px;font-family:var(--fm)">KYC ✓</span><span style="font-size:10px;padding:2px 8px;background:rgba(16,185,129,.12);color:#6ee7b7;border-radius:4px;font-family:var(--fm)">AML ✓</span><span style="font-size:10px;padding:2px 8px;background:rgba(244,63,94,.1);color:#fda4af;border-radius:4px;font-family:var(--fm)">Basel III gap</span></div></div>
-            <div style="padding:12px;background:rgba(255,255,255,.04);border-radius:10px"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:13px;color:var(--white);font-weight:600">Compliance Lead</span><span style="font-size:16px;color:rgba(255,255,255,.5);font-weight:700;font-family:var(--fd)">71%</span></div><div style="font-size:11px;color:rgba(255,255,255,.35)">Legal & Compliance · Bengaluru</div></div>
-          </div>
+          <div class="pt-row"><span class="pt-cap">Explainable AI scoring</span><span class="pt-yes pt-ours">✓</span><span class="pt-no">✗</span><span class="pt-no">✗</span></div>
+          <div class="pt-row"><span class="pt-cap">BFSI skills ontology</span><span class="pt-yes pt-ours">✓</span><span class="pt-no">✗</span><span class="pt-no">✗</span></div>
+          <div class="pt-row"><span class="pt-cap">Algorithmic bias detection</span><span class="pt-yes pt-ours">✓</span><span class="pt-part">Partial</span><span class="pt-no">✗</span></div>
+          <div class="pt-row"><span class="pt-cap">Internal mobility</span><span class="pt-yes pt-ours">✓</span><span class="pt-no">✗</span><span class="pt-part">Partial</span></div>
+          <div class="pt-row"><span class="pt-cap">Native assessment engine</span><span class="pt-yes pt-ours">✓</span><span class="pt-part">3rd party</span><span class="pt-part">Partial</span></div>
+          <div class="pt-row"><span class="pt-cap">Deploy on your cloud</span><span class="pt-yes pt-ours">✓</span><span class="pt-no">✗</span><span class="pt-part">Partial</span></div>
+          <div class="pt-row"><span class="pt-cap">Starting price / year</span><span class="pt-our-price">₹99K</span><span class="pt-price">₹8–15L</span><span class="pt-price">₹3–5L</span></div>
+          <div class="pt-disclaimer">* Based on publicly available documentation, April 2026. Pricing estimated from market research. Features marked Partial indicate limited or add-on capability. TalentAIQ makes no claim regarding competitor product suitability.</div>
         </div>
       </div>
     </div>
@@ -892,114 +1337,88 @@ footer{background:var(--n900);border-top:1px solid rgba(255,255,255,.06);padding
 </section>
 
 <!-- PRICING -->
-<section class="section pricing" id="pricing">
-  <div class="s-inner reveal">
-    <div class="s-label">Pricing</div>
-    <h2 class="s-title">Simple, transparent pricing</h2>
-    <p class="s-sub">No per-seat fees. No surprise add-ons. One price for your whole team.</p>
+<section class="pricing-section" id="pricing">
+  <div class="sw">
+    <div class="r" style="max-width:560px;margin-bottom:1rem">
+      <div class="s-eyebrow">Pricing</div>
+      <h2 class="s-h2">Straightforward pricing.<br/>No hidden complexity.</h2>
+      <p class="s-lead">One price for your whole team. No per-seat fees. No modules sold separately.</p>
+    </div>
     <div class="pri-grid">
-      <div class="pri-card reveal r1">
+      <div class="pri-card r rd1">
         <div class="pri-name">Starter</div>
-        <div class="pri-desc">For early-stage fintechs hiring 2–5 roles at a time</div>
-        <div><span class="pri-amount">₹99K</span><span class="pri-period">/ year</span></div>
-        <div class="pri-divider"></div>
+        <div class="pri-desc">For early-stage fintechs making their first structured hires</div>
+        <div class="pri-price-wrap"><span class="pri-amount">₹99K</span><span class="pri-period">/ year</span></div>
+        <div class="pri-sep"></div>
         <ul class="pri-features">
           <li>5 active job postings</li>
-          <li>AI match scoring & explanations</li>
+          <li>Explainable AI scoring</li>
           <li>External careers site</li>
           <li>Candidate profile portal</li>
-          <li>Basic analytics dashboard</li>
+          <li>Core analytics</li>
           <li>Email support</li>
         </ul>
-        <a href="mailto:hello@talentaiq.in?subject=Starter Plan" class="pri-cta outline">Get started</a>
+        <a href="mailto:hello@talentaiq.in?subject=Starter" class="pri-btn pri-btn-outline">Get started</a>
       </div>
-      <div class="pri-card featured reveal r2">
-        <div class="pri-badge">MOST POPULAR</div>
+      <div class="pri-card featured r rd2">
+        <div class="pri-badge">RECOMMENDED</div>
         <div class="pri-name">Growth</div>
-        <div class="pri-desc">For Series A/B fintechs scaling hiring across departments</div>
-        <div><span class="pri-amount">₹2.49L</span><span class="pri-period">/ year</span></div>
-        <div class="pri-divider"></div>
+        <div class="pri-desc">For scaling fintechs that need full decision intelligence</div>
+        <div class="pri-price-wrap"><span class="pri-amount">₹2.49L</span><span class="pri-period">/ year</span></div>
+        <div class="pri-sep"></div>
         <ul class="pri-features">
           <li>Unlimited job postings</li>
           <li>Full DEI suite + EEO reports</li>
           <li>Internal mobility module</li>
           <li>Native assessment engine</li>
           <li>10-tab MI Dashboard</li>
-          <li>Slack integration</li>
-          <li>Source ROI & predictive analytics</li>
+          <li>Slack + webhook integrations</li>
+          <li>Predictive & source analytics</li>
           <li>Priority support</li>
         </ul>
-        <a href="mailto:hello@talentaiq.in?subject=Growth Plan" class="pri-cta gold">Request demo</a>
+        <a href="mailto:hello@talentaiq.in?subject=Growth" class="pri-btn pri-btn-gold">Request demo</a>
       </div>
-      <div class="pri-card reveal r3">
+      <div class="pri-card r rd3">
         <div class="pri-name">Scale</div>
         <div class="pri-desc">For NBFCs and regional banks with enterprise requirements</div>
-        <div><span class="pri-amount">₹4.99L</span><span class="pri-period">/ year</span></div>
-        <div class="pri-divider"></div>
+        <div class="pri-price-wrap"><span class="pri-amount">₹4.99L</span><span class="pri-period">/ year</span></div>
+        <div class="pri-sep"></div>
         <ul class="pri-features">
           <li>Everything in Growth</li>
-          <li>Deploy on your private cloud</li>
+          <li>Private cloud deployment</li>
           <li>Custom HRIS integrations</li>
           <li>White-label careers site</li>
-          <li>Dedicated onboarding</li>
+          <li>Dedicated implementation</li>
           <li>SLA-backed support</li>
           <li>Custom skills ontology</li>
         </ul>
-        <a href="mailto:hello@talentaiq.in?subject=Scale Plan" class="pri-cta outline">Talk to us</a>
+        <a href="mailto:hello@talentaiq.in?subject=Scale" class="pri-btn pri-btn-outline">Talk to us</a>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- TESTIMONIALS -->
-<section class="section testimonials" id="testimonials">
-  <div class="s-inner reveal">
-    <div class="s-label">What customers say</div>
-    <h2 class="s-title">The ATS that finally speaks<br/>financial services</h2>
-    <div class="test-grid">
-      <div class="test-card reveal r1">
-        <div class="test-stars">★★★★★</div>
-        <div class="test-q">"We were on a generic ATS for 3 years and never once could tell our investors why we hired candidate A over B. TalentAIQ's explainable scores changed that in week one."</div>
-        <div class="test-divider"></div>
-        <div class="test-author"><div class="test-av">SP</div><div><div class="test-name">S. Patel*</div><div class="test-role">Head of Talent · Series B Fintech, Bengaluru</div></div></div>
-      </div>
-      <div class="test-card reveal r2">
-        <div class="test-stars">★★★★★</div>
-        <div class="test-q">"Our RBI audit team asked for diversity data in hiring. I exported the EEO report in 30 seconds. That conversation used to take two weeks to prepare for."</div>
-        <div class="test-divider"></div>
-        <div class="test-author"><div class="test-av">RK</div><div><div class="test-name">R. Kumar*</div><div class="test-role">CHRO · NBFC, Mumbai</div></div></div>
-      </div>
-      <div class="test-card reveal r3">
-        <div class="test-stars">★★★★★</div>
-        <div class="test-q">"The internal mobility feature alone saved us 4 lateral hires this quarter. Employees can see their skills gap and apply internally. Our retention improved noticeably."</div>
-        <div class="test-divider"></div>
-        <div class="test-author"><div class="test-av">AM</div><div><div class="test-name">A. Menon*</div><div class="test-role">VP People · Neobank, Hyderabad</div></div></div>
-      </div>
-    </div>
-    <div class="test-disclaimer">* Illustrative quotes based on common customer pain points in BFSI hiring. Names changed for privacy.</div>
   </div>
 </section>
 
 <!-- FINAL CTA -->
-<section class="final-cta" id="contact">
-  <div class="s-inner">
-    <div class="fct-inner reveal">
-      <div class="s-label" style="color:var(--g400);text-align:center;display:block;margin-bottom:1.5rem">Get started today</div>
-      <h2 class="fct-title">Ready to see <em>TalentAIQ</em><br/>in action?</h2>
-      <p class="fct-sub">30-minute demo. Live on your data.<br/>No generic slides, no sales theatre.</p>
-      <div class="fct-btns">
-        <a href="mailto:hello@talentaiq.in" class="fct-btn-white">
+<section class="final" id="contact">
+  <div class="final-bg"><div class="fb-glow"></div></div>
+  <div class="sw">
+    <div class="final-inner r">
+      <div class="final-eyebrow">Ready when you are</div>
+      <h2 class="final-h">Make hiring decisions<br/>you can <em>defend</em></h2>
+      <p class="final-sub">30-minute demo. Live on your data.<br/>No slides. No theatre. Just the platform.</p>
+      <div class="final-btns">
+        <a href="mailto:hello@talentaiq.in" class="final-btn-white">
           Request a Demo
           <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
-        <a href="https://talentaiq-careers-app.vercel.app" class="fct-btn-outline" target="_blank">See careers site live ↗</a>
+        <a href="https://talentaiq-careers-app.vercel.app" class="final-btn-outline" target="_blank">See careers site ↗</a>
       </div>
-      <div class="fct-stats">
-        <div><span class="fct-stat-v">305</span><div class="fct-stat-l">API Endpoints</div></div>
-        <div><span class="fct-stat-v">398</span><div class="fct-stat-l">BFSI Skills</div></div>
-        <div><span class="fct-stat-v">10</span><div class="fct-stat-l">Analytics Tabs</div></div>
-        <div><span class="fct-stat-v">3</span><div class="fct-stat-l">User Portals</div></div>
-        <div><span class="fct-stat-v">₹99K</span><div class="fct-stat-l">Starting / year</div></div>
+      <div class="final-stats">
+        <div class="fs-item"><span class="fs-val">305</span><div class="fs-label">API ENDPOINTS</div></div>
+        <div class="fs-item"><span class="fs-val">398</span><div class="fs-label">BFSI SKILLS</div></div>
+        <div class="fs-item"><span class="fs-val">10</span><div class="fs-label">ANALYTICS TABS</div></div>
+        <div class="fs-item"><span class="fs-val">3</span><div class="fs-label">USER PORTALS</div></div>
+        <div class="fs-item"><span class="fs-val">₹99K</span><div class="fs-label">STARTING / YEAR</div></div>
       </div>
     </div>
   </div>
@@ -1007,79 +1426,70 @@ footer{background:var(--n900);border-top:1px solid rgba(255,255,255,.06);padding
 
 <!-- FOOTER -->
 <footer>
-  <div class="foot-inner">
+  <div class="foot-w">
     <div class="foot-top">
       <div>
-        <div class="foot-brand">Talent<b>AIQ</b></div>
-        <div class="foot-tagline">The only AI talent intelligence platform purpose-built for financial services. Explainable AI. RBI-compliant DEI. Deploy on your cloud.</div>
-        <div class="foot-social">
-          <a href="https://linkedin.com" target="_blank" class="foot-soc-a">in</a>
-          <a href="https://twitter.com" target="_blank" class="foot-soc-a">𝕏</a>
-          <a href="mailto:hello@talentaiq.in" class="foot-soc-a">✉</a>
+        <div class="foot-brand-name">Talent<b>AIQ</b></div>
+        <div class="foot-tag">Decision Intelligence for talent in financial services. Explainable AI. Compliance by design. Deploy on your cloud.</div>
+        <div class="foot-soc">
+          <a href="https://linkedin.com" target="_blank" class="fsoc-a">in</a>
+          <a href="https://twitter.com" target="_blank" class="fsoc-a">𝕏</a>
+          <a href="mailto:hello@talentaiq.in" class="fsoc-a">✉</a>
         </div>
       </div>
       <div class="foot-col">
-        <h4>Product</h4>
+        <h4>Platform</h4>
         <ul>
-          <li><a href="#features">Platform</a></li>
-          <li><a href="#solutions">Solutions</a></li>
-          <li><a href="#compliance">Compliance</a></li>
+          <li><a href="#product">Decision Intelligence</a></li>
+          <li><a href="#diff">Explainable AI</a></li>
+          <li><a href="#diff">Compliance</a></li>
           <li><a href="#pricing">Pricing</a></li>
           <li><a href="https://talentaiq-careers-app.vercel.app" target="_blank">Careers Site ↗</a></li>
         </ul>
       </div>
       <div class="foot-col">
-        <h4>Use Cases</h4>
+        <h4>Solutions</h4>
         <ul>
-          <li><a href="#usecases">Fintech Startups</a></li>
-          <li><a href="#usecases">NBFCs</a></li>
-          <li><a href="#usecases">Regional Banks</a></li>
-          <li><a href="#usecases">Internal Mobility</a></li>
-          <li><a href="#usecases">DEI Compliance</a></li>
+          <li><a href="#enterprise">Fintech Startups</a></li>
+          <li><a href="#enterprise">NBFCs & Banks</a></li>
+          <li><a href="#enterprise">Internal Mobility</a></li>
+          <li><a href="#enterprise">DEI Compliance</a></li>
         </ul>
       </div>
       <div class="foot-col">
         <h4>Company</h4>
         <ul>
-          <li><a href="mailto:hello@talentaiq.in">Contact Us</a></li>
           <li><a href="mailto:hello@talentaiq.in">Request Demo</a></li>
+          <li><a href="mailto:hello@talentaiq.in">Contact</a></li>
           <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Terms</a></li>
           <li><a href="#">Security</a></li>
         </ul>
       </div>
     </div>
     <div class="foot-bottom">
-      <div class="foot-copy">© TalentAIQ 2026. All rights reserved worldwide. Built for financial services.</div>
+      <div class="foot-copy">© TalentAIQ 2026. All rights reserved. Built for financial services.</div>
       <div class="foot-legal"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Security</a></div>
     </div>
   </div>
 </footer>
 
 <script>
-// Nav solidify on scroll
+// Nav scroll
 const nav = document.getElementById('nav');
-window.addEventListener('scroll',()=>nav.classList.toggle('solid',scrollY>60),{passive:true});
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>50),{passive:true});
 
 // Reveal on scroll
-const ro = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('shown')});
-},{threshold:.08});
-document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');ro.unobserve(e.target)}});
+},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.r').forEach(el=>ro.observe(el));
 
-// Platform tabs
-function switchPlat(btn,id){
-  document.querySelectorAll('.plat-tab').forEach(t=>t.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.plat-screen-body').forEach(b=>b.style.display='none');
-  document.getElementById(id).style.display='block';
-}
-
-// Use case tabs
-function switchUC(btn,id){
-  document.querySelectorAll('.uc-tab').forEach(t=>t.classList.remove('on'));
+// Product experience tabs
+function switchPE(btn,id){
+  document.querySelectorAll('.pe-tab').forEach(t=>t.classList.remove('on'));
   btn.classList.add('on');
-  document.querySelectorAll('.uc-panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.pe-panel').forEach(p=>p.classList.remove('on'));
   document.getElementById(id).classList.add('on');
 }
 
