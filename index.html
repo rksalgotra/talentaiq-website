@@ -417,5 +417,6 @@ footer{border-top:1px solid var(--border);padding:3.5rem 0 2.5rem;background:var
 <script>
 const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.1});document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 </script>
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
