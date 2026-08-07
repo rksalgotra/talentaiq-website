@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FAQ — TalentAIQ Career</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/career/career.css">
+</head>
+<body>
+
+<nav><div class="nav-w">
+<a class="nav-logo" href="/career/"><div class="nav-logomark">T</div><span class="nav-wordmark">Talent<b>AIQ</b> Career</span></a>
+<div class="nav-links">
+<a class="nav-a" href="/career/how-it-works">How it works</a>
+<a class="nav-a" href="/career/pricing">Pricing</a>
+<a class="nav-a" href="/career/faq">FAQ</a>
+</div>
+<div class="nav-end">
+<a class="nav-ghost" href="https://career.talentaiq.in/login" target="_blank" rel="noopener">Sign in</a>
+<a class="nav-cta" href="https://career.talentaiq.in/signup" target="_blank" rel="noopener">Get Started</a>
+</div>
+</div></nav>
+
+<section class="hero" style="min-height:40vh">
+<div class="hero-bg"><div class="hb-gradient"></div><div class="hb-grid"></div></div>
+<div class="hero-inner"><div class="hero-center">
+  <div class="hero-kicker"><div class="hk-dot"></div><span class="hk-text">FAQ</span></div>
+  <h1 class="hero-h1">Questions,<br/><em>answered</em></h1>
+</div></div>
+</section>
+
+<section style="background:var(--bg)">
+<div class="sw" style="max-width:760px">
+
+<div class="faq-item reveal">
+  <div class="faq-q">How does job matching work?</div>
+  <div class="faq-a"><p>The AI parses your resume and preferences, then compares them against open roles using semantic matching — not just keyword search — to find jobs that genuinely fit your background.</p></div>
+</div>
+
+<div class="faq-item reveal">
+  <div class="faq-q">Will every application actually be tailored, or is it a template?</div>
+  <div class="faq-a"><p>Each application is generated against that specific job description — your resume framing and cover note change per role, rather than one fixed version sent everywhere.</p></div>
+</div>
+
+<div class="faq-item reveal">
+  <div class="faq-q">How do I get notified?</div>
+  <div class="faq-a"><p>Via WhatsApp or email, whichever you set as your preference — you'll hear about applications submitted and any recruiter responses.</p></div>
+</div>
+
+<div class="faq-item reveal">
+  <div class="faq-q">Is my data safe?</div>
+  <div class="faq-a"><p>Your data is encrypted at rest and handled under India's DPDP Act, 2023. See our <a href="/career/privacy" style="color:var(--brand)">Privacy Policy</a> for the full details on what's collected and how it's used.</p></div>
+</div>
+
+<div class="faq-item reveal">
+  <div class="faq-q">What does ₹499 actually cover?</div>
+  <div class="faq-a"><p>One full job search — profile setup, resume parsing, ongoing matching, tailored applications, and notifications, until your search concludes. See <a href="/career/pricing" style="color:var(--brand)">Pricing</a> for details.</p></div>
+</div>
+
+<div class="faq-item reveal">
+  <div class="faq-q">Can I get a refund?</div>
+  <div class="faq-a"><p>Refund terms are being finalized — check back here or contact support before purchasing if this is important to you.</p></div>
+</div>
+
+<div class="review-note reveal">
+  The refund answer above is a placeholder — replace it with your actual policy before this page goes live. The other answers are safe to publish as-is but worth a quick read-through first.
+</div>
+
+</div>
+</section>
+
+<section class="cta-sec"><div class="cta-inner">
+<h2 class="cta-h">Still have questions?</h2>
+<p class="cta-sub">Reach out and we'll help you get started.</p>
+<a class="btn-primary" href="mailto:talentaiq@gmail.com?subject=TalentAIQ%20Career%20Question">Contact Us</a>
+</div></section>
+
+<footer><div class="footer-grid">
+<div class="footer-brand"><span class="nav-wordmark">Talent<b>AIQ</b> Career</span><p>An AI job-application agent built for India. By TalentAIQ Labs™.</p></div>
+<div class="footer-col"><h4>Product</h4><a href="/career/how-it-works">How it works</a><a href="/career/pricing">Pricing</a><a href="/career/faq">FAQ</a></div>
+<div class="footer-col"><h4>Company</h4><a href="https://talentaiq.in">TalentAIQ Labs</a><a href="https://talentaiq.in#hero-enterprise">TalentAIQ Enterprise</a><a href="/career/privacy">Privacy Policy</a></div>
+</div>
+<div class="footer-bottom"><div class="footer-copy">&copy; 2026 TalentAIQ Labs™. All rights reserved. Bengaluru, India.</div></div>
+</footer>
+
+<script>
+const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+document.querySelectorAll('.faq-q').forEach(q=>{
+  q.addEventListener('click',()=>{q.parentElement.classList.toggle('open')});
+});
+</script>
+</body>
+</html>
